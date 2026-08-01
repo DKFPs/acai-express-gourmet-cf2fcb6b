@@ -87,7 +87,7 @@ function NovoPedidoPage() {
     defaultValues: DEFAULT_VALUES,
   });
 
-  const { fields, append, remove, update } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "items",
   });
