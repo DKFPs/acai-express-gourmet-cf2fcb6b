@@ -94,6 +94,7 @@ export type Database = {
       customers: {
         Row: {
           address: string | null
+          city: string | null
           company_id: string | null
           created_at: string
           email: string | null
@@ -103,9 +104,12 @@ export type Database = {
           notes: string | null
           phone: string | null
           updated_at: string
+          whatsapp: string | null
+          zip_code: string | null
         }
         Insert: {
           address?: string | null
+          city?: string | null
           company_id?: string | null
           created_at?: string
           email?: string | null
@@ -115,9 +119,12 @@ export type Database = {
           notes?: string | null
           phone?: string | null
           updated_at?: string
+          whatsapp?: string | null
+          zip_code?: string | null
         }
         Update: {
           address?: string | null
+          city?: string | null
           company_id?: string | null
           created_at?: string
           email?: string | null
@@ -127,6 +134,8 @@ export type Database = {
           notes?: string | null
           phone?: string | null
           updated_at?: string
+          whatsapp?: string | null
+          zip_code?: string | null
         }
         Relationships: [
           {
@@ -485,6 +494,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      customer_stats: {
+        Args: never
+        Returns: {
+          customer_id: string
+          last_purchase: string
+          orders_count: number
+          total_spent: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
