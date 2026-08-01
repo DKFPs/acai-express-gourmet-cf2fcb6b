@@ -256,8 +256,8 @@ function Field({
   children,
 }: {
   label: string;
-  error?: string;
-  className?: string;
+  error?: string | undefined;
+  className?: string | undefined;
   children: React.ReactNode;
 }) {
   return (
