@@ -123,10 +123,12 @@ function NovoPedidoPage() {
     const product = products.find((item) => item.id === productId);
     if (!product) return;
     const price = Number(product.promo_price ?? 0) > 0 ? Number(product.promo_price) : Number(product.price);
-    const existingIndex = fields.findIndex((field, index) => watchedItems?.[index]?.product_id === product.id && field);
+    const existingIndex = (watchedItems ?? []).findIndex(
+      (item) => item?.product_id === product.id,
+    );
     if (existingIndex >= 0) {
-      const current = watchedItems[existingIndex];
-      update(existingIndex, { ...current, quantity: (Number(current.quantity) || 0) + 1 });
+      const current = Number(watchedItems?.[existingIndex]?.quantity) || 0;
+      form.setValue(`items.${existingIndex}.quantity`, current + 1, { shouldDirty: true });
     } else {
       append({
         product_id: product.id,
@@ -140,9 +142,8 @@ function NovoPedidoPage() {
   };
 
   const changeQuantity = (index: number, delta: number) => {
-    const current = watchedItems[index];
-    const next = Math.max((Number(current.quantity) || 0) + delta, 1);
-    update(index, { ...current, quantity: next });
+    const current = Number(watchedItems?.[index]?.quantity) || 0;
+    form.setValue(`items.${index}.quantity`, Math.max(current + delta, 1), { shouldDirty: true });
   };
 
   const onSubmit = async (values: OrderFormValues) => {
