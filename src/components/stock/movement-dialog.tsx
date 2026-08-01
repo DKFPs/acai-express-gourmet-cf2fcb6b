@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -52,7 +53,7 @@ export function MovementDialog({
   loading,
   onSubmit,
 }: MovementDialogProps) {
-  const form = useForm<MovementFormValues, unknown, MovementFormOutput>({
+  const form = useForm<MovementFormValues, any, MovementFormOutput>({
     resolver: zodResolver(movementSchema),
     defaultValues: {
       ingredient_id: "",

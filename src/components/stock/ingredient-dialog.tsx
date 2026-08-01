@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -68,7 +69,7 @@ export function IngredientDialog({
   loading,
   onSubmit,
 }: IngredientDialogProps) {
-  const form = useForm<IngredientFormValues, unknown, IngredientFormOutput>({
+  const form = useForm<IngredientFormValues, any, IngredientFormOutput>({
     resolver: zodResolver(ingredientSchema),
     defaultValues: EMPTY,
   });
