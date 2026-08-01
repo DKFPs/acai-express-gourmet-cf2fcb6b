@@ -15,6 +15,8 @@ export const PERMISSIONS = {
   "customers.delete": ["administrador"],
   "products.view": ["administrador", "funcionario"],
   "products.manage": ["administrador"],
+  "stock.view": ["administrador", "funcionario"],
+  "stock.manage": ["administrador"],
   "reports.view": ["administrador"],
   "users.manage": ["administrador"],
   "settings.manage": ["administrador"],
