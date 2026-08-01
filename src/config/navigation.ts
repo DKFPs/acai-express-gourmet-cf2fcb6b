@@ -39,7 +39,7 @@ export const NAVIGATION: NavSection[] = [
     label: "Operação",
     items: [
       { title: "Pedidos", to: "/dashboard", icon: ShoppingBag, permission: "orders.manage", soon: true },
-      { title: "Produtos", to: "/dashboard", icon: Boxes, permission: "products.manage", soon: true },
+      { title: "Produtos", to: "/produtos", icon: Boxes, permission: "products.view" },
       { title: "Relatórios", to: "/dashboard", icon: BarChart3, permission: "reports.view", soon: true },
     ],
   },
