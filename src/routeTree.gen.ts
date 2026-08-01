@@ -17,6 +17,7 @@ import { Route as RedefinirSenhaRouteImport } from './routes/redefinir-senha'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedProdutosRouteImport } from './routes/_authenticated/produtos'
 import { Route as AuthenticatedClientesIndexRouteImport } from './routes/_authenticated/clientes.index'
+import { Route as AuthenticatedClientesCustomerIdRouteImport } from './routes/_authenticated/clientes.$customerId'
 import { Route as AuthenticatedPedidosIndexRouteImport } from './routes/_authenticated/pedidos.index'
 import { Route as AuthenticatedPedidosOrderIdRouteImport } from './routes/_authenticated/pedidos.$orderId'
 import { Route as AuthenticatedPedidosNovoRouteImport } from './routes/_authenticated/pedidos.novo'
@@ -61,6 +62,12 @@ const AuthenticatedClientesIndexRoute =
     path: '/clientes/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedClientesCustomerIdRoute =
+  AuthenticatedClientesCustomerIdRouteImport.update({
+    id: '/clientes/$customerId',
+    path: '/clientes/$customerId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPedidosIndexRoute =
   AuthenticatedPedidosIndexRouteImport.update({
     id: '/pedidos/',
@@ -87,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/produtos': typeof AuthenticatedProdutosRoute
+  '/clientes/$customerId': typeof AuthenticatedClientesCustomerIdRoute
   '/pedidos/$orderId': typeof AuthenticatedPedidosOrderIdRoute
   '/pedidos/novo': typeof AuthenticatedPedidosNovoRoute
   '/clientes/': typeof AuthenticatedClientesIndexRoute
@@ -99,6 +107,7 @@ export interface FileRoutesByTo {
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/produtos': typeof AuthenticatedProdutosRoute
+  '/clientes/$customerId': typeof AuthenticatedClientesCustomerIdRoute
   '/pedidos/$orderId': typeof AuthenticatedPedidosOrderIdRoute
   '/pedidos/novo': typeof AuthenticatedPedidosNovoRoute
   '/clientes': typeof AuthenticatedClientesIndexRoute
@@ -113,6 +122,7 @@ export interface FileRoutesById {
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/produtos': typeof AuthenticatedProdutosRoute
+  '/_authenticated/clientes/$customerId': typeof AuthenticatedClientesCustomerIdRoute
   '/_authenticated/pedidos/$orderId': typeof AuthenticatedPedidosOrderIdRoute
   '/_authenticated/pedidos/novo': typeof AuthenticatedPedidosNovoRoute
   '/_authenticated/clientes/': typeof AuthenticatedClientesIndexRoute
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/redefinir-senha'
     | '/dashboard'
     | '/produtos'
+    | '/clientes/$customerId'
     | '/pedidos/$orderId'
     | '/pedidos/novo'
     | '/clientes/'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/redefinir-senha'
     | '/dashboard'
     | '/produtos'
+    | '/clientes/$customerId'
     | '/pedidos/$orderId'
     | '/pedidos/novo'
     | '/clientes'
@@ -152,6 +164,7 @@ export interface FileRouteTypes {
     | '/redefinir-senha'
     | '/_authenticated/dashboard'
     | '/_authenticated/produtos'
+    | '/_authenticated/clientes/$customerId'
     | '/_authenticated/pedidos/$orderId'
     | '/_authenticated/pedidos/novo'
     | '/_authenticated/clientes/'
@@ -224,6 +237,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedClientesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/clientes/$customerId': {
+      id: '/_authenticated/clientes/$customerId'
+      path: '/clientes/$customerId'
+      fullPath: '/clientes/$customerId'
+      preLoaderRoute: typeof AuthenticatedClientesCustomerIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/pedidos/': {
       id: '/_authenticated/pedidos/'
       path: '/pedidos'
@@ -251,6 +271,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedProdutosRoute: typeof AuthenticatedProdutosRoute
+  AuthenticatedClientesCustomerIdRoute: typeof AuthenticatedClientesCustomerIdRoute
   AuthenticatedPedidosOrderIdRoute: typeof AuthenticatedPedidosOrderIdRoute
   AuthenticatedPedidosNovoRoute: typeof AuthenticatedPedidosNovoRoute
   AuthenticatedClientesIndexRoute: typeof AuthenticatedClientesIndexRoute
@@ -260,6 +281,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedProdutosRoute: AuthenticatedProdutosRoute,
+  AuthenticatedClientesCustomerIdRoute: AuthenticatedClientesCustomerIdRoute,
   AuthenticatedPedidosOrderIdRoute: AuthenticatedPedidosOrderIdRoute,
   AuthenticatedPedidosNovoRoute: AuthenticatedPedidosNovoRoute,
   AuthenticatedClientesIndexRoute: AuthenticatedClientesIndexRoute,

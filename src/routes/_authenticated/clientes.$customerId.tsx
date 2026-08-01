@@ -67,7 +67,7 @@ export const Route = createFileRoute("/_authenticated/clientes/$customerId")({
   ),
 });
 
-function StatCard({ label, value, hint }: { label: string; value: string; hint?: string }) {
+function StatCard({ label, value, hint }: { label: string; value: string; hint?: string | undefined }) {
   return (
     <Card className="rounded-2xl border-border/60 bg-card/60 shadow-soft">
       <CardContent className="p-4">
