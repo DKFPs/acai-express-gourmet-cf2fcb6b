@@ -16,6 +16,9 @@ import { Route as RecuperarSenhaRouteImport } from './routes/recuperar-senha'
 import { Route as RedefinirSenhaRouteImport } from './routes/redefinir-senha'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedProdutosRouteImport } from './routes/_authenticated/produtos'
+import { Route as AuthenticatedPedidosIndexRouteImport } from './routes/_authenticated/pedidos.index'
+import { Route as AuthenticatedPedidosOrderIdRouteImport } from './routes/_authenticated/pedidos.$orderId'
+import { Route as AuthenticatedPedidosNovoRouteImport } from './routes/_authenticated/pedidos.novo'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -51,6 +54,24 @@ const AuthenticatedProdutosRoute = AuthenticatedProdutosRouteImport.update({
   path: '/produtos',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPedidosIndexRoute =
+  AuthenticatedPedidosIndexRouteImport.update({
+    id: '/pedidos/',
+    path: '/pedidos/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPedidosOrderIdRoute =
+  AuthenticatedPedidosOrderIdRouteImport.update({
+    id: '/pedidos/$orderId',
+    path: '/pedidos/$orderId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPedidosNovoRoute =
+  AuthenticatedPedidosNovoRouteImport.update({
+    id: '/pedidos/novo',
+    path: '/pedidos/novo',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -59,6 +80,9 @@ export interface FileRoutesByFullPath {
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/produtos': typeof AuthenticatedProdutosRoute
+  '/pedidos/$orderId': typeof AuthenticatedPedidosOrderIdRoute
+  '/pedidos/novo': typeof AuthenticatedPedidosNovoRoute
+  '/pedidos/': typeof AuthenticatedPedidosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -67,6 +91,9 @@ export interface FileRoutesByTo {
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/produtos': typeof AuthenticatedProdutosRoute
+  '/pedidos/$orderId': typeof AuthenticatedPedidosOrderIdRoute
+  '/pedidos/novo': typeof AuthenticatedPedidosNovoRoute
+  '/pedidos': typeof AuthenticatedPedidosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -77,6 +104,9 @@ export interface FileRoutesById {
   '/redefinir-senha': typeof RedefinirSenhaRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/produtos': typeof AuthenticatedProdutosRoute
+  '/_authenticated/pedidos/$orderId': typeof AuthenticatedPedidosOrderIdRoute
+  '/_authenticated/pedidos/novo': typeof AuthenticatedPedidosNovoRoute
+  '/_authenticated/pedidos/': typeof AuthenticatedPedidosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -87,6 +117,9 @@ export interface FileRouteTypes {
     | '/redefinir-senha'
     | '/dashboard'
     | '/produtos'
+    | '/pedidos/$orderId'
+    | '/pedidos/novo'
+    | '/pedidos/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -95,6 +128,9 @@ export interface FileRouteTypes {
     | '/redefinir-senha'
     | '/dashboard'
     | '/produtos'
+    | '/pedidos/$orderId'
+    | '/pedidos/novo'
+    | '/pedidos'
   id:
     | '__root__'
     | '/'
@@ -104,6 +140,9 @@ export interface FileRouteTypes {
     | '/redefinir-senha'
     | '/_authenticated/dashboard'
     | '/_authenticated/produtos'
+    | '/_authenticated/pedidos/$orderId'
+    | '/_authenticated/pedidos/novo'
+    | '/_authenticated/pedidos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -165,17 +204,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProdutosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/pedidos/': {
+      id: '/_authenticated/pedidos/'
+      path: '/pedidos'
+      fullPath: '/pedidos/'
+      preLoaderRoute: typeof AuthenticatedPedidosIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pedidos/$orderId': {
+      id: '/_authenticated/pedidos/$orderId'
+      path: '/pedidos/$orderId'
+      fullPath: '/pedidos/$orderId'
+      preLoaderRoute: typeof AuthenticatedPedidosOrderIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pedidos/novo': {
+      id: '/_authenticated/pedidos/novo'
+      path: '/pedidos/novo'
+      fullPath: '/pedidos/novo'
+      preLoaderRoute: typeof AuthenticatedPedidosNovoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedProdutosRoute: typeof AuthenticatedProdutosRoute
+  AuthenticatedPedidosOrderIdRoute: typeof AuthenticatedPedidosOrderIdRoute
+  AuthenticatedPedidosNovoRoute: typeof AuthenticatedPedidosNovoRoute
+  AuthenticatedPedidosIndexRoute: typeof AuthenticatedPedidosIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedProdutosRoute: AuthenticatedProdutosRoute,
+  AuthenticatedPedidosOrderIdRoute: AuthenticatedPedidosOrderIdRoute,
+  AuthenticatedPedidosNovoRoute: AuthenticatedPedidosNovoRoute,
+  AuthenticatedPedidosIndexRoute: AuthenticatedPedidosIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
