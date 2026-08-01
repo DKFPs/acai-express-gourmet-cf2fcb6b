@@ -1,10 +1,17 @@
 import { z } from "zod";
 
+export function parseNumber(value: string) {
+  const normalized = String(value).trim().replace(/\./g, "").replace(",", ".");
+  const parsed = Number(normalized);
+  return Number.isFinite(parsed) ? parsed : Number.NaN;
+}
+
 const numeric = z
   .string()
   .trim()
-  .transform((value) => Number(value.replace(/\./g, "").replace(",", ".")))
-  .pipe(z.number({ invalid_type_error: "Informe um valor válido" }).min(0, "Não pode ser negativo"));
+  .min(1, "Informe um valor")
+  .refine((value) => !Number.isNaN(parseNumber(value)), "Informe um valor válido")
+  .refine((value) => parseNumber(value) >= 0, "Não pode ser negativo");
 
 export const ingredientSchema = z.object({
   name: z.string().trim().min(2, "Informe o nome").max(120, "Máximo de 120 caracteres"),
@@ -18,8 +25,7 @@ export const ingredientSchema = z.object({
   is_active: z.boolean(),
 });
 
-export type IngredientFormValues = z.input<typeof ingredientSchema>;
-export type IngredientFormOutput = z.output<typeof ingredientSchema>;
+export type IngredientFormValues = z.infer<typeof ingredientSchema>;
 
 export const supplierSchema = z.object({
   name: z.string().trim().min(2, "Informe o nome").max(120, "Máximo de 120 caracteres"),
@@ -41,5 +47,4 @@ export const movementSchema = z.object({
   reason: z.string().trim().max(200, "Máximo de 200 caracteres").optional().or(z.literal("")),
 });
 
-export type MovementFormValues = z.input<typeof movementSchema>;
-export type MovementFormOutput = z.output<typeof movementSchema>;
+export type MovementFormValues = z.infer<typeof movementSchema>;
