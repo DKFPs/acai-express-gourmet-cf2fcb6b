@@ -14,6 +14,47 @@ export type Database = {
   }
   public: {
     Tables: {
+      categories: {
+        Row: {
+          color: string | null
+          company_id: string | null
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          color?: string | null
+          company_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          color?: string | null
+          company_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "categories_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       companies: {
         Row: {
           address: string | null
@@ -49,6 +90,78 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      products: {
+        Row: {
+          category_id: string | null
+          company_id: string | null
+          cost: number
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          internal_code: string | null
+          margin_percent: number | null
+          min_stock: number
+          name: string
+          price: number
+          promo_price: number | null
+          status: Database["public"]["Enums"]["product_status"]
+          stock_quantity: number
+          updated_at: string
+        }
+        Insert: {
+          category_id?: string | null
+          company_id?: string | null
+          cost?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          internal_code?: string | null
+          margin_percent?: number | null
+          min_stock?: number
+          name: string
+          price?: number
+          promo_price?: number | null
+          status?: Database["public"]["Enums"]["product_status"]
+          stock_quantity?: number
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string | null
+          company_id?: string | null
+          cost?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          internal_code?: string | null
+          margin_percent?: number | null
+          min_stock?: number
+          name?: string
+          price?: number
+          promo_price?: number | null
+          status?: Database["public"]["Enums"]["product_status"]
+          stock_quantity?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -127,6 +240,7 @@ export type Database = {
     }
     Enums: {
       app_role: "administrador" | "funcionario"
+      product_status: "ativo" | "inativo"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -255,6 +369,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["administrador", "funcionario"],
+      product_status: ["ativo", "inativo"],
     },
   },
 } as const
