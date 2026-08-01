@@ -40,6 +40,7 @@ export const NAVIGATION: NavSection[] = [
     items: [
       { title: "Pedidos", to: "/pedidos", icon: ShoppingBag, permission: "orders.view" },
       { title: "Produtos", to: "/produtos", icon: Boxes, permission: "products.view" },
+      { title: "Clientes", to: "/clientes", icon: Users, permission: "customers.view" },
       { title: "Relatórios", to: "/dashboard", icon: BarChart3, permission: "reports.view", soon: true },
     ],
   },
@@ -55,6 +56,7 @@ export const NAVIGATION: NavSection[] = [
 export const ROUTE_LABELS: Record<string, string> = {
   dashboard: "Dashboard",
   pedidos: "Pedidos",
+  clientes: "Clientes",
   produtos: "Produtos",
   relatorios: "Relatórios",
   usuarios: "Usuários",
