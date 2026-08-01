@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -30,8 +29,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  parseNumber,
   movementSchema,
-  type MovementFormOutput,
   type MovementFormValues,
 } from "@/lib/validations/stock";
 import { MOVEMENT_LABELS, type Ingredient, type MovementInput } from "@/types/stock";
@@ -53,7 +52,7 @@ export function MovementDialog({
   loading,
   onSubmit,
 }: MovementDialogProps) {
-  const form = useForm<MovementFormValues, any, MovementFormOutput>({
+  const form = useForm<MovementFormValues>({
     resolver: zodResolver(movementSchema),
     defaultValues: {
       ingredient_id: "",
@@ -87,8 +86,8 @@ export function MovementDialog({
     onSubmit({
       ingredient_id: parsed.ingredient_id,
       type: parsed.type,
-      quantity: parsed.quantity,
-      unit_cost: parsed.unit_cost,
+      quantity: parseNumber(parsed.quantity),
+      unit_cost: parseNumber(parsed.unit_cost),
       reason: parsed.reason ? parsed.reason : null,
     });
   });

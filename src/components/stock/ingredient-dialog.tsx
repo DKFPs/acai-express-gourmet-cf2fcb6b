@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -32,7 +31,7 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import {
   ingredientSchema,
-  type IngredientFormOutput,
+  parseNumber,
   type IngredientFormValues,
 } from "@/lib/validations/stock";
 import type { Category } from "@/types/product";
@@ -69,7 +68,7 @@ export function IngredientDialog({
   loading,
   onSubmit,
 }: IngredientDialogProps) {
-  const form = useForm<IngredientFormValues, any, IngredientFormOutput>({
+  const form = useForm<IngredientFormValues>({
     resolver: zodResolver(ingredientSchema),
     defaultValues: EMPTY,
   });
@@ -99,9 +98,9 @@ export function IngredientDialog({
       category_id: parsed.category_id ? parsed.category_id : null,
       supplier_id: parsed.supplier_id ? parsed.supplier_id : null,
       unit: parsed.unit,
-      quantity: parsed.quantity,
-      min_stock: parsed.min_stock,
-      purchase_price: parsed.purchase_price,
+      quantity: parseNumber(parsed.quantity),
+      min_stock: parseNumber(parsed.min_stock),
+      purchase_price: parseNumber(parsed.purchase_price),
       notes: parsed.notes ? parsed.notes : null,
       is_active: parsed.is_active,
     });
