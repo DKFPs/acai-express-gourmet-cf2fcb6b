@@ -29,7 +29,11 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { ingredientSchema, type IngredientFormValues } from "@/lib/validations/stock";
+import {
+  ingredientSchema,
+  type IngredientFormOutput,
+  type IngredientFormValues,
+} from "@/lib/validations/stock";
 import type { Category } from "@/types/product";
 import { UNITS, type Ingredient, type IngredientInput, type SupplierRow } from "@/types/stock";
 
@@ -64,7 +68,7 @@ export function IngredientDialog({
   loading,
   onSubmit,
 }: IngredientDialogProps) {
-  const form = useForm<IngredientFormValues>({
+  const form = useForm<IngredientFormValues, unknown, IngredientFormOutput>({
     resolver: zodResolver(ingredientSchema),
     defaultValues: EMPTY,
   });
@@ -88,8 +92,7 @@ export function IngredientDialog({
     );
   }, [open, ingredient, form]);
 
-  const submit = form.handleSubmit((values) => {
-    const parsed = ingredientSchema.parse(values);
+  const submit = form.handleSubmit((parsed) => {
     onSubmit({
       name: parsed.name,
       category_id: parsed.category_id ? parsed.category_id : null,

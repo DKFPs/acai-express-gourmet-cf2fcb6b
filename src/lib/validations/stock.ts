@@ -19,6 +19,7 @@ export const ingredientSchema = z.object({
 });
 
 export type IngredientFormValues = z.input<typeof ingredientSchema>;
+export type IngredientFormOutput = z.output<typeof ingredientSchema>;
 
 export const supplierSchema = z.object({
   name: z.string().trim().min(2, "Informe o nome").max(120, "Máximo de 120 caracteres"),
@@ -41,3 +42,4 @@ export const movementSchema = z.object({
 });
 
 export type MovementFormValues = z.input<typeof movementSchema>;
+export type MovementFormOutput = z.output<typeof movementSchema>;

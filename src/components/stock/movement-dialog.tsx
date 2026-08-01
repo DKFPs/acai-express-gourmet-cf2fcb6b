@@ -28,7 +28,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { movementSchema, type MovementFormValues } from "@/lib/validations/stock";
+import {
+  movementSchema,
+  type MovementFormOutput,
+  type MovementFormValues,
+} from "@/lib/validations/stock";
 import { MOVEMENT_LABELS, type Ingredient, type MovementInput } from "@/types/stock";
 
 interface MovementDialogProps {
@@ -48,7 +52,7 @@ export function MovementDialog({
   loading,
   onSubmit,
 }: MovementDialogProps) {
-  const form = useForm<MovementFormValues>({
+  const form = useForm<MovementFormValues, unknown, MovementFormOutput>({
     resolver: zodResolver(movementSchema),
     defaultValues: {
       ingredient_id: "",
@@ -78,8 +82,7 @@ export function MovementDialog({
     if (selected) form.setValue("unit_cost", String(selected.purchase_price ?? 0));
   }, [selected, form]);
 
-  const submit = form.handleSubmit((values) => {
-    const parsed = movementSchema.parse(values);
+  const submit = form.handleSubmit((parsed) => {
     onSubmit({
       ingredient_id: parsed.ingredient_id,
       type: parsed.type,
