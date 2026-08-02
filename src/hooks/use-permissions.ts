@@ -17,6 +17,8 @@ export const PERMISSIONS = {
   "products.manage": ["administrador"],
   "stock.view": ["administrador", "funcionario"],
   "stock.manage": ["administrador"],
+  "finance.view": ["administrador", "funcionario"],
+  "finance.manage": ["administrador"],
   "reports.view": ["administrador"],
   "users.manage": ["administrador"],
   "settings.manage": ["administrador"],
