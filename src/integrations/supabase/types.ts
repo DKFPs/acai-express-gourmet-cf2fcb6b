@@ -603,6 +603,137 @@ export type Database = {
           },
         ]
       }
+      finished_product_movements: {
+        Row: {
+          batch_id: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          finished_product_id: string
+          id: string
+          quantity: number
+          reason: string | null
+          type: Database["public"]["Enums"]["finished_movement_type"]
+        }
+        Insert: {
+          batch_id?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          finished_product_id: string
+          id?: string
+          quantity: number
+          reason?: string | null
+          type: Database["public"]["Enums"]["finished_movement_type"]
+        }
+        Update: {
+          batch_id?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          finished_product_id?: string
+          id?: string
+          quantity?: number
+          reason?: string | null
+          type?: Database["public"]["Enums"]["finished_movement_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "finished_product_movements_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "production_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "finished_product_movements_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "finished_product_movements_finished_product_id_fkey"
+            columns: ["finished_product_id"]
+            isOneToOne: false
+            referencedRelation: "finished_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      finished_products: {
+        Row: {
+          company_id: string
+          created_at: string
+          id: string
+          min_stock: number
+          name: string
+          product_id: string | null
+          quantity_available: number
+          quantity_discarded: number
+          quantity_produced: number
+          quantity_reserved: number
+          quantity_sold: number
+          recipe_id: string | null
+          unit: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          id?: string
+          min_stock?: number
+          name: string
+          product_id?: string | null
+          quantity_available?: number
+          quantity_discarded?: number
+          quantity_produced?: number
+          quantity_reserved?: number
+          quantity_sold?: number
+          recipe_id?: string | null
+          unit?: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          min_stock?: number
+          name?: string
+          product_id?: string | null
+          quantity_available?: number
+          quantity_discarded?: number
+          quantity_produced?: number
+          quantity_reserved?: number
+          quantity_sold?: number
+          recipe_id?: string | null
+          unit?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "finished_products_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "finished_products_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "finished_products_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ingredients: {
         Row: {
           category_id: string | null
@@ -873,6 +1004,56 @@ export type Database = {
           },
         ]
       }
+      packaging_stock: {
+        Row: {
+          company_id: string
+          created_at: string
+          id: string
+          is_active: boolean
+          min_stock: number
+          name: string
+          quantity: number
+          type: Database["public"]["Enums"]["packaging_type"]
+          unit: string
+          unit_cost: number
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          min_stock?: number
+          name: string
+          quantity?: number
+          type: Database["public"]["Enums"]["packaging_type"]
+          unit?: string
+          unit_cost?: number
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          min_stock?: number
+          name?: string
+          quantity?: number
+          type?: Database["public"]["Enums"]["packaging_type"]
+          unit?: string
+          unit_cost?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "packaging_stock_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payments: {
         Row: {
           amount: number
@@ -952,6 +1133,127 @@ export type Database = {
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      production_batches: {
+        Row: {
+          batches: number
+          company_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          notes: string | null
+          produced_at: string
+          produced_quantity: number
+          recipe_id: string
+          responsible_id: string | null
+          responsible_name: string | null
+          total_cost: number
+        }
+        Insert: {
+          batches?: number
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          notes?: string | null
+          produced_at?: string
+          produced_quantity?: number
+          recipe_id: string
+          responsible_id?: string | null
+          responsible_name?: string | null
+          total_cost?: number
+        }
+        Update: {
+          batches?: number
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          notes?: string | null
+          produced_at?: string
+          produced_quantity?: number
+          recipe_id?: string
+          responsible_id?: string | null
+          responsible_name?: string | null
+          total_cost?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "production_batches_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_batches_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      production_items: {
+        Row: {
+          batch_id: string
+          created_at: string
+          id: string
+          ingredient_id: string | null
+          item_name: string
+          packaging_id: string | null
+          quantity: number
+          total_cost: number | null
+          unit: string
+          unit_cost: number
+        }
+        Insert: {
+          batch_id: string
+          created_at?: string
+          id?: string
+          ingredient_id?: string | null
+          item_name: string
+          packaging_id?: string | null
+          quantity?: number
+          total_cost?: number | null
+          unit?: string
+          unit_cost?: number
+        }
+        Update: {
+          batch_id?: string
+          created_at?: string
+          id?: string
+          ingredient_id?: string | null
+          item_name?: string
+          packaging_id?: string | null
+          quantity?: number
+          total_cost?: number | null
+          unit?: string
+          unit_cost?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "production_items_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "production_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_items_ingredient_id_fkey"
+            columns: ["ingredient_id"]
+            isOneToOne: false
+            referencedRelation: "ingredients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_items_packaging_id_fkey"
+            columns: ["packaging_id"]
+            isOneToOne: false
+            referencedRelation: "packaging_stock"
             referencedColumns: ["id"]
           },
         ]
@@ -1062,6 +1364,114 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "profiles_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      recipe_items: {
+        Row: {
+          created_at: string
+          id: string
+          ingredient_id: string
+          notes: string | null
+          quantity: number
+          recipe_id: string
+          sort_order: number
+          unit: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          ingredient_id: string
+          notes?: string | null
+          quantity?: number
+          recipe_id: string
+          sort_order?: number
+          unit?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          ingredient_id?: string
+          notes?: string | null
+          quantity?: number
+          recipe_id?: string
+          sort_order?: number
+          unit?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recipe_items_ingredient_id_fkey"
+            columns: ["ingredient_id"]
+            isOneToOne: false
+            referencedRelation: "ingredients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recipe_items_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      recipes: {
+        Row: {
+          bottle_volume_ml: number
+          category_id: string | null
+          company_id: string
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          name: string
+          prep_time_minutes: number
+          status: Database["public"]["Enums"]["product_status"]
+          updated_at: string
+          yield_quantity: number
+        }
+        Insert: {
+          bottle_volume_ml?: number
+          category_id?: string | null
+          company_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          prep_time_minutes?: number
+          status?: Database["public"]["Enums"]["product_status"]
+          updated_at?: string
+          yield_quantity?: number
+        }
+        Update: {
+          bottle_volume_ml?: number
+          category_id?: string | null
+          company_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          prep_time_minutes?: number
+          status?: Database["public"]["Enums"]["product_status"]
+          updated_at?: string
+          yield_quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recipes_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recipes_company_id_fkey"
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
@@ -1275,6 +1685,16 @@ export type Database = {
         Returns: boolean
       }
       is_company_admin: { Args: never; Returns: boolean }
+      produce_batch: {
+        Args: {
+          _batches: number
+          _notes?: string
+          _produced_at?: string
+          _recipe_id: string
+          _responsible_id?: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       app_role: "administrador" | "funcionario"
@@ -1282,6 +1702,13 @@ export type Database = {
       cash_transaction_type: "entrada" | "saida" | "sangria"
       financial_entry_status: "pago" | "pendente" | "cancelado"
       financial_entry_type: "receita" | "despesa" | "compra" | "investimento"
+      finished_movement_type:
+        | "producao"
+        | "venda"
+        | "descarte"
+        | "reserva"
+        | "ajuste"
+        | "estorno"
       movement_type: "entrada" | "saida" | "ajuste"
       order_status:
         | "recebido"
@@ -1289,6 +1716,13 @@ export type Database = {
         | "saiu_entrega"
         | "entregue"
         | "cancelado"
+      packaging_type:
+        | "garrafa"
+        | "tampa"
+        | "canudo"
+        | "lacre"
+        | "etiqueta"
+        | "outro"
       payment_method:
         | "dinheiro"
         | "pix"
@@ -1429,6 +1863,14 @@ export const Constants = {
       cash_transaction_type: ["entrada", "saida", "sangria"],
       financial_entry_status: ["pago", "pendente", "cancelado"],
       financial_entry_type: ["receita", "despesa", "compra", "investimento"],
+      finished_movement_type: [
+        "producao",
+        "venda",
+        "descarte",
+        "reserva",
+        "ajuste",
+        "estorno",
+      ],
       movement_type: ["entrada", "saida", "ajuste"],
       order_status: [
         "recebido",
@@ -1436,6 +1878,14 @@ export const Constants = {
         "saiu_entrega",
         "entregue",
         "cancelado",
+      ],
+      packaging_type: [
+        "garrafa",
+        "tampa",
+        "canudo",
+        "lacre",
+        "etiqueta",
+        "outro",
       ],
       payment_method: [
         "dinheiro",
