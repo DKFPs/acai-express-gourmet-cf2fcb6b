@@ -1,23 +1,52 @@
 import { useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
+import { Clock } from "lucide-react";
 
 import { Logo } from "@/components/brand/logo";
 import { AppHeader } from "@/components/layout/app-header";
 import { AppSidebar } from "@/components/layout/app-sidebar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { NAVIGATION } from "@/config/navigation";
+import { useAuth } from "@/hooks/use-auth";
 import { usePermissions } from "@/hooks/use-permissions";
+import { authService } from "@/services/auth.service";
 import { cn } from "@/lib/utils";
 
 export function AppLayout({ children }: { children: ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { can } = usePermissions();
+  const { profile, roles, loading } = useAuth();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+
+  const pendingApproval = !loading && profile !== null && (!profile.is_active || roles.length === 0);
+
+  if (pendingApproval) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background p-6">
+        <Card className="w-full max-w-md">
+          <CardContent className="space-y-4 p-8 text-center">
+            <Clock className="mx-auto h-10 w-10 text-primary" />
+            <h1 className="text-xl font-semibold">Acesso aguardando aprovação</h1>
+            <p className="text-sm text-muted-foreground">
+              Sua conta foi criada, mas um administrador da empresa ainda precisa liberar o acesso e
+              definir o seu papel. Você será notificado assim que isso acontecer.
+            </p>
+            <Button variant="outline" onClick={() => void authService.signOut()}>
+              Sair
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen w-full bg-background">
       <AppSidebar collapsed={collapsed} onToggle={() => setCollapsed((value) => !value)} />
+
 
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
         <SheetContent side="left" className="w-72 border-sidebar-border bg-sidebar p-0">
