@@ -68,7 +68,7 @@ export const productService = {
   },
 
   async create(input: ProductInput, companyId: string | null) {
-    const { error } = await supabase.from("products").insert({ ...input, company_id: companyId ?? undefined });
+    const { error } = await supabase.from("products").insert({ ...input, ...(companyId ? { company_id: companyId } : {}) });
     if (error) throw error;
   },
 
@@ -113,7 +113,7 @@ export const categoryService = {
   },
 
   async create(input: CategoryInput, companyId: string | null) {
-    const { error } = await supabase.from("categories").insert({ ...input, company_id: companyId ?? undefined });
+    const { error } = await supabase.from("categories").insert({ ...input, ...(companyId ? { company_id: companyId } : {}) });
     if (error) throw error;
   },
 

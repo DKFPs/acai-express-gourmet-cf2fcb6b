@@ -54,7 +54,7 @@ export const ingredientService = {
   },
 
   async create(input: IngredientInput, companyId: string | null) {
-    const { error } = await supabase.from("ingredients").insert({ ...input, company_id: companyId ?? undefined });
+    const { error } = await supabase.from("ingredients").insert({ ...input, ...(companyId ? { company_id: companyId } : {}) });
     if (error) throw error;
   },
 
@@ -80,7 +80,7 @@ export const supplierService = {
   },
 
   async create(input: SupplierInput, companyId: string | null) {
-    const { error } = await supabase.from("suppliers").insert({ ...input, company_id: companyId ?? undefined });
+    const { error } = await supabase.from("suppliers").insert({ ...input, ...(companyId ? { company_id: companyId } : {}) });
     if (error) throw error;
   },
 
@@ -123,7 +123,7 @@ export const movementService = {
     const { data: session } = await supabase.auth.getUser();
     const { error } = await supabase.from("stock_movements").insert({
       ...input,
-      company_id: companyId ?? undefined,
+      ...(companyId ? { company_id: companyId } : {}),
       created_by: session.user?.id ?? null,
     });
     if (error) throw error;

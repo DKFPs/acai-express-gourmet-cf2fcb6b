@@ -37,7 +37,7 @@ export const cashService = {
     const { error } = await supabase.from("cash_sessions").insert({
       opening_amount: openingAmount,
       notes,
-      company_id: companyId ?? undefined,
+      ...(companyId ? { company_id: companyId } : {}),
       status: "aberto",
       opened_by: user.user?.id ?? null,
     });
