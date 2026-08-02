@@ -26,6 +26,7 @@ import { Route as AuthenticatedRelatoriosRouteImport } from './routes/_authentic
 import { Route as AuthenticatedUsuariosRouteImport } from './routes/_authenticated/usuarios'
 import { Route as AuthenticatedClientesIndexRouteImport } from './routes/_authenticated/clientes.index'
 import { Route as AuthenticatedClientesCustomerIdRouteImport } from './routes/_authenticated/clientes.$customerId'
+import { Route as AuthenticatedLoteBatchIdRouteImport } from './routes/_authenticated/lote.$batchId'
 import { Route as AuthenticatedPedidosIndexRouteImport } from './routes/_authenticated/pedidos.index'
 import { Route as AuthenticatedPedidosOrderIdRouteImport } from './routes/_authenticated/pedidos.$orderId'
 import { Route as AuthenticatedPedidosNovoRouteImport } from './routes/_authenticated/pedidos.novo'
@@ -117,6 +118,12 @@ const AuthenticatedClientesCustomerIdRoute =
     path: '/clientes/$customerId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedLoteBatchIdRoute =
+  AuthenticatedLoteBatchIdRouteImport.update({
+    id: '/lote/$batchId',
+    path: '/lote/$batchId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPedidosIndexRoute =
   AuthenticatedPedidosIndexRouteImport.update({
     id: '/pedidos/',
@@ -152,6 +159,7 @@ export interface FileRoutesByFullPath {
   '/relatorios': typeof AuthenticatedRelatoriosRoute
   '/usuarios': typeof AuthenticatedUsuariosRoute
   '/clientes/$customerId': typeof AuthenticatedClientesCustomerIdRoute
+  '/lote/$batchId': typeof AuthenticatedLoteBatchIdRoute
   '/pedidos/$orderId': typeof AuthenticatedPedidosOrderIdRoute
   '/pedidos/novo': typeof AuthenticatedPedidosNovoRoute
   '/clientes/': typeof AuthenticatedClientesIndexRoute
@@ -173,6 +181,7 @@ export interface FileRoutesByTo {
   '/relatorios': typeof AuthenticatedRelatoriosRoute
   '/usuarios': typeof AuthenticatedUsuariosRoute
   '/clientes/$customerId': typeof AuthenticatedClientesCustomerIdRoute
+  '/lote/$batchId': typeof AuthenticatedLoteBatchIdRoute
   '/pedidos/$orderId': typeof AuthenticatedPedidosOrderIdRoute
   '/pedidos/novo': typeof AuthenticatedPedidosNovoRoute
   '/clientes': typeof AuthenticatedClientesIndexRoute
@@ -196,6 +205,7 @@ export interface FileRoutesById {
   '/_authenticated/relatorios': typeof AuthenticatedRelatoriosRoute
   '/_authenticated/usuarios': typeof AuthenticatedUsuariosRoute
   '/_authenticated/clientes/$customerId': typeof AuthenticatedClientesCustomerIdRoute
+  '/_authenticated/lote/$batchId': typeof AuthenticatedLoteBatchIdRoute
   '/_authenticated/pedidos/$orderId': typeof AuthenticatedPedidosOrderIdRoute
   '/_authenticated/pedidos/novo': typeof AuthenticatedPedidosNovoRoute
   '/_authenticated/clientes/': typeof AuthenticatedClientesIndexRoute
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/relatorios'
     | '/usuarios'
     | '/clientes/$customerId'
+    | '/lote/$batchId'
     | '/pedidos/$orderId'
     | '/pedidos/novo'
     | '/clientes/'
@@ -240,6 +251,7 @@ export interface FileRouteTypes {
     | '/relatorios'
     | '/usuarios'
     | '/clientes/$customerId'
+    | '/lote/$batchId'
     | '/pedidos/$orderId'
     | '/pedidos/novo'
     | '/clientes'
@@ -262,6 +274,7 @@ export interface FileRouteTypes {
     | '/_authenticated/relatorios'
     | '/_authenticated/usuarios'
     | '/_authenticated/clientes/$customerId'
+    | '/_authenticated/lote/$batchId'
     | '/_authenticated/pedidos/$orderId'
     | '/_authenticated/pedidos/novo'
     | '/_authenticated/clientes/'
@@ -397,6 +410,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedClientesCustomerIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/lote/$batchId': {
+      id: '/_authenticated/lote/$batchId'
+      path: '/lote/$batchId'
+      fullPath: '/lote/$batchId'
+      preLoaderRoute: typeof AuthenticatedLoteBatchIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/pedidos/': {
       id: '/_authenticated/pedidos/'
       path: '/pedidos'
@@ -433,6 +453,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedRelatoriosRoute: typeof AuthenticatedRelatoriosRoute
   AuthenticatedUsuariosRoute: typeof AuthenticatedUsuariosRoute
   AuthenticatedClientesCustomerIdRoute: typeof AuthenticatedClientesCustomerIdRoute
+  AuthenticatedLoteBatchIdRoute: typeof AuthenticatedLoteBatchIdRoute
   AuthenticatedPedidosOrderIdRoute: typeof AuthenticatedPedidosOrderIdRoute
   AuthenticatedPedidosNovoRoute: typeof AuthenticatedPedidosNovoRoute
   AuthenticatedClientesIndexRoute: typeof AuthenticatedClientesIndexRoute
@@ -451,6 +472,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedRelatoriosRoute: AuthenticatedRelatoriosRoute,
   AuthenticatedUsuariosRoute: AuthenticatedUsuariosRoute,
   AuthenticatedClientesCustomerIdRoute: AuthenticatedClientesCustomerIdRoute,
+  AuthenticatedLoteBatchIdRoute: AuthenticatedLoteBatchIdRoute,
   AuthenticatedPedidosOrderIdRoute: AuthenticatedPedidosOrderIdRoute,
   AuthenticatedPedidosNovoRoute: AuthenticatedPedidosNovoRoute,
   AuthenticatedClientesIndexRoute: AuthenticatedClientesIndexRoute,

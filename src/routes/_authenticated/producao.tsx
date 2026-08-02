@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertTriangle, ArrowLeftRight, FlaskConical, Package, Plus, Search } from "lucide-react";
 
 import { ConfirmDeleteDialog } from "@/components/products/confirm-delete-dialog";
@@ -34,6 +34,23 @@ import {
   useRecipeMutations,
   useRecipes,
 } from "@/hooks/use-production";
+import { CommercialDashboard } from "@/components/production/commercial-dashboard";
+import { BatchLabelsPanel } from "@/components/production/batch-labels-panel";
+import { PriceSimulator } from "@/components/production/price-simulator";
+import { ProductionAlerts } from "@/components/production/production-alerts";
+import { ProductionDashboard } from "@/components/production/production-dashboard";
+import { ProductionReports } from "@/components/production/production-reports";
+import { RecipeCostsPanel } from "@/components/production/recipe-costs-panel";
+import { ValidityPanel } from "@/components/production/validity-panel";
+import {
+  useBatchLabels,
+  useCommercialOverview,
+  useProductionOverview,
+  useProductionRealtime,
+  useProductionValidity,
+  useRecipeCostHistory,
+} from "@/hooks/use-production-analytics";
+import { buildProductionAlerts } from "@/lib/production-alerts";
 import { useAllIngredients } from "@/hooks/use-stock";
 import { formatCurrency } from "@/lib/format";
 import {
@@ -92,6 +109,13 @@ function ProducaoPage() {
   const { data: batches = [] } = useProductionBatches(100);
   const { data: finished = [] } = useFinishedProducts();
   const { data: movements = [] } = useFinishedMovements(150);
+  const { data: overview } = useProductionOverview(60);
+  const { data: commercial } = useCommercialOverview(30);
+  const { data: validity = [] } = useProductionValidity(120);
+  const { data: costHistory = [] } = useRecipeCostHistory();
+  const { data: labels = [] } = useBatchLabels(60);
+
+  useProductionRealtime();
 
   const recipeMutations = useRecipeMutations();
   const packagingMutations = usePackagingMutations();
@@ -105,6 +129,10 @@ function ProducaoPage() {
   const availableTotal = useMemo(
     () => finished.reduce((sum, item) => sum + Number(item.quantity_available), 0),
     [finished],
+  );
+  const alerts = useMemo(
+    () => buildProductionAlerts({ ingredients, packaging, recipes: allRecipes, validity }),
+    [ingredients, packaging, allRecipes, validity],
   );
   const producedTotal = useMemo(
     () => batches.reduce((sum, item) => sum + Number(item.produced_quantity), 0),
@@ -186,14 +214,56 @@ function ProducaoPage() {
         </Alert>
       ) : null}
 
-      <Tabs defaultValue="receitas">
-        <TabsList>
+      <Tabs defaultValue="painel">
+        <TabsList className="flex-wrap">
+          <TabsTrigger value="painel">Painel</TabsTrigger>
+          <TabsTrigger value="comercial">Comercial</TabsTrigger>
           <TabsTrigger value="receitas">Receitas</TabsTrigger>
+          <TabsTrigger value="custos">Custos</TabsTrigger>
+          <TabsTrigger value="validade">Validade</TabsTrigger>
+          <TabsTrigger value="etiquetas">Etiquetas</TabsTrigger>
+          <TabsTrigger value="simulador">Simulador</TabsTrigger>
+          <TabsTrigger value="relatorios">Relatórios</TabsTrigger>
           <TabsTrigger value="lotes">Lotes</TabsTrigger>
           <TabsTrigger value="prontos">Produtos prontos</TabsTrigger>
           <TabsTrigger value="embalagens">Embalagens</TabsTrigger>
           <TabsTrigger value="historico">Histórico</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="painel" className="space-y-4 pt-4">
+          <ProductionAlerts alerts={alerts} />
+          <ProductionDashboard data={overview} />
+        </TabsContent>
+
+        <TabsContent value="comercial" className="pt-4">
+          <CommercialDashboard data={commercial} />
+        </TabsContent>
+
+        <TabsContent value="custos" className="pt-4">
+          <RecipeCostsPanel recipes={allRecipes} history={costHistory} />
+        </TabsContent>
+
+        <TabsContent value="validade" className="pt-4">
+          <ValidityPanel batches={validity} canManage={canManage} />
+        </TabsContent>
+
+        <TabsContent value="etiquetas" className="pt-4">
+          <BatchLabelsPanel labels={labels} />
+        </TabsContent>
+
+        <TabsContent value="simulador" className="pt-4">
+          <PriceSimulator recipes={allRecipes} />
+        </TabsContent>
+
+        <TabsContent value="relatorios" className="pt-4">
+          <ProductionReports
+            overview={overview}
+            commercial={commercial}
+            validity={validity}
+            recipes={allRecipes}
+            history={costHistory}
+          />
+        </TabsContent>
 
         <TabsContent value="receitas" className="space-y-4 pt-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
@@ -293,7 +363,9 @@ function ProducaoPage() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Data</TableHead>
+                  <TableHead>Código</TableHead>
                   <TableHead>Receita</TableHead>
+                  <TableHead>Validade</TableHead>
                   <TableHead>Lotes</TableHead>
                   <TableHead>Produzido</TableHead>
                   <TableHead>Responsável</TableHead>
@@ -304,7 +376,21 @@ function ProducaoPage() {
                 {batches.map((batch) => (
                   <TableRow key={batch.id}>
                     <TableCell>{formatDateTime(batch.produced_at)}</TableCell>
+                    <TableCell className="font-mono text-xs">
+                      <Link
+                        to="/lote/$batchId"
+                        params={{ batchId: batch.id }}
+                        className="text-primary hover:underline"
+                      >
+                        {batch.batch_code ?? batch.id.slice(0, 8)}
+                      </Link>
+                    </TableCell>
                     <TableCell className="font-medium">{batch.recipe?.name ?? "—"}</TableCell>
+                    <TableCell>
+                      {batch.expires_at
+                        ? new Date(`${batch.expires_at}T00:00:00`).toLocaleDateString("pt-BR")
+                        : "—"}
+                    </TableCell>
                     <TableCell>{Number(batch.batches)}</TableCell>
                     <TableCell>{Number(batch.produced_quantity)} un</TableCell>
                     <TableCell className="text-muted-foreground">
@@ -317,7 +403,7 @@ function ProducaoPage() {
                 ))}
                 {batches.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={6} className="py-10 text-center text-muted-foreground">
+                    <TableCell colSpan={8} className="py-10 text-center text-muted-foreground">
                       Nenhum lote produzido ainda.
                     </TableCell>
                   </TableRow>
