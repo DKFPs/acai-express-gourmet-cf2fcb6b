@@ -14,12 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          action: string
+          company_id: string | null
+          created_at: string
+          id: string
+          new_data: Json | null
+          old_data: Json | null
+          record_id: string | null
+          table_name: string
+          user_id: string | null
+          user_name: string | null
+        }
+        Insert: {
+          action: string
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          new_data?: Json | null
+          old_data?: Json | null
+          record_id?: string | null
+          table_name: string
+          user_id?: string | null
+          user_name?: string | null
+        }
+        Update: {
+          action?: string
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          new_data?: Json | null
+          old_data?: Json | null
+          record_id?: string | null
+          table_name?: string
+          user_id?: string | null
+          user_name?: string | null
+        }
+        Relationships: []
+      }
       cash_register: {
         Row: {
           closed_at: string | null
           closed_by: string | null
           closing_amount: number | null
-          company_id: string | null
+          company_id: string
           created_at: string
           difference: number | null
           expected_amount: number | null
@@ -35,7 +74,7 @@ export type Database = {
           closed_at?: string | null
           closed_by?: string | null
           closing_amount?: number | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           difference?: number | null
           expected_amount?: number | null
@@ -51,7 +90,7 @@ export type Database = {
           closed_at?: string | null
           closed_by?: string | null
           closing_amount?: number | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           difference?: number | null
           expected_amount?: number | null
@@ -79,7 +118,7 @@ export type Database = {
           closed_at: string | null
           closed_by: string | null
           closing_amount: number | null
-          company_id: string | null
+          company_id: string
           created_at: string
           difference: number | null
           expected_amount: number | null
@@ -99,7 +138,7 @@ export type Database = {
           closed_at?: string | null
           closed_by?: string | null
           closing_amount?: number | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           difference?: number | null
           expected_amount?: number | null
@@ -119,7 +158,7 @@ export type Database = {
           closed_at?: string | null
           closed_by?: string | null
           closing_amount?: number | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           difference?: number | null
           expected_amount?: number | null
@@ -198,7 +237,7 @@ export type Database = {
       categories: {
         Row: {
           color: string | null
-          company_id: string | null
+          company_id: string
           created_at: string
           description: string | null
           id: string
@@ -208,7 +247,7 @@ export type Database = {
         }
         Insert: {
           color?: string | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           description?: string | null
           id?: string
@@ -218,7 +257,7 @@ export type Database = {
         }
         Update: {
           color?: string | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           description?: string | null
           id?: string
@@ -272,11 +311,79 @@ export type Database = {
         }
         Relationships: []
       }
+      company_settings: {
+        Row: {
+          company_id: string
+          created_at: string
+          currency: string
+          delivery_fee: number
+          free_delivery_above: number | null
+          id: string
+          logo_url: string | null
+          low_stock_alerts: boolean
+          min_order_value: number
+          opening_hours: Json
+          payment_methods: string[]
+          primary_color: string
+          timezone: string
+          updated_at: string
+          whatsapp_enabled: boolean
+          whatsapp_number: string | null
+          whatsapp_template: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          currency?: string
+          delivery_fee?: number
+          free_delivery_above?: number | null
+          id?: string
+          logo_url?: string | null
+          low_stock_alerts?: boolean
+          min_order_value?: number
+          opening_hours?: Json
+          payment_methods?: string[]
+          primary_color?: string
+          timezone?: string
+          updated_at?: string
+          whatsapp_enabled?: boolean
+          whatsapp_number?: string | null
+          whatsapp_template?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          currency?: string
+          delivery_fee?: number
+          free_delivery_above?: number | null
+          id?: string
+          logo_url?: string | null
+          low_stock_alerts?: boolean
+          min_order_value?: number
+          opening_hours?: Json
+          payment_methods?: string[]
+          primary_color?: string
+          timezone?: string
+          updated_at?: string
+          whatsapp_enabled?: boolean
+          whatsapp_number?: string | null
+          whatsapp_template?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_settings_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: true
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customers: {
         Row: {
           address: string | null
           city: string | null
-          company_id: string | null
+          company_id: string
           created_at: string
           email: string | null
           id: string
@@ -291,7 +398,7 @@ export type Database = {
         Insert: {
           address?: string | null
           city?: string | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           email?: string | null
           id?: string
@@ -306,7 +413,7 @@ export type Database = {
         Update: {
           address?: string | null
           city?: string | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           email?: string | null
           id?: string
@@ -330,7 +437,7 @@ export type Database = {
       }
       dashboard_goals: {
         Row: {
-          company_id: string | null
+          company_id: string
           created_at: string
           daily_goal: number
           id: string
@@ -339,7 +446,7 @@ export type Database = {
           weekly_goal: number
         }
         Insert: {
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           daily_goal?: number
           id?: string
@@ -348,7 +455,7 @@ export type Database = {
           weekly_goal?: number
         }
         Update: {
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           daily_goal?: number
           id?: string
@@ -369,7 +476,7 @@ export type Database = {
       expense_categories: {
         Row: {
           color: string | null
-          company_id: string | null
+          company_id: string
           created_at: string
           description: string | null
           id: string
@@ -380,7 +487,7 @@ export type Database = {
         }
         Insert: {
           color?: string | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           description?: string | null
           id?: string
@@ -391,7 +498,7 @@ export type Database = {
         }
         Update: {
           color?: string | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           description?: string | null
           id?: string
@@ -414,7 +521,7 @@ export type Database = {
         Row: {
           amount: number
           category_id: string | null
-          company_id: string | null
+          company_id: string
           created_at: string
           created_by: string | null
           description: string
@@ -432,7 +539,7 @@ export type Database = {
         Insert: {
           amount?: number
           category_id?: string | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           created_by?: string | null
           description: string
@@ -450,7 +557,7 @@ export type Database = {
         Update: {
           amount?: number
           category_id?: string | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           created_by?: string | null
           description?: string
@@ -499,7 +606,7 @@ export type Database = {
       ingredients: {
         Row: {
           category_id: string | null
-          company_id: string | null
+          company_id: string
           created_at: string
           id: string
           is_active: boolean
@@ -514,7 +621,7 @@ export type Database = {
         }
         Insert: {
           category_id?: string | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           id?: string
           is_active?: boolean
@@ -529,7 +636,7 @@ export type Database = {
         }
         Update: {
           category_id?: string | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           id?: string
           is_active?: boolean
@@ -565,6 +672,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      notifications: {
+        Row: {
+          company_id: string
+          created_at: string
+          id: string
+          link: string | null
+          message: string | null
+          read_by: string[]
+          title: string
+          type: string
+          user_id: string | null
+        }
+        Insert: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          link?: string | null
+          message?: string | null
+          read_by?: string[]
+          title: string
+          type?: string
+          user_id?: string | null
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          link?: string | null
+          message?: string | null
+          read_by?: string[]
+          title?: string
+          type?: string
+          user_id?: string | null
+        }
+        Relationships: []
       }
       order_items: {
         Row: {
@@ -654,7 +797,7 @@ export type Database = {
       }
       orders: {
         Row: {
-          company_id: string | null
+          company_id: string
           created_at: string
           created_by: string | null
           customer_id: string | null
@@ -674,7 +817,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           created_by?: string | null
           customer_id?: string | null
@@ -694,7 +837,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           created_by?: string | null
           customer_id?: string | null
@@ -816,7 +959,7 @@ export type Database = {
       products: {
         Row: {
           category_id: string | null
-          company_id: string | null
+          company_id: string
           cost: number
           created_at: string
           description: string | null
@@ -834,7 +977,7 @@ export type Database = {
         }
         Insert: {
           category_id?: string | null
-          company_id?: string | null
+          company_id?: string
           cost?: number
           created_at?: string
           description?: string | null
@@ -852,7 +995,7 @@ export type Database = {
         }
         Update: {
           category_id?: string | null
-          company_id?: string | null
+          company_id?: string
           cost?: number
           created_at?: string
           description?: string | null
@@ -888,7 +1031,7 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
-          company_id: string | null
+          company_id: string
           created_at: string
           full_name: string
           id: string
@@ -898,7 +1041,7 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
-          company_id?: string | null
+          company_id: string
           created_at?: string
           full_name?: string
           id: string
@@ -908,7 +1051,7 @@ export type Database = {
         }
         Update: {
           avatar_url?: string | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           full_name?: string
           id?: string
@@ -928,7 +1071,7 @@ export type Database = {
       }
       stock_movements: {
         Row: {
-          company_id: string | null
+          company_id: string
           created_at: string
           created_by: string | null
           id: string
@@ -941,7 +1084,7 @@ export type Database = {
           unit_cost: number
         }
         Insert: {
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           created_by?: string | null
           id?: string
@@ -954,7 +1097,7 @@ export type Database = {
           unit_cost?: number
         }
         Update: {
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           created_by?: string | null
           id?: string
@@ -993,7 +1136,7 @@ export type Database = {
       suppliers: {
         Row: {
           address: string | null
-          company_id: string | null
+          company_id: string
           created_at: string
           document: string | null
           email: string | null
@@ -1006,7 +1149,7 @@ export type Database = {
         }
         Insert: {
           address?: string | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           document?: string | null
           email?: string | null
@@ -1019,7 +1162,7 @@ export type Database = {
         }
         Update: {
           address?: string | null
-          company_id?: string | null
+          company_id?: string
           created_at?: string
           document?: string | null
           email?: string | null
@@ -1039,6 +1182,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_favorites: {
+        Row: {
+          created_at: string
+          id: string
+          label: string
+          path: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          label: string
+          path: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          label?: string
+          path?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_preferences: {
+        Row: {
+          notifications_enabled: boolean
+          sidebar_collapsed: boolean
+          theme: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          notifications_enabled?: boolean
+          sidebar_collapsed?: boolean
+          theme?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          notifications_enabled?: boolean
+          sidebar_collapsed?: boolean
+          theme?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       user_roles: {
         Row: {
@@ -1066,6 +1257,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      current_company_id: { Args: never; Returns: string }
       customer_stats: {
         Args: never
         Returns: {
@@ -1082,6 +1274,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_company_admin: { Args: never; Returns: boolean }
     }
     Enums: {
       app_role: "administrador" | "funcionario"
