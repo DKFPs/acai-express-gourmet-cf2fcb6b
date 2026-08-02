@@ -149,7 +149,7 @@ export function RecipeDialog({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Categoria</FormLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
+                    <Select value={field.value ?? ""} onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Sem categoria" />
