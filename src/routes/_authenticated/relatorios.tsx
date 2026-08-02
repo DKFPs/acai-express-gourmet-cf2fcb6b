@@ -40,13 +40,13 @@ export const Route = createFileRoute("/_authenticated/relatorios")({
   component: RelatoriosPage,
   head: () => ({
     meta: [
-      { title: "Relatórios gerenciais | Gestão da Confeitaria" },
+      { title: "Relatórios — Açaí Express Manager" },
       {
         name: "description",
         content:
           "Gere relatórios de vendas, financeiro, lucro, clientes, produtos, estoque e fluxo de caixa com gráficos e exportação em PDF e Excel.",
       },
-      { property: "og:title", content: "Relatórios gerenciais | Gestão da Confeitaria" },
+      { property: "og:title", content: "Relatórios — Açaí Express Manager" },
       {
         property: "og:description",
         content: "Relatórios por período com gráficos, impressão e exportação PDF/Excel.",

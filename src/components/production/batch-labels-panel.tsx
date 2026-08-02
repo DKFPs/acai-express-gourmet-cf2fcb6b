@@ -61,7 +61,7 @@ export function BatchLabelsPanel({ labels }: { labels: BatchLabelRow[] }) {
             <span>Fab.: ${formatDate(label.manufactured_at)}</span><br/>
             <span>Val.: ${formatDate(label.expires_at)}</span>
           </div>
-          ${codes[label.id] ? `<img src="${codes[label.id]}" alt="QR" />` : ""}
+          ${codes[label.id] ? `<img src="${codes[label.id]}" alt="Código QR de rastreio do lote ${label.batch_code} — ${label.flavor_name}" />` : ""}
         </div>`,
       )
       .join("");

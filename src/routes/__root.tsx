@@ -98,10 +98,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Açaí Express Manager" },
+      { title: "Açaí Express Manager — Sistema de Gestão para Açaiterias" },
       {
         name: "description",
-        content: "Sistema de gestão premium para operações de açaiteria.",
+        content:
+          "Sistema de gestão para açaiterias: pedidos, estoque, produção, caixa, financeiro e relatórios em um só painel.",
       },
       { name: "author", content: "Açaí Express" },
       { name: "theme-color", content: "#6D28D9" },
@@ -110,6 +111,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "apple-mobile-web-app-title", content: "Açaí Manager" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Açaí Express Manager" },
+      { property: "og:title", content: "Açaí Express Manager — Sistema de Gestão" },
+      {
+        property: "og:description",
+        content:
+          "Sistema de gestão para açaiterias: pedidos, estoque, produção, caixa, financeiro e relatórios em um só painel.",
+      },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
