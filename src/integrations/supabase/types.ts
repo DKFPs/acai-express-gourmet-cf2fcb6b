@@ -328,6 +328,44 @@ export type Database = {
           },
         ]
       }
+      dashboard_goals: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          daily_goal: number
+          id: string
+          monthly_goal: number
+          updated_at: string
+          weekly_goal: number
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          daily_goal?: number
+          id?: string
+          monthly_goal?: number
+          updated_at?: string
+          weekly_goal?: number
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          daily_goal?: number
+          id?: string
+          monthly_goal?: number
+          updated_at?: string
+          weekly_goal?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dashboard_goals_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: true
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       expense_categories: {
         Row: {
           color: string | null
