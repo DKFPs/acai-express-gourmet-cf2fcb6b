@@ -39,9 +39,24 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+  const isStaleDynamicImport = /failed to fetch dynamically imported module|error loading dynamically imported module|importing a module script failed/i.test(
+    error.message,
+  );
+
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
+
+    if (!isStaleDynamicImport) return;
+
+    const recoveryKey = `dynamic-import-recovery:${window.location.pathname}`;
+    const previousAttempt = Number(window.sessionStorage.getItem(recoveryKey) ?? 0);
+    const now = Date.now();
+
+    if (now - previousAttempt > 10_000) {
+      window.sessionStorage.setItem(recoveryKey, String(now));
+      window.location.reload();
+    }
+  }, [error, isStaleDynamicImport]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -55,6 +70,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
+              if (isStaleDynamicImport) {
+                window.location.reload();
+                return;
+              }
               router.invalidate();
               reset();
             }}
