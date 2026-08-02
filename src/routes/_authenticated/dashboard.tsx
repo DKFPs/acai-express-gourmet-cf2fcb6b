@@ -211,7 +211,7 @@ function DashboardPage() {
                 )}
                 <Link
                   to="/estoque"
-                  className="story-link inline-block pt-1 text-xs font-medium text-primary"
+                  className="inline-block pt-1 underline-offset-4 hover:underline text-xs font-medium text-primary"
                 >
                   Ir para o estoque
                 </Link>
