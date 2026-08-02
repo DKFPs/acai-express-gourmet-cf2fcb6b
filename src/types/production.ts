@@ -48,6 +48,9 @@ export interface RecipeInput {
   yield_quantity: number;
   prep_time_minutes: number;
   status: "ativo" | "inativo";
+  sale_price: number;
+  target_margin_percent: number;
+  shelf_life_days: number;
   items: RecipeItemInput[];
 }
 
