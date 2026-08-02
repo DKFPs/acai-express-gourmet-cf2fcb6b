@@ -269,7 +269,7 @@ export const productionAnalyticsService = {
   async discardBatch(batchId: string, quantity: number | null, reason: string) {
     const { error } = await supabase.rpc("discard_batch", {
       _batch_id: batchId,
-      _quantity: quantity,
+      ...(quantity === null ? {} : { _quantity: quantity }),
       _reason: reason,
     });
     if (error) throw error;
