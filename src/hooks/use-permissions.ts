@@ -22,7 +22,7 @@ export const PERMISSIONS = {
   "finance.manage": ["administrador"],
   "cash.view": ["administrador", "funcionario"],
   "cash.manage": ["administrador", "funcionario"],
-  "reports.view": ["administrador"],
+  "reports.view": ["administrador", "funcionario"],
   "users.manage": ["administrador"],
   "settings.manage": ["administrador"],
 } as const satisfies Record<string, readonly AppRole[]>;
