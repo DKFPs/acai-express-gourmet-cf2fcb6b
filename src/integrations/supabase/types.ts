@@ -1826,7 +1826,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      current_company_id: { Args: never; Returns: string }
       customer_stats: {
         Args: never
         Returns: {
@@ -1840,14 +1839,6 @@ export type Database = {
         Args: { _batch_id: string; _quantity?: number; _reason?: string }
         Returns: undefined
       }
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
-      is_company_admin: { Args: never; Returns: boolean }
       produce_batch: {
         Args: {
           _batches: number
