@@ -79,7 +79,7 @@ function ConfiguracoesPage() {
 
   useEffect(() => {
     if (!settings) return;
-    setHours((settings.opening_hours ?? {}) as OpeningHours);
+    setHours((settings.opening_hours ?? {}) as unknown as OpeningHours);
     setDelivery({
       fee: String(settings.delivery_fee ?? 0),
       free: settings.free_delivery_above == null ? "" : String(settings.free_delivery_above),
@@ -259,7 +259,7 @@ function ConfiguracoesPage() {
                   </div>
                 );
               })}
-              <Button onClick={() => saveSettings.mutate({ opening_hours: hours })} disabled={saveSettings.isPending}>
+              <Button onClick={() => saveSettings.mutate({ opening_hours: hours as unknown as never })} disabled={saveSettings.isPending}>
                 Salvar horários
               </Button>
             </CardContent>
