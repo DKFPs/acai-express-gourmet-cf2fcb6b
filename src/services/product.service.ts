@@ -86,8 +86,20 @@ export const productService = {
   },
 
   async uploadImage(file: File): Promise<string> {
+    const { data: userData } = await supabase.auth.getUser();
+    const userId = userData.user?.id;
+    if (!userId) throw new Error("Sessão expirada. Faça login novamente.");
+
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("company_id")
+      .eq("id", userId)
+      .maybeSingle();
+    if (profileError) throw profileError;
+    if (!profile?.company_id) throw new Error("Empresa não identificada para o upload.");
+
     const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
-    const path = `${crypto.randomUUID()}.${extension}`;
+    const path = `${profile.company_id}/${crypto.randomUUID()}.${extension}`;
     const { error } = await supabase.storage.from(BUCKET).upload(path, file, {
       cacheControl: "3600",
       upsert: false,
