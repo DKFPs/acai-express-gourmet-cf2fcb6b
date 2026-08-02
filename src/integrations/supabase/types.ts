@@ -53,6 +53,63 @@ export type Database = {
         }
         Relationships: []
       }
+      batch_labels: {
+        Row: {
+          batch_code: string
+          batch_id: string
+          company_id: string
+          created_at: string
+          expires_at: string
+          flavor_name: string
+          id: string
+          manufactured_at: string
+          qr_payload: string
+          quantity: number
+          volume_ml: number
+        }
+        Insert: {
+          batch_code: string
+          batch_id: string
+          company_id: string
+          created_at?: string
+          expires_at: string
+          flavor_name: string
+          id?: string
+          manufactured_at: string
+          qr_payload: string
+          quantity?: number
+          volume_ml?: number
+        }
+        Update: {
+          batch_code?: string
+          batch_id?: string
+          company_id?: string
+          created_at?: string
+          expires_at?: string
+          flavor_name?: string
+          id?: string
+          manufactured_at?: string
+          qr_payload?: string
+          quantity?: number
+          volume_ml?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "batch_labels_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "production_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "batch_labels_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cash_register: {
         Row: {
           closed_at: string | null
@@ -1139,10 +1196,13 @@ export type Database = {
       }
       production_batches: {
         Row: {
+          batch_code: string | null
           batches: number
           company_id: string
           created_at: string
           created_by: string | null
+          discarded_quantity: number
+          expires_at: string | null
           id: string
           notes: string | null
           produced_at: string
@@ -1150,13 +1210,18 @@ export type Database = {
           recipe_id: string
           responsible_id: string | null
           responsible_name: string | null
+          status: string
           total_cost: number
+          unit_cost: number
         }
         Insert: {
+          batch_code?: string | null
           batches?: number
           company_id: string
           created_at?: string
           created_by?: string | null
+          discarded_quantity?: number
+          expires_at?: string | null
           id?: string
           notes?: string | null
           produced_at?: string
@@ -1164,13 +1229,18 @@ export type Database = {
           recipe_id: string
           responsible_id?: string | null
           responsible_name?: string | null
+          status?: string
           total_cost?: number
+          unit_cost?: number
         }
         Update: {
+          batch_code?: string | null
           batches?: number
           company_id?: string
           created_at?: string
           created_by?: string | null
+          discarded_quantity?: number
+          expires_at?: string | null
           id?: string
           notes?: string | null
           produced_at?: string
@@ -1178,7 +1248,9 @@ export type Database = {
           recipe_id?: string
           responsible_id?: string | null
           responsible_name?: string | null
+          status?: string
           total_cost?: number
+          unit_cost?: number
         }
         Relationships: [
           {
@@ -1371,6 +1443,63 @@ export type Database = {
           },
         ]
       }
+      recipe_cost_history: {
+        Row: {
+          company_id: string
+          cost_per_unit: number
+          created_at: string
+          id: string
+          ingredients_cost: number
+          margin_percent: number
+          min_sale_price: number
+          packaging_cost: number
+          reason: string | null
+          recipe_id: string
+          total_cost: number
+        }
+        Insert: {
+          company_id: string
+          cost_per_unit?: number
+          created_at?: string
+          id?: string
+          ingredients_cost?: number
+          margin_percent?: number
+          min_sale_price?: number
+          packaging_cost?: number
+          reason?: string | null
+          recipe_id: string
+          total_cost?: number
+        }
+        Update: {
+          company_id?: string
+          cost_per_unit?: number
+          created_at?: string
+          id?: string
+          ingredients_cost?: number
+          margin_percent?: number
+          min_sale_price?: number
+          packaging_cost?: number
+          reason?: string | null
+          recipe_id?: string
+          total_cost?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recipe_cost_history_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recipe_cost_history_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       recipe_items: {
         Row: {
           created_at: string
@@ -1424,13 +1553,23 @@ export type Database = {
           bottle_volume_ml: number
           category_id: string | null
           company_id: string
+          cost_per_unit: number
           created_at: string
           description: string | null
           id: string
           image_url: string | null
+          ingredients_cost: number
+          margin_percent: number
+          min_sale_price: number
           name: string
+          packaging_cost: number
           prep_time_minutes: number
+          profit_per_unit: number
+          sale_price: number
+          shelf_life_days: number
           status: Database["public"]["Enums"]["product_status"]
+          target_margin_percent: number
+          total_cost: number
           updated_at: string
           yield_quantity: number
         }
@@ -1438,13 +1577,23 @@ export type Database = {
           bottle_volume_ml?: number
           category_id?: string | null
           company_id: string
+          cost_per_unit?: number
           created_at?: string
           description?: string | null
           id?: string
           image_url?: string | null
+          ingredients_cost?: number
+          margin_percent?: number
+          min_sale_price?: number
           name: string
+          packaging_cost?: number
           prep_time_minutes?: number
+          profit_per_unit?: number
+          sale_price?: number
+          shelf_life_days?: number
           status?: Database["public"]["Enums"]["product_status"]
+          target_margin_percent?: number
+          total_cost?: number
           updated_at?: string
           yield_quantity?: number
         }
@@ -1452,13 +1601,23 @@ export type Database = {
           bottle_volume_ml?: number
           category_id?: string | null
           company_id?: string
+          cost_per_unit?: number
           created_at?: string
           description?: string | null
           id?: string
           image_url?: string | null
+          ingredients_cost?: number
+          margin_percent?: number
+          min_sale_price?: number
           name?: string
+          packaging_cost?: number
           prep_time_minutes?: number
+          profit_per_unit?: number
+          sale_price?: number
+          shelf_life_days?: number
           status?: Database["public"]["Enums"]["product_status"]
+          target_margin_percent?: number
+          total_cost?: number
           updated_at?: string
           yield_quantity?: number
         }
@@ -1677,6 +1836,10 @@ export type Database = {
           total_spent: number
         }[]
       }
+      discard_batch: {
+        Args: { _batch_id: string; _quantity?: number; _reason?: string }
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1694,6 +1857,10 @@ export type Database = {
           _responsible_id?: string
         }
         Returns: string
+      }
+      recalc_recipe_costs: {
+        Args: { _reason?: string; _recipe_id: string }
+        Returns: undefined
       }
     }
     Enums: {
