@@ -112,11 +112,12 @@ export const productionService = {
       _recipe_id: input.recipe_id,
       _batches: input.batches,
       _produced_at: input.produced_at,
-      _notes: input.notes ?? undefined,
+      ...(input.notes ? { _notes: input.notes } : {}),
     });
     if (error) throw error;
     return data as string;
   },
+
 };
 
 export const finishedProductService = {
