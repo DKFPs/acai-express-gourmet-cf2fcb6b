@@ -5,6 +5,7 @@ import {
   Wallet,
   Boxes,
   LayoutDashboard,
+  ScrollText,
   Settings,
   ShoppingBag,
   Users,
@@ -53,8 +54,9 @@ export const NAVIGATION: NavSection[] = [
   {
     label: "Administração",
     items: [
-      { title: "Usuários", to: "/dashboard", icon: Users, permission: "users.manage", soon: true },
-      { title: "Configurações", to: "/dashboard", icon: Settings, permission: "settings.manage", soon: true },
+      { title: "Usuários", to: "/usuarios", icon: Users, permission: "users.manage" },
+      { title: "Auditoria", to: "/auditoria", icon: ScrollText, permission: "audit.view" },
+      { title: "Configurações", to: "/configuracoes", icon: Settings, permission: "settings.manage" },
     ],
   },
 ];
@@ -69,6 +71,7 @@ export const ROUTE_LABELS: Record<string, string> = {
   caixa: "Caixa",
   relatorios: "Relatórios",
   usuarios: "Usuários",
+  auditoria: "Auditoria",
   configuracoes: "Configurações",
   perfil: "Perfil",
 };

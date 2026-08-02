@@ -91,7 +91,7 @@ export const orderService = {
     const { data: order, error } = await supabase
       .from("orders")
       .insert({
-        company_id: companyId,
+        ...(companyId ? { company_id: companyId } : {}),
         created_by: userId,
         customer_id: input.customer_id,
         customer_name: input.customer_name,
@@ -168,7 +168,7 @@ export const customerService = {
   async create(input: CustomerInput, companyId: string | null): Promise<Customer> {
     const { data, error } = await supabase
       .from("customers")
-      .insert({ ...input, company_id: companyId })
+      .insert({ ...input, ...(companyId ? { company_id: companyId } : {}) })
       .select("*")
       .single();
     if (error) throw error;
