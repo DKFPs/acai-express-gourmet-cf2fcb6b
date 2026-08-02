@@ -52,6 +52,9 @@ const EMPTY: RecipeFormValues = {
   yield_quantity: "10",
   prep_time_minutes: "30",
   status: "ativo",
+  sale_price: "0",
+  target_margin_percent: "40",
+  shelf_life_days: "5",
   items: [{ ingredient_id: "", quantity: "1", unit: "kg", notes: "" }],
 };
 
@@ -82,6 +85,9 @@ export function RecipeDialog({
         yield_quantity: String(recipe.yield_quantity ?? 1),
         prep_time_minutes: String(recipe.prep_time_minutes ?? 0),
         status: recipe.status,
+        sale_price: String(recipe.sale_price ?? 0),
+        target_margin_percent: String(recipe.target_margin_percent ?? 40),
+        shelf_life_days: String(recipe.shelf_life_days ?? 5),
         items:
           recipe.items.length > 0
             ? [...recipe.items]
@@ -108,6 +114,9 @@ export function RecipeDialog({
       yield_quantity: parseNumber(values.yield_quantity),
       prep_time_minutes: Math.round(parseNumber(values.prep_time_minutes)),
       status: values.status,
+      sale_price: parseNumber(values.sale_price),
+      target_margin_percent: parseNumber(values.target_margin_percent),
+      shelf_life_days: Math.round(parseNumber(values.shelf_life_days)),
       items: values.items.map((item) => ({
         ingredient_id: item.ingredient_id,
         quantity: parseNumber(item.quantity),
@@ -163,6 +172,48 @@ export function RecipeDialog({
                         ))}
                       </SelectContent>
                     </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-3">
+              <FormField
+                control={form.control}
+                name="sale_price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Preço de venda (un)</FormLabel>
+                    <FormControl>
+                      <Input inputMode="decimal" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="target_margin_percent"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Margem alvo (%)</FormLabel>
+                    <FormControl>
+                      <Input inputMode="decimal" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="shelf_life_days"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Validade (dias)</FormLabel>
+                    <FormControl>
+                      <Input inputMode="numeric" {...field} />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

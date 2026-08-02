@@ -19,6 +19,9 @@ export const recipeSchema = z.object({
   yield_quantity: positive,
   prep_time_minutes: numeric,
   status: z.enum(["ativo", "inativo"]),
+  sale_price: numeric,
+  target_margin_percent: numeric,
+  shelf_life_days: numeric,
   items: z
     .array(
       z.object({
