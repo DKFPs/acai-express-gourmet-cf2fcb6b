@@ -7,6 +7,7 @@ import type { AppRole } from "@/types";
  */
 export const PERMISSIONS = {
   "dashboard.view": ["administrador", "funcionario"],
+  "dashboard.goals": ["administrador"],
   "orders.view": ["administrador", "funcionario"],
   "orders.manage": ["administrador", "funcionario"],
   "orders.delete": ["administrador"],
