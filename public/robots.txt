@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://acai-express-gourmet.lovable.app/sitemap.xml
