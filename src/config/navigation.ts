@@ -1,4 +1,5 @@
 import {
+  Banknote,
   BarChart3,
   Warehouse,
   Wallet,
@@ -45,6 +46,7 @@ export const NAVIGATION: NavSection[] = [
       { title: "Clientes", to: "/clientes", icon: Users, permission: "customers.view" },
       { title: "Estoque", to: "/estoque", icon: Warehouse, permission: "stock.view" },
       { title: "Financeiro", to: "/financeiro", icon: Wallet, permission: "finance.view" },
+      { title: "Caixa", to: "/caixa", icon: Banknote, permission: "cash.view" },
       { title: "Relatórios", to: "/dashboard", icon: BarChart3, permission: "reports.view", soon: true },
     ],
   },
@@ -64,6 +66,7 @@ export const ROUTE_LABELS: Record<string, string> = {
   produtos: "Produtos",
   estoque: "Estoque",
   financeiro: "Financeiro",
+  caixa: "Caixa",
   relatorios: "Relatórios",
   usuarios: "Usuários",
   configuracoes: "Configurações",
