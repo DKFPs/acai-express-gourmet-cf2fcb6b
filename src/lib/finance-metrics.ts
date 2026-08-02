@@ -63,14 +63,13 @@ export function dailySeries(entries: FinancialEntry[]): DailyPoint[] {
   for (const entry of entries) {
     if (!ACTIVE(entry)) continue;
     const key = entry.due_date;
-    const [year, month, day] = key.split("-");
+    const [, month, day] = key.split("-");
     const point =
       map.get(key) ??
       ({ dia: `${day}/${month}`, data: key, receitas: 0, saidas: 0, lucro: 0 } as DailyPoint);
     if (entry.type === "receita") point.receitas += Number(entry.amount);
     else point.saidas += Number(entry.amount);
     point.lucro = point.receitas - point.saidas;
-    void year;
     map.set(key, point);
   }
   return Array.from(map.values()).sort((a, b) => a.data.localeCompare(b.data));
@@ -91,7 +90,7 @@ export function monthlySeries(entries: FinancialEntry[]): MonthlyPoint[] {
   for (const entry of entries) {
     if (!ACTIVE(entry)) continue;
     const key = entry.due_date.slice(0, 7);
-    const [year, month] = key.split("-");
+    const [year = "", month = ""] = key.split("-");
     const point =
       map.get(key) ??
       ({ mes: `${month}/${year.slice(2)}`, data: key, receitas: 0, saidas: 0, lucro: 0, margem: 0 } as MonthlyPoint);
