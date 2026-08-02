@@ -47,7 +47,7 @@ export const NAVIGATION: NavSection[] = [
       { title: "Estoque", to: "/estoque", icon: Warehouse, permission: "stock.view" },
       { title: "Financeiro", to: "/financeiro", icon: Wallet, permission: "finance.view" },
       { title: "Caixa", to: "/caixa", icon: Banknote, permission: "cash.view" },
-      { title: "Relatórios", to: "/dashboard", icon: BarChart3, permission: "reports.view", soon: true },
+      { title: "Relatórios", to: "/relatorios", icon: BarChart3, permission: "reports.view" },
     ],
   },
   {
