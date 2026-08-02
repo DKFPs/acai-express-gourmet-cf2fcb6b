@@ -73,6 +73,128 @@ export type Database = {
           },
         ]
       }
+      cash_sessions: {
+        Row: {
+          auto_closed: boolean
+          closed_at: string | null
+          closed_by: string | null
+          closing_amount: number | null
+          company_id: string | null
+          created_at: string
+          difference: number | null
+          expected_amount: number | null
+          id: string
+          notes: string | null
+          opened_at: string
+          opened_by: string | null
+          opening_amount: number
+          status: Database["public"]["Enums"]["cash_register_status"]
+          total_in: number
+          total_out: number
+          total_withdrawal: number
+          updated_at: string
+        }
+        Insert: {
+          auto_closed?: boolean
+          closed_at?: string | null
+          closed_by?: string | null
+          closing_amount?: number | null
+          company_id?: string | null
+          created_at?: string
+          difference?: number | null
+          expected_amount?: number | null
+          id?: string
+          notes?: string | null
+          opened_at?: string
+          opened_by?: string | null
+          opening_amount?: number
+          status?: Database["public"]["Enums"]["cash_register_status"]
+          total_in?: number
+          total_out?: number
+          total_withdrawal?: number
+          updated_at?: string
+        }
+        Update: {
+          auto_closed?: boolean
+          closed_at?: string | null
+          closed_by?: string | null
+          closing_amount?: number | null
+          company_id?: string | null
+          created_at?: string
+          difference?: number | null
+          expected_amount?: number | null
+          id?: string
+          notes?: string | null
+          opened_at?: string
+          opened_by?: string | null
+          opening_amount?: number
+          status?: Database["public"]["Enums"]["cash_register_status"]
+          total_in?: number
+          total_out?: number
+          total_withdrawal?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cash_sessions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cash_transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          created_by: string | null
+          description: string
+          id: string
+          order_id: string | null
+          payment_method: Database["public"]["Enums"]["payment_method"] | null
+          session_id: string
+          type: Database["public"]["Enums"]["cash_transaction_type"]
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          created_by?: string | null
+          description: string
+          id?: string
+          order_id?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          session_id: string
+          type: Database["public"]["Enums"]["cash_transaction_type"]
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          id?: string
+          order_id?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          session_id?: string
+          type?: Database["public"]["Enums"]["cash_transaction_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cash_transactions_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cash_transactions_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "cash_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       categories: {
         Row: {
           color: string | null
@@ -926,6 +1048,7 @@ export type Database = {
     Enums: {
       app_role: "administrador" | "funcionario"
       cash_register_status: "aberto" | "fechado"
+      cash_transaction_type: "entrada" | "saida" | "sangria"
       financial_entry_status: "pago" | "pendente" | "cancelado"
       financial_entry_type: "receita" | "despesa" | "compra" | "investimento"
       movement_type: "entrada" | "saida" | "ajuste"
@@ -1072,6 +1195,7 @@ export const Constants = {
     Enums: {
       app_role: ["administrador", "funcionario"],
       cash_register_status: ["aberto", "fechado"],
+      cash_transaction_type: ["entrada", "saida", "sangria"],
       financial_entry_status: ["pago", "pendente", "cancelado"],
       financial_entry_type: ["receita", "despesa", "compra", "investimento"],
       movement_type: ["entrada", "saida", "ajuste"],
