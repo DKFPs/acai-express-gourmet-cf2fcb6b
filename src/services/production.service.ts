@@ -24,11 +24,11 @@ export const recipeService = {
     return (data ?? []) as unknown as Recipe[];
   },
 
-  async create(input: RecipeInput, companyId: string | null) {
+  async create(input: RecipeInput, companyId: string) {
     const { items, ...recipe } = input;
     const { data, error } = await supabase
       .from("recipes")
-      .insert({ ...recipe, ...(companyId ? { company_id: companyId } : {}) })
+      .insert({ ...recipe, company_id: companyId })
       .select("id")
       .single();
     if (error) throw error;
@@ -78,10 +78,10 @@ export const packagingService = {
     return data ?? [];
   },
 
-  async create(input: PackagingInput, companyId: string | null) {
+  async create(input: PackagingInput, companyId: string) {
     const { error } = await supabase
       .from("packaging_stock")
-      .insert({ ...input, ...(companyId ? { company_id: companyId } : {}) });
+      .insert({ ...input, company_id: companyId });
     if (error) throw error;
   },
 
@@ -112,7 +112,7 @@ export const productionService = {
       _recipe_id: input.recipe_id,
       _batches: input.batches,
       _produced_at: input.produced_at,
-      _notes: input.notes,
+      _notes: input.notes ?? undefined,
     });
     if (error) throw error;
     return data as string;
@@ -139,11 +139,11 @@ export const finishedProductService = {
     return (data ?? []) as unknown as FinishedMovement[];
   },
 
-  async createMovement(input: FinishedMovementInput, companyId: string | null) {
+  async createMovement(input: FinishedMovementInput, companyId: string) {
     const { data: session } = await supabase.auth.getUser();
     const { error } = await supabase.from("finished_product_movements").insert({
       ...input,
-      ...(companyId ? { company_id: companyId } : {}),
+      company_id: companyId,
       created_by: session.user?.id ?? null,
     });
     if (error) throw error;
