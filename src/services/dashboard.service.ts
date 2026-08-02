@@ -90,7 +90,7 @@ export const dashboardService = {
     }
     const { error } = await supabase
       .from("dashboard_goals")
-      .insert({ ...goals, company_id: companyId });
+      .insert({ ...goals, company_id: companyId ?? undefined });
     if (error) throw error;
   },
 
