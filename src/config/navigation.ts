@@ -1,6 +1,8 @@
 import {
   Banknote,
+  Brain,
   BarChart3,
+
   Warehouse,
   ShoppingCart,
   Zap,
