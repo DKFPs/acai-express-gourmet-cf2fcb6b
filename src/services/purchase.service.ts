@@ -24,11 +24,11 @@ export const purchaseService = {
     return (data ?? []) as unknown as Purchase[];
   },
 
-  async create(input: PurchaseInput, companyId: string | null) {
+  async create(input: PurchaseInput, companyId: string) {
     const { data: session } = await supabase.auth.getUser();
     const { error } = await supabase.from("purchases").insert({
       ...input,
-      ...(companyId ? { company_id: companyId } : {}),
+      company_id: companyId,
       created_by: session.user?.id ?? null,
     });
     if (error) throw error;
