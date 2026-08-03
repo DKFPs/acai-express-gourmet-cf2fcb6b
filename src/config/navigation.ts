@@ -1,6 +1,8 @@
 import {
   Banknote,
+  Brain,
   BarChart3,
+
   Warehouse,
   ShoppingCart,
   Zap,
@@ -60,6 +62,7 @@ export const NAVIGATION: NavSection[] = [
       { title: "Financeiro", to: "/financeiro", icon: Wallet, permission: "finance.view" },
       { title: "Caixa", to: "/caixa", icon: Banknote, permission: "cash.view" },
       { title: "Relatórios", to: "/relatorios", icon: BarChart3, permission: "reports.view" },
+      { title: "Inteligência", to: "/inteligencia", icon: Brain, permission: "intelligence.view" },
     ],
   },
   {
@@ -84,6 +87,7 @@ export const ROUTE_LABELS: Record<string, string> = {
   financeiro: "Financeiro",
   caixa: "Caixa",
   relatorios: "Relatórios",
+  inteligencia: "Inteligência",
   usuarios: "Usuários",
   auditoria: "Auditoria",
   configuracoes: "Configurações",
