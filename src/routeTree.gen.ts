@@ -22,6 +22,7 @@ import { Route as AuthenticatedConfiguracoesRouteImport } from './routes/_authen
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedEstoqueRouteImport } from './routes/_authenticated/estoque'
 import { Route as AuthenticatedFinanceiroRouteImport } from './routes/_authenticated/financeiro'
+import { Route as AuthenticatedInteligenciaRouteImport } from './routes/_authenticated/inteligencia'
 import { Route as AuthenticatedProducaoRouteImport } from './routes/_authenticated/producao'
 import { Route as AuthenticatedProducaoRapidaRouteImport } from './routes/_authenticated/producao-rapida'
 import { Route as AuthenticatedProdutosRouteImport } from './routes/_authenticated/produtos'
@@ -99,6 +100,12 @@ const AuthenticatedFinanceiroRoute = AuthenticatedFinanceiroRouteImport.update({
   path: '/financeiro',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedInteligenciaRoute =
+  AuthenticatedInteligenciaRouteImport.update({
+    id: '/inteligencia',
+    path: '/inteligencia',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedProducaoRoute = AuthenticatedProducaoRouteImport.update({
   id: '/producao',
   path: '/producao',
@@ -175,6 +182,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/estoque': typeof AuthenticatedEstoqueRoute
   '/financeiro': typeof AuthenticatedFinanceiroRoute
+  '/inteligencia': typeof AuthenticatedInteligenciaRoute
   '/producao': typeof AuthenticatedProducaoRoute
   '/producao-rapida': typeof AuthenticatedProducaoRapidaRoute
   '/produtos': typeof AuthenticatedProdutosRoute
@@ -200,6 +208,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/estoque': typeof AuthenticatedEstoqueRoute
   '/financeiro': typeof AuthenticatedFinanceiroRoute
+  '/inteligencia': typeof AuthenticatedInteligenciaRoute
   '/producao': typeof AuthenticatedProducaoRoute
   '/producao-rapida': typeof AuthenticatedProducaoRapidaRoute
   '/produtos': typeof AuthenticatedProdutosRoute
@@ -227,6 +236,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/estoque': typeof AuthenticatedEstoqueRoute
   '/_authenticated/financeiro': typeof AuthenticatedFinanceiroRoute
+  '/_authenticated/inteligencia': typeof AuthenticatedInteligenciaRoute
   '/_authenticated/producao': typeof AuthenticatedProducaoRoute
   '/_authenticated/producao-rapida': typeof AuthenticatedProducaoRapidaRoute
   '/_authenticated/produtos': typeof AuthenticatedProdutosRoute
@@ -254,6 +264,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/estoque'
     | '/financeiro'
+    | '/inteligencia'
     | '/producao'
     | '/producao-rapida'
     | '/produtos'
@@ -279,6 +290,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/estoque'
     | '/financeiro'
+    | '/inteligencia'
     | '/producao'
     | '/producao-rapida'
     | '/produtos'
@@ -305,6 +317,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/estoque'
     | '/_authenticated/financeiro'
+    | '/_authenticated/inteligencia'
     | '/_authenticated/producao'
     | '/_authenticated/producao-rapida'
     | '/_authenticated/produtos'
@@ -420,6 +433,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFinanceiroRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/inteligencia': {
+      id: '/_authenticated/inteligencia'
+      path: '/inteligencia'
+      fullPath: '/inteligencia'
+      preLoaderRoute: typeof AuthenticatedInteligenciaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/producao': {
       id: '/_authenticated/producao'
       path: '/producao'
@@ -508,6 +528,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedEstoqueRoute: typeof AuthenticatedEstoqueRoute
   AuthenticatedFinanceiroRoute: typeof AuthenticatedFinanceiroRoute
+  AuthenticatedInteligenciaRoute: typeof AuthenticatedInteligenciaRoute
   AuthenticatedProducaoRoute: typeof AuthenticatedProducaoRoute
   AuthenticatedProducaoRapidaRoute: typeof AuthenticatedProducaoRapidaRoute
   AuthenticatedProdutosRoute: typeof AuthenticatedProdutosRoute
@@ -529,6 +550,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedEstoqueRoute: AuthenticatedEstoqueRoute,
   AuthenticatedFinanceiroRoute: AuthenticatedFinanceiroRoute,
+  AuthenticatedInteligenciaRoute: AuthenticatedInteligenciaRoute,
   AuthenticatedProducaoRoute: AuthenticatedProducaoRoute,
   AuthenticatedProducaoRapidaRoute: AuthenticatedProducaoRapidaRoute,
   AuthenticatedProdutosRoute: AuthenticatedProdutosRoute,

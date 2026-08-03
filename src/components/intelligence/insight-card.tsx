@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 interface InsightCardProps {
   label: string;
   value: string;
-  hint?: string;
+  hint?: string | undefined;
   icon: LucideIcon;
   tone?: "default" | "positive" | "negative";
   delay?: number;
