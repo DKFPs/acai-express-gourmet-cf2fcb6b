@@ -1443,6 +1443,105 @@ export type Database = {
           },
         ]
       }
+      purchases: {
+        Row: {
+          category_id: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          ingredient_id: string | null
+          item_name: string
+          kind: Database["public"]["Enums"]["purchase_item_kind"]
+          notes: string | null
+          packaging_id: string | null
+          purchase_date: string
+          quantity: number
+          supplier_id: string | null
+          supplier_name: string | null
+          total_value: number
+          unit: string
+          unit_cost: number
+          updated_at: string
+        }
+        Insert: {
+          category_id?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          ingredient_id?: string | null
+          item_name: string
+          kind?: Database["public"]["Enums"]["purchase_item_kind"]
+          notes?: string | null
+          packaging_id?: string | null
+          purchase_date?: string
+          quantity: number
+          supplier_id?: string | null
+          supplier_name?: string | null
+          total_value?: number
+          unit?: string
+          unit_cost?: number
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          ingredient_id?: string | null
+          item_name?: string
+          kind?: Database["public"]["Enums"]["purchase_item_kind"]
+          notes?: string | null
+          packaging_id?: string | null
+          purchase_date?: string
+          quantity?: number
+          supplier_id?: string | null
+          supplier_name?: string | null
+          total_value?: number
+          unit?: string
+          unit_cost?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchases_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchases_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchases_ingredient_id_fkey"
+            columns: ["ingredient_id"]
+            isOneToOne: false
+            referencedRelation: "ingredients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchases_packaging_id_fkey"
+            columns: ["packaging_id"]
+            isOneToOne: false
+            referencedRelation: "packaging_stock"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchases_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       recipe_cost_history: {
         Row: {
           company_id: string
@@ -1889,6 +1988,7 @@ export type Database = {
         | "outro"
       payment_status: "pendente" | "pago" | "estornado"
       product_status: "ativo" | "inativo"
+      purchase_item_kind: "ingrediente" | "embalagem"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -2054,6 +2154,7 @@ export const Constants = {
       ],
       payment_status: ["pendente", "pago", "estornado"],
       product_status: ["ativo", "inativo"],
+      purchase_item_kind: ["ingrediente", "embalagem"],
     },
   },
 } as const
