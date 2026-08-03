@@ -1,0 +1,1 @@
+REVOKE ALL ON FUNCTION public.apply_purchase() FROM PUBLIC, anon, authenticated;
