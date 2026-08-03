@@ -13,7 +13,7 @@ export function buildSuggestions(data: IntelligenceData): Suggestion[] {
       suggestions.push({
         id: "produce-top",
         title: `Produza mais ${topFlavor.name} amanhã`,
-        description: `Sai em média ${formatNumber(diario, 1)} un/dia e o estoque pronto é de ${formatNumber(ready?.disponivel ?? 0)} un.`,
+        description: `Sai em média ${formatNumber(diario)} un/dia e o estoque pronto é de ${formatNumber(ready?.disponivel ?? 0)} un.`,
         tone: "warning",
         to: "/producao-rapida",
       });
@@ -50,7 +50,7 @@ export function buildSuggestions(data: IntelligenceData): Suggestion[] {
       suggestions.push({
         id: "profit-drop",
         title: "Seu lucro caiu neste período",
-        description: `Queda de ${formatNumber(Math.abs(variacao), 1)}% frente ao período anterior (${formatCurrency(data.lucro)} contra ${formatCurrency(data.lucroAnterior)}).`,
+        description: `Queda de ${formatNumber(Math.abs(variacao))}% frente ao período anterior (${formatCurrency(data.lucro)} contra ${formatCurrency(data.lucroAnterior)}).`,
         tone: "critical",
         to: "/financeiro",
       });
@@ -58,7 +58,7 @@ export function buildSuggestions(data: IntelligenceData): Suggestion[] {
       suggestions.push({
         id: "profit-up",
         title: "Seu lucro está crescendo",
-        description: `Alta de ${formatNumber(variacao, 1)}% frente ao período anterior.`,
+        description: `Alta de ${formatNumber(variacao)}% frente ao período anterior.`,
         tone: "positive",
         to: "/financeiro",
       });
@@ -75,7 +75,7 @@ export function buildSuggestions(data: IntelligenceData): Suggestion[] {
         dias === 0
           ? `Seu estoque de ${projection.name} acabou`
           : `Seu estoque de ${projection.name} acaba em aproximadamente ${dias} ${dias === 1 ? "dia" : "dias"}`,
-      description: `Restam ${formatNumber(projection.quantidade, 2)} ${projection.unidade} com consumo médio de ${formatNumber(projection.consumoDiario, 2)} ${projection.unidade}/dia.`,
+      description: `Restam ${formatNumber(projection.quantidade)} ${projection.unidade} com consumo médio de ${formatNumber(projection.consumoDiario)} ${projection.unidade}/dia.`,
       tone: dias <= 2 ? "critical" : "warning",
       to: "/compras",
     });
@@ -87,7 +87,7 @@ export function buildSuggestions(data: IntelligenceData): Suggestion[] {
     suggestions.push({
       id: "low-margin",
       title: `${piorMargem.name} está com margem baixa`,
-      description: `Apenas ${formatNumber(piorMargem.margem, 1)}% de margem. Reveja o preço ou o custo dos ingredientes.`,
+      description: `Apenas ${formatNumber(piorMargem.margem)}% de margem. Reveja o preço ou o custo dos ingredientes.`,
       tone: "warning",
       to: "/produtos",
     });
