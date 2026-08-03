@@ -25,6 +25,7 @@ export const PERMISSIONS = {
   "cash.view": ["administrador", "funcionario"],
   "cash.manage": ["administrador", "funcionario"],
   "reports.view": ["administrador", "funcionario"],
+  "intelligence.view": ["administrador", "funcionario"],
   "users.manage": ["administrador"],
   "audit.view": ["administrador"],
   "backup.run": ["administrador"],
