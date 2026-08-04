@@ -9,6 +9,8 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
+    "verify:db": "bun run scripts/verify-db-functions.ts",
+    "postbuild": "bun run scripts/verify-db-functions.ts || true",
     "format": "prettier --write ."
   },
   "dependencies": {
