@@ -34,6 +34,7 @@ import { Route as AuthenticatedLoteBatchIdRouteImport } from './routes/_authenti
 import { Route as AuthenticatedPedidosIndexRouteImport } from './routes/_authenticated/pedidos.index'
 import { Route as AuthenticatedPedidosOrderIdRouteImport } from './routes/_authenticated/pedidos.$orderId'
 import { Route as AuthenticatedPedidosNovoRouteImport } from './routes/_authenticated/pedidos.novo'
+import { Route as ApiPublicHealthDbFunctionsRouteImport } from './routes/api/public/health/db-functions'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -168,6 +169,12 @@ const AuthenticatedPedidosNovoRoute =
     path: '/pedidos/novo',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPublicHealthDbFunctionsRoute =
+  ApiPublicHealthDbFunctionsRouteImport.update({
+    id: '/api/public/health/db-functions',
+    path: '/api/public/health/db-functions',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -194,6 +201,7 @@ export interface FileRoutesByFullPath {
   '/pedidos/novo': typeof AuthenticatedPedidosNovoRoute
   '/clientes/': typeof AuthenticatedClientesIndexRoute
   '/pedidos/': typeof AuthenticatedPedidosIndexRoute
+  '/api/public/health/db-functions': typeof ApiPublicHealthDbFunctionsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -220,6 +228,7 @@ export interface FileRoutesByTo {
   '/pedidos/novo': typeof AuthenticatedPedidosNovoRoute
   '/clientes': typeof AuthenticatedClientesIndexRoute
   '/pedidos': typeof AuthenticatedPedidosIndexRoute
+  '/api/public/health/db-functions': typeof ApiPublicHealthDbFunctionsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -248,6 +257,7 @@ export interface FileRoutesById {
   '/_authenticated/pedidos/novo': typeof AuthenticatedPedidosNovoRoute
   '/_authenticated/clientes/': typeof AuthenticatedClientesIndexRoute
   '/_authenticated/pedidos/': typeof AuthenticatedPedidosIndexRoute
+  '/api/public/health/db-functions': typeof ApiPublicHealthDbFunctionsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -276,6 +286,7 @@ export interface FileRouteTypes {
     | '/pedidos/novo'
     | '/clientes/'
     | '/pedidos/'
+    | '/api/public/health/db-functions'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -302,6 +313,7 @@ export interface FileRouteTypes {
     | '/pedidos/novo'
     | '/clientes'
     | '/pedidos'
+    | '/api/public/health/db-functions'
   id:
     | '__root__'
     | '/'
@@ -329,6 +341,7 @@ export interface FileRouteTypes {
     | '/_authenticated/pedidos/novo'
     | '/_authenticated/clientes/'
     | '/_authenticated/pedidos/'
+    | '/api/public/health/db-functions'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -338,6 +351,7 @@ export interface RootRouteChildren {
   RecuperarSenhaRoute: typeof RecuperarSenhaRoute
   RedefinirSenhaRoute: typeof RedefinirSenhaRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ApiPublicHealthDbFunctionsRoute: typeof ApiPublicHealthDbFunctionsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -517,6 +531,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPedidosNovoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/health/db-functions': {
+      id: '/api/public/health/db-functions'
+      path: '/api/public/health/db-functions'
+      fullPath: '/api/public/health/db-functions'
+      preLoaderRoute: typeof ApiPublicHealthDbFunctionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -574,6 +595,7 @@ const rootRouteChildren: RootRouteChildren = {
   RecuperarSenhaRoute: RecuperarSenhaRoute,
   RedefinirSenhaRoute: RedefinirSenhaRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ApiPublicHealthDbFunctionsRoute: ApiPublicHealthDbFunctionsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
