@@ -383,6 +383,10 @@ function ConfiguracoesPage() {
         <TabsContent value="backup">
           <BackupPanel companyName={company?.name ?? "empresa"} />
         </TabsContent>
+
+        <TabsContent value="saude">
+          <DbHealthPanel />
+        </TabsContent>
       </Tabs>
     </div>
   );
