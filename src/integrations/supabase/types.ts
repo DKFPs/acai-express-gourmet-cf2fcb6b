@@ -1851,6 +1851,44 @@ export type Database = {
           },
         ]
       }
+      system_health_checks: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          failures: Json
+          id: string
+          passed: boolean
+          source: string
+          total: number
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          failures?: Json
+          id?: string
+          passed: boolean
+          source?: string
+          total?: number
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          failures?: Json
+          id?: string
+          passed?: boolean
+          source?: string
+          total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "system_health_checks_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_favorites: {
         Row: {
           created_at: string
@@ -1925,6 +1963,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_system_functions: {
+        Args: never
+        Returns: {
+          arguments: string
+          detail: string
+          function_name: string
+          schema_name: string
+          status: string
+        }[]
+      }
       current_company_id: { Args: never; Returns: string }
       customer_stats: {
         Args: never

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
+  Activity,
   Building2,
   Clock,
   Database,
@@ -25,6 +26,7 @@ import { usePermissions } from "@/hooks/use-permissions";
 import { useCompany, useCompanySettings, useSaveCompany, useSaveSettings } from "@/hooks/use-settings";
 import { settingsService } from "@/services/settings.service";
 import { backupSummary, collectBackup, downloadBackupExcel, downloadBackupJson } from "@/lib/backup";
+import { DbHealthPanel } from "@/components/settings/db-health-panel";
 import { buildWhatsappLink } from "@/lib/whatsapp";
 import { PAYMENT_METHOD_LABELS, WEEK_DAYS, type OpeningHours } from "@/types/saas";
 
@@ -154,6 +156,9 @@ function ConfiguracoesPage() {
           </TabsTrigger>
           <TabsTrigger value="backup" className="gap-2">
             <Database className="h-4 w-4" /> Backup
+          </TabsTrigger>
+          <TabsTrigger value="saude" className="gap-2">
+            <Activity className="h-4 w-4" /> Saúde do banco
           </TabsTrigger>
         </TabsList>
 
@@ -377,6 +382,10 @@ function ConfiguracoesPage() {
 
         <TabsContent value="backup">
           <BackupPanel companyName={company?.name ?? "empresa"} />
+        </TabsContent>
+
+        <TabsContent value="saude">
+          <DbHealthPanel />
         </TabsContent>
       </Tabs>
     </div>
