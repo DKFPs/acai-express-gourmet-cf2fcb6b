@@ -1737,6 +1737,44 @@ export type Database = {
           },
         ]
       }
+      reminders: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          done: boolean
+          id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          done?: boolean
+          id?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          done?: boolean
+          id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reminders_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       stock_movements: {
         Row: {
           company_id: string
@@ -1882,6 +1920,56 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "system_health_checks_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tasks: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          done: boolean
+          done_at: string | null
+          due_date: string | null
+          id: string
+          notes: string | null
+          priority: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          done?: boolean
+          done_at?: string | null
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          priority?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          done?: boolean
+          done_at?: string | null
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          priority?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_company_id_fkey"
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
