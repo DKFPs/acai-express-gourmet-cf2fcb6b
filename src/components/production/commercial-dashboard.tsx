@@ -71,7 +71,13 @@ export function CommercialDashboard({ data }: { data: CommercialOverview | undef
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.bestSellers}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="name" tick={{ fontSize: 10 }} interval={0} angle={-15} height={50} />
+                <XAxis
+                  dataKey="name"
+                  tick={{ fontSize: 10 }}
+                  interval={0}
+                  angle={-15}
+                  height={50}
+                />
                 <YAxis tick={{ fontSize: 11 }} />
                 <Tooltip contentStyle={tooltipStyle} />
                 <Bar dataKey="quantity" name="Unidades" radius={[8, 8, 0, 0]}>

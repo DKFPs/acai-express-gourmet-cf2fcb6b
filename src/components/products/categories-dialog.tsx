@@ -41,11 +41,12 @@ export function CategoriesDialog({
   const [editing, setEditing] = useState<Category | null>(null);
   const [toDelete, setToDelete] = useState<Category | null>(null);
 
-  const { register, handleSubmit, reset, watch, setValue, formState } =
-    useForm<CategoryFormValues>({
+  const { register, handleSubmit, reset, watch, setValue, formState } = useForm<CategoryFormValues>(
+    {
       resolver: zodResolver(categorySchema),
       defaultValues: EMPTY,
-    });
+    },
+  );
 
   const saving = create.isPending || update.isPending;
 
@@ -128,7 +129,11 @@ export function CategoriesDialog({
                   </Button>
                 ) : null}
                 <Button type="submit" size="sm" disabled={saving}>
-                  {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+                  {saving ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Plus className="h-4 w-4" />
+                  )}
                   {editing ? "Salvar" : "Adicionar"}
                 </Button>
               </div>
@@ -162,7 +167,9 @@ export function CategoriesDialog({
                       {category.is_active ? "" : " (inativa)"}
                     </p>
                     {category.description ? (
-                      <p className="truncate text-xs text-muted-foreground">{category.description}</p>
+                      <p className="truncate text-xs text-muted-foreground">
+                        {category.description}
+                      </p>
                     ) : null}
                   </div>
                 </div>

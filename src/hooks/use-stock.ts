@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import { friendlyError } from "@/lib/errors";
+
 import { useAuth } from "@/hooks/use-auth";
 import { ingredientService, movementService, supplierService } from "@/services/stock.service";
 import type {
@@ -9,16 +11,6 @@ import type {
   MovementInput,
   SupplierInput,
 } from "@/types/stock";
-
-function translate(message: string) {
-  if (message.toLowerCase().includes("row-level security")) {
-    return "Você não tem permissão para esta ação.";
-  }
-  if (message.includes("violates foreign key")) {
-    return "Registro em uso por outro cadastro.";
-  }
-  return message || "Não foi possível concluir a operação.";
-}
 
 export function useIngredients(filters: IngredientFilters) {
   return useQuery({
@@ -63,7 +55,7 @@ export function useIngredientMutations() {
       toast.success("Ingrediente cadastrado");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const update = useMutation({
@@ -73,7 +65,7 @@ export function useIngredientMutations() {
       toast.success("Ingrediente atualizado");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const remove = useMutation({
@@ -82,7 +74,7 @@ export function useIngredientMutations() {
       toast.success("Ingrediente excluído");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   return { create, update, remove };
@@ -99,7 +91,7 @@ export function useSupplierMutations() {
       toast.success("Fornecedor cadastrado");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const update = useMutation({
@@ -109,7 +101,7 @@ export function useSupplierMutations() {
       toast.success("Fornecedor atualizado");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const remove = useMutation({
@@ -118,7 +110,7 @@ export function useSupplierMutations() {
       toast.success("Fornecedor excluído");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   return { create, update, remove };
@@ -135,7 +127,7 @@ export function useMovementMutations() {
       toast.success("Movimentação registrada");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   return { create };

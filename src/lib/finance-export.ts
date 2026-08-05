@@ -32,7 +32,15 @@ export function exportFinanceExcel(
   const workbook = XLSX.utils.book_new();
 
   const sheet = XLSX.utils.json_to_sheet(rows(entries));
-  sheet["!cols"] = [{ wch: 12 }, { wch: 14 }, { wch: 38 }, { wch: 20 }, { wch: 12 }, { wch: 12 }, { wch: 14 }];
+  sheet["!cols"] = [
+    { wch: 12 },
+    { wch: 14 },
+    { wch: 38 },
+    { wch: 20 },
+    { wch: 12 },
+    { wch: 12 },
+    { wch: 14 },
+  ];
   XLSX.utils.book_append_sheet(workbook, sheet, "Lançamentos");
 
   const resumo = XLSX.utils.json_to_sheet([

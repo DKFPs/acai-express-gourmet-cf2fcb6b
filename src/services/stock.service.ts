@@ -9,8 +9,7 @@ import type {
   SupplierRow,
 } from "@/types/stock";
 
-const INGREDIENT_SELECT =
-  "*, supplier:suppliers(id, name), category:categories(id, name, color)";
+const INGREDIENT_SELECT = "*, supplier:suppliers(id, name), category:categories(id, name, color)";
 
 export interface IngredientListResult {
   items: Ingredient[];
@@ -54,7 +53,9 @@ export const ingredientService = {
   },
 
   async create(input: IngredientInput, companyId: string | null) {
-    const { error } = await supabase.from("ingredients").insert({ ...input, ...(companyId ? { company_id: companyId } : {}) });
+    const { error } = await supabase
+      .from("ingredients")
+      .insert({ ...input, ...(companyId ? { company_id: companyId } : {}) });
     if (error) throw error;
   },
 
@@ -80,7 +81,9 @@ export const supplierService = {
   },
 
   async create(input: SupplierInput, companyId: string | null) {
-    const { error } = await supabase.from("suppliers").insert({ ...input, ...(companyId ? { company_id: companyId } : {}) });
+    const { error } = await supabase
+      .from("suppliers")
+      .insert({ ...input, ...(companyId ? { company_id: companyId } : {}) });
     if (error) throw error;
   },
 

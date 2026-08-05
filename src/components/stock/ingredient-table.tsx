@@ -1,5 +1,6 @@
-import { MoreHorizontal, Pencil, Trash2, ArrowLeftRight, AlertTriangle } from "lucide-react";
+import { AlertTriangle, ArrowLeftRight, Boxes, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 
+import { EmptyState } from "@/components/common/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -40,9 +41,11 @@ export function IngredientTable({
 }: IngredientTableProps) {
   if (items.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-border/60 p-10 text-center text-sm text-muted-foreground">
-        Nenhum ingrediente encontrado.
-      </div>
+      <EmptyState
+        icon={Boxes}
+        title="Nenhum ingrediente encontrado"
+        description="Nenhum ingrediente corresponde aos filtros atuais."
+      />
     );
   }
 

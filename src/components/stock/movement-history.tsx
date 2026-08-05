@@ -1,5 +1,6 @@
-import { ArrowDownRight, ArrowUpRight, SlidersHorizontal } from "lucide-react";
+import { ArrowDownRight, ArrowLeftRight, ArrowUpRight, SlidersHorizontal } from "lucide-react";
 
+import { EmptyState } from "@/components/common/empty-state";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -21,9 +22,11 @@ const ICONS: Record<MovementType, typeof ArrowUpRight> = {
 export function MovementHistory({ movements }: { movements: StockMovement[] }) {
   if (movements.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-border/60 p-10 text-center text-sm text-muted-foreground">
-        Nenhuma movimentação registrada.
-      </div>
+      <EmptyState
+        icon={ArrowLeftRight}
+        title="Nenhuma movimentação registrada"
+        description="Entradas, saídas e ajustes de estoque aparecem aqui."
+      />
     );
   }
 

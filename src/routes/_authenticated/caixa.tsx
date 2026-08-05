@@ -34,6 +34,7 @@ import { exportCashExcel, exportCashPdf } from "@/lib/cash-report";
 import { formatCurrency } from "@/lib/format";
 import { parseNumber } from "@/lib/validations/stock";
 import { CASH_TYPE_LABEL, expectedBalance, type CashSession } from "@/types/cash";
+import { PageHeader } from "@/components/common/page-header";
 
 export const Route = createFileRoute("/_authenticated/caixa")({
   head: () => ({
@@ -47,7 +48,8 @@ export const Route = createFileRoute("/_authenticated/caixa")({
       { property: "og:title", content: "Caixa — Açaí Express Manager" },
       {
         property: "og:description",
-        content: "Controle de caixa com histórico, fechamento automático e relatórios em PDF e Excel.",
+        content:
+          "Controle de caixa com histórico, fechamento automático e relatórios em PDF e Excel.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -140,15 +142,11 @@ function CaixaPage() {
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Caixa</h1>
-          <p className="text-sm text-muted-foreground">
-            Abertura, movimentos, sangrias e fechamento com conferência de valores.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {current ? (
+      <PageHeader
+        title="Caixa"
+        description="Abertura, movimentos, sangrias e fechamento com conferência de valores."
+        actions={
+          current ? (
             <>
               <Button variant="outline" onClick={() => void report(current, "pdf")}>
                 <FileText className="mr-2 h-4 w-4" />
@@ -165,9 +163,9 @@ function CaixaPage() {
                 }
               />
             </>
-          ) : null}
-        </div>
-      </header>
+          ) : null
+        }
+      />
 
       {sessions.isLoading ? (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -224,7 +222,9 @@ function CaixaPage() {
                   <div className="space-y-1 rounded-xl bg-muted/40 p-3 text-sm">
                     <p className="flex justify-between">
                       <span className="text-muted-foreground">Abertura</span>
-                      <span className="font-semibold">{formatCurrency(current.opening_amount)}</span>
+                      <span className="font-semibold">
+                        {formatCurrency(current.opening_amount)}
+                      </span>
                     </p>
                     <p className="flex justify-between">
                       <span className="text-muted-foreground">Entradas</span>
@@ -233,7 +233,9 @@ function CaixaPage() {
                     <p className="flex justify-between">
                       <span className="text-muted-foreground">Saídas + sangrias</span>
                       <span className="font-semibold">
-                        {formatCurrency(Number(current.total_out) + Number(current.total_withdrawal))}
+                        {formatCurrency(
+                          Number(current.total_out) + Number(current.total_withdrawal),
+                        )}
                       </span>
                     </p>
                     <p className="flex justify-between border-t border-border/60 pt-1">
@@ -317,7 +319,9 @@ function CaixaPage() {
                     <TableBody>
                       {(transactions.data ?? []).map((item) => (
                         <TableRow key={item.id}>
-                          <TableCell className="whitespace-nowrap">{moment(item.created_at)}</TableCell>
+                          <TableCell className="whitespace-nowrap">
+                            {moment(item.created_at)}
+                          </TableCell>
                           <TableCell>
                             <Badge variant={item.type === "entrada" ? "secondary" : "outline"}>
                               {CASH_TYPE_LABEL[item.type]}
@@ -346,7 +350,10 @@ function CaixaPage() {
                       ))}
                       {(transactions.data ?? []).length === 0 ? (
                         <TableRow>
-                          <TableCell colSpan={6} className="py-8 text-center text-sm text-muted-foreground">
+                          <TableCell
+                            colSpan={6}
+                            className="py-8 text-center text-sm text-muted-foreground"
+                          >
                             Nenhum movimento registrado.
                           </TableCell>
                         </TableRow>

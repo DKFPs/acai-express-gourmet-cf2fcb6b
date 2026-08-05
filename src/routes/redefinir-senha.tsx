@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Loader2, Lock } from "lucide-react";
 import { toast } from "sonner";
 
+import { friendlyError } from "@/lib/errors";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,7 +15,10 @@ export const Route = createFileRoute("/redefinir-senha")({
   head: () => ({
     meta: [
       { title: "Redefinir senha — Açaí Express Manager" },
-      { name: "description", content: "Defina uma nova senha para sua conta do Açaí Express Manager." },
+      {
+        name: "description",
+        content: "Defina uma nova senha para sua conta do Açaí Express Manager.",
+      },
       { property: "og:title", content: "Redefinir senha — Açaí Express Manager" },
       {
         property: "og:description",
@@ -43,7 +48,7 @@ function ResetPasswordPage() {
       toast.success("Senha atualizada com sucesso!");
       void navigate({ to: "/dashboard", replace: true });
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Não foi possível atualizar a senha.");
+      toast.error(friendlyError(error, "Não foi possível atualizar a senha."));
     } finally {
       setSubmitting(false);
     }
@@ -82,7 +87,11 @@ function ResetPasswordPage() {
             />
           </div>
         </div>
-        <Button type="submit" className="h-11 w-full rounded-xl text-sm font-semibold" disabled={submitting}>
+        <Button
+          type="submit"
+          className="h-11 w-full rounded-xl text-sm font-semibold"
+          disabled={submitting}
+        >
           {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Salvar nova senha
         </Button>

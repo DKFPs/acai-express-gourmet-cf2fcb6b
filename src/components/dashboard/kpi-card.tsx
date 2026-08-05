@@ -13,7 +13,15 @@ interface KpiCardProps {
   delay?: number;
 }
 
-export function KpiCard({ label, value, icon: Icon, hint, change, changeLabel, delay = 0 }: KpiCardProps) {
+export function KpiCard({
+  label,
+  value,
+  icon: Icon,
+  hint,
+  change,
+  changeLabel,
+  delay = 0,
+}: KpiCardProps) {
   const positive = (change ?? 0) > 0;
   const negative = (change ?? 0) < 0;
   const ChangeIcon = positive ? ArrowUpRight : negative ? ArrowDownRight : Minus;
@@ -25,7 +33,9 @@ export function KpiCard({ label, value, icon: Icon, hint, change, changeLabel, d
     >
       <CardContent className="space-y-2 p-4">
         <div className="flex items-center justify-between">
-          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            {label}
+          </p>
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary/10 text-primary">
             <Icon className="h-4 w-4" />
           </span>

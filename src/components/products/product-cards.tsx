@@ -1,5 +1,6 @@
-import { ImageIcon, Pencil, Trash2 } from "lucide-react";
+import { ImageIcon, Package, Pencil, Trash2 } from "lucide-react";
 
+import { EmptyState } from "@/components/common/empty-state";
 import { ProductCardsSkeleton } from "@/components/products/product-skeletons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -27,11 +28,11 @@ export function ProductCards({
 
   if (products.length === 0) {
     return (
-      <Card className="rounded-2xl border-dashed border-border/70 bg-card/50">
-        <CardContent className="py-12 text-center text-sm text-muted-foreground">
-          Nenhum produto encontrado com os filtros atuais.
-        </CardContent>
-      </Card>
+      <EmptyState
+        icon={Package}
+        title="Nenhum produto encontrado"
+        description="Nenhum produto corresponde aos filtros atuais."
+      />
     );
   }
 

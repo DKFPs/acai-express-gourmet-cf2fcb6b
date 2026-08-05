@@ -51,10 +51,14 @@ export function CashHistory({ sessions, onReport }: CashHistoryProps) {
               <TableRow key={session.id}>
                 <TableCell className="whitespace-nowrap">{moment(session.opened_at)}</TableCell>
                 <TableCell className="whitespace-nowrap">{moment(session.closed_at)}</TableCell>
-                <TableCell className="text-right">{formatCurrency(session.opening_amount)}</TableCell>
+                <TableCell className="text-right">
+                  {formatCurrency(session.opening_amount)}
+                </TableCell>
                 <TableCell className="text-right">{formatCurrency(session.total_in)}</TableCell>
                 <TableCell className="text-right">{formatCurrency(session.total_out)}</TableCell>
-                <TableCell className="text-right">{formatCurrency(session.total_withdrawal)}</TableCell>
+                <TableCell className="text-right">
+                  {formatCurrency(session.total_withdrawal)}
+                </TableCell>
                 <TableCell className="text-right">
                   {formatCurrency(session.expected_amount ?? expectedBalance(session))}
                 </TableCell>

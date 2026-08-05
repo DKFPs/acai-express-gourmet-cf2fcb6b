@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash2, Users } from "lucide-react";
 
+import { EmptyState } from "@/components/common/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,9 +36,11 @@ interface Props {
 export function CustomerTable({ customers, canManage, onEdit, onDelete }: Props) {
   if (!customers.length) {
     return (
-      <div className="rounded-2xl border border-border/60 bg-card/60 p-10 text-center text-sm text-muted-foreground">
-        Nenhum cliente encontrado com os filtros atuais.
-      </div>
+      <EmptyState
+        icon={Users}
+        title="Nenhum cliente encontrado"
+        description="Nenhum cliente corresponde aos filtros atuais."
+      />
     );
   }
 

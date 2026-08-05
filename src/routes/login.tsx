@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Loader2, Lock, Mail, User } from "lucide-react";
 import { toast } from "sonner";
 
+import { friendlyError } from "@/lib/errors";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -56,7 +58,7 @@ function LoginPage() {
         }
       }
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Não foi possível continuar.");
+      toast.error(friendlyError(error, "Não foi possível continuar."));
     } finally {
       setSubmitting(false);
     }
@@ -141,7 +143,11 @@ function LoginPage() {
           </div>
         </div>
 
-        <Button type="submit" className="h-11 w-full rounded-xl text-sm font-semibold" disabled={submitting}>
+        <Button
+          type="submit"
+          className="h-11 w-full rounded-xl text-sm font-semibold"
+          disabled={submitting}
+        >
           {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {mode === "login" ? "Entrar" : "Criar conta"}
         </Button>

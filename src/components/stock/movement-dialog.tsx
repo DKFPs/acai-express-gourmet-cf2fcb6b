@@ -28,11 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  parseNumber,
-  movementSchema,
-  type MovementFormValues,
-} from "@/lib/validations/stock";
+import { parseNumber, movementSchema, type MovementFormValues } from "@/lib/validations/stock";
 import { MOVEMENT_LABELS, type Ingredient, type MovementInput } from "@/types/stock";
 
 interface MovementDialogProps {

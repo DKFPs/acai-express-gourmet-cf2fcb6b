@@ -98,7 +98,11 @@ function PedidoDetalhePage() {
           </p>
         </div>
         {isAdmin ? (
-          <Button variant="outline" className="text-destructive" onClick={() => setConfirmOpen(true)}>
+          <Button
+            variant="outline"
+            className="text-destructive"
+            onClick={() => setConfirmOpen(true)}
+          >
             Excluir pedido
           </Button>
         ) : null}
@@ -123,7 +127,9 @@ function PedidoDetalhePage() {
                 {order.delivery_address ?? "Retirada no balcão"}
               </p>
               {order.notes ? (
-                <p className="rounded-xl bg-background/50 p-3 text-muted-foreground">{order.notes}</p>
+                <p className="rounded-xl bg-background/50 p-3 text-muted-foreground">
+                  {order.notes}
+                </p>
               ) : null}
             </CardContent>
           </Card>

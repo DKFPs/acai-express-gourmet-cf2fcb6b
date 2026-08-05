@@ -3,6 +3,8 @@ import { useState } from "react";
 import { ArrowLeft, Loader2, Mail } from "lucide-react";
 import { toast } from "sonner";
 
+import { friendlyError } from "@/lib/errors";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,7 +15,10 @@ export const Route = createFileRoute("/recuperar-senha")({
   head: () => ({
     meta: [
       { title: "Recuperar senha — Açaí Express Manager" },
-      { name: "description", content: "Receba um link seguro para redefinir a senha da sua conta." },
+      {
+        name: "description",
+        content: "Receba um link seguro para redefinir a senha da sua conta.",
+      },
       { property: "og:title", content: "Recuperar senha — Açaí Express Manager" },
       {
         property: "og:description",
@@ -38,7 +43,7 @@ function ForgotPasswordPage() {
       setSent(true);
       toast.success("Enviamos um link de recuperação para o seu e-mail.");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Não foi possível enviar o e-mail.");
+      toast.error(friendlyError(error, "Não foi possível enviar o e-mail."));
     } finally {
       setSubmitting(false);
     }
@@ -77,7 +82,11 @@ function ForgotPasswordPage() {
               />
             </div>
           </div>
-          <Button type="submit" className="h-11 w-full rounded-xl text-sm font-semibold" disabled={submitting}>
+          <Button
+            type="submit"
+            className="h-11 w-full rounded-xl text-sm font-semibold"
+            disabled={submitting}
+          >
             {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Enviar link de recuperação
           </Button>

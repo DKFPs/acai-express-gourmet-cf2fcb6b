@@ -16,7 +16,11 @@ export interface OrderListResult {
   total: number;
 }
 
-function applySort(query: any, sort: OrderFilters["sort"]) {
+interface SortableQuery<T> {
+  order: (column: string, options?: { ascending?: boolean }) => T;
+}
+
+function applySort<T extends SortableQuery<T>>(query: T, sort: OrderFilters["sort"]): T {
   switch (sort) {
     case "antigos":
       return query.order("created_at", { ascending: true });
@@ -43,16 +47,15 @@ export const orderService = {
     if (search) {
       const escaped = search.replace(/[%,()]/g, " ");
       const numeric = Number(escaped);
-      const clauses = [
-        `customer_name.ilike.%${escaped}%`,
-        `customer_phone.ilike.%${escaped}%`,
-      ];
+      const clauses = [`customer_name.ilike.%${escaped}%`, `customer_phone.ilike.%${escaped}%`];
       if (Number.isFinite(numeric) && escaped !== "") clauses.push(`order_number.eq.${numeric}`);
       query = query.or(clauses.join(","));
     }
     if (filters.status !== "todos") query = query.eq("status", filters.status);
-    if (filters.paymentMethod !== "todas") query = query.eq("payment_method", filters.paymentMethod);
-    if (filters.paymentStatus !== "todos") query = query.eq("payment_status", filters.paymentStatus);
+    if (filters.paymentMethod !== "todas")
+      query = query.eq("payment_method", filters.paymentMethod);
+    if (filters.paymentStatus !== "todos")
+      query = query.eq("payment_status", filters.paymentStatus);
 
     const { data, error, count } = await query;
     if (error) throw error;

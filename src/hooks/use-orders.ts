@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import { friendlyError } from "@/lib/errors";
+
 import { useAuth } from "@/hooks/use-auth";
 import { customerService, orderService } from "@/services/order.service";
 import type {
@@ -46,7 +48,7 @@ export function useOrderMutations() {
       toast.success("Pedido criado com sucesso");
       invalidate();
     },
-    onError: (error: Error) => toast.error(error.message),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const updateStatus = useMutation({
@@ -56,7 +58,7 @@ export function useOrderMutations() {
       toast.success("Status atualizado");
       invalidate();
     },
-    onError: (error: Error) => toast.error(error.message),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const updatePayment = useMutation({
@@ -66,7 +68,7 @@ export function useOrderMutations() {
       toast.success("Pagamento atualizado");
       invalidate();
     },
-    onError: (error: Error) => toast.error(error.message),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const remove = useMutation({
@@ -75,7 +77,7 @@ export function useOrderMutations() {
       toast.success("Pedido excluído");
       invalidate();
     },
-    onError: (error: Error) => toast.error(error.message),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   return { create, updateStatus, updatePayment, remove };
@@ -92,7 +94,7 @@ export function useCustomerMutations() {
       toast.success("Cliente cadastrado");
       void queryClient.invalidateQueries({ queryKey: ["customers"] });
     },
-    onError: (error: Error) => toast.error(error.message),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   return { create };

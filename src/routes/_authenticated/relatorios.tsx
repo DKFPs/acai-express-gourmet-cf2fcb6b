@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { BarChart3, FileSpreadsheet, FileText, Printer } from "lucide-react";
 
+import { PageHeader } from "@/components/common/page-header";
 import { ReportCharts } from "@/components/reports/report-charts";
 import { ReportTable } from "@/components/reports/report-table";
 import { Button } from "@/components/ui/button";
@@ -80,15 +81,11 @@ function RelatoriosPage() {
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-col gap-2">
-        <h1 className="flex items-center gap-2 text-2xl font-semibold tracking-tight">
-          <BarChart3 className="size-6 text-primary" />
-          Relatórios
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          {kindMeta?.description} · {periodLabel(period)}
-        </p>
-      </header>
+      <PageHeader
+        icon={BarChart3}
+        title="Relatórios"
+        description={`${kindMeta?.description ?? ""} · ${periodLabel(period)}`}
+      />
 
       <Card>
         <CardContent className="grid gap-4 pt-6 md:grid-cols-2 xl:grid-cols-5">
@@ -188,7 +185,9 @@ function RelatoriosPage() {
             {data.kpis.map((kpi) => (
               <Card key={kpi.label} className="animate-fade-up">
                 <CardContent className="pt-6">
-                  <p className="text-xs uppercase tracking-wide text-muted-foreground">{kpi.label}</p>
+                  <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                    {kpi.label}
+                  </p>
                   <p className="mt-1 text-2xl font-semibold tabular-nums">
                     {formatValue(kpi.value, kpi.format)}
                   </p>

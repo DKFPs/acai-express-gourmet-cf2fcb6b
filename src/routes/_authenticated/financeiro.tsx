@@ -12,6 +12,7 @@ import {
   Wallet,
 } from "lucide-react";
 
+import { PageHeader } from "@/components/common/page-header";
 import { CashRegisterPanel } from "@/components/finance/cash-register-panel";
 import { CategoriesDialog } from "@/components/finance/categories-dialog";
 import { EntryCards } from "@/components/finance/entry-cards";
@@ -177,43 +178,41 @@ function FinanceiroPage() {
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Financeiro</h1>
-          <p className="text-sm text-muted-foreground">
-            Receitas, despesas, compras, investimentos, caixa e resultado do negócio.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="outline" onClick={() => setCategoriesDialog(true)}>
-            <Tags className="mr-2 h-4 w-4" /> Categorias
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => exportFinancePdf(periodEntries, summary, periodLabel)}
-            disabled={periodEntries.length === 0}
-          >
-            <FileText className="mr-2 h-4 w-4" /> PDF
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => exportFinanceExcel(periodEntries, summary, periodLabel)}
-            disabled={periodEntries.length === 0}
-          >
-            <FileSpreadsheet className="mr-2 h-4 w-4" /> Excel
-          </Button>
-          {canManage ? (
-            <Button
-              onClick={() => {
-                setEditing(null);
-                setEntryDialog(true);
-              }}
-            >
-              <Plus className="mr-2 h-4 w-4" /> Novo lançamento
+      <PageHeader
+        title="Financeiro"
+        description="Receitas, despesas, compras, investimentos, caixa e resultado do negócio."
+        actions={
+          <>
+            <Button variant="outline" onClick={() => setCategoriesDialog(true)}>
+              <Tags className="mr-2 h-4 w-4" /> Categorias
             </Button>
-          ) : null}
-        </div>
-      </header>
+            <Button
+              variant="outline"
+              onClick={() => exportFinancePdf(periodEntries, summary, periodLabel)}
+              disabled={periodEntries.length === 0}
+            >
+              <FileText className="mr-2 h-4 w-4" /> PDF
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => exportFinanceExcel(periodEntries, summary, periodLabel)}
+              disabled={periodEntries.length === 0}
+            >
+              <FileSpreadsheet className="mr-2 h-4 w-4" /> Excel
+            </Button>
+            {canManage ? (
+              <Button
+                onClick={() => {
+                  setEditing(null);
+                  setEntryDialog(true);
+                }}
+              >
+                <Plus className="mr-2 h-4 w-4" /> Novo lançamento
+              </Button>
+            ) : null}
+          </>
+        }
+      />
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="space-y-2 sm:col-span-2 lg:col-span-2">
@@ -250,7 +249,10 @@ function FinanceiroPage() {
       </div>
 
       <div className="grid gap-3 sm:grid-cols-3">
-        <Select value={filters.type} onValueChange={(value) => patch({ type: value as FinancialFilters["type"] })}>
+        <Select
+          value={filters.type}
+          onValueChange={(value) => patch({ type: value as FinancialFilters["type"] })}
+        >
           <SelectTrigger>
             <SelectValue placeholder="Tipo" />
           </SelectTrigger>
@@ -318,7 +320,9 @@ function FinanceiroPage() {
         <Card className="rounded-2xl">
           <CardContent className="p-5">
             <p className="text-sm text-muted-foreground">Contas pagas no período</p>
-            <p className="text-xl font-semibold text-emerald-500">{formatCurrency(summary.pagas)}</p>
+            <p className="text-xl font-semibold text-emerald-500">
+              {formatCurrency(summary.pagas)}
+            </p>
           </CardContent>
         </Card>
         <Card className="rounded-2xl">
@@ -326,7 +330,9 @@ function FinanceiroPage() {
             <p className="text-sm text-muted-foreground">
               Contas pendentes ({summary.pendentesCount})
             </p>
-            <p className="text-xl font-semibold text-amber-500">{formatCurrency(summary.pendentes)}</p>
+            <p className="text-xl font-semibold text-amber-500">
+              {formatCurrency(summary.pendentes)}
+            </p>
           </CardContent>
         </Card>
       </div>

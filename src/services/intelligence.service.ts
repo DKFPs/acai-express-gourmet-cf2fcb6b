@@ -41,7 +41,11 @@ interface ItemRow {
   line_total: number | null;
 }
 
-function buildFlavors(items: ItemRow[], costByProduct: Map<string, number>, costByName: Map<string, number>) {
+function buildFlavors(
+  items: ItemRow[],
+  costByProduct: Map<string, number>,
+  costByName: Map<string, number>,
+) {
   const map = new Map<string, FlavorStat>();
   for (const item of items) {
     const name = item.product_name;
@@ -65,38 +69,65 @@ export const intelligenceService = {
     const start = daysAgo(days);
     const previousStart = daysAgo(days * 2);
 
-    const [ordersRes, productsRes, recipesRes, ingredientsRes, packagingRes, movementsRes, packItemsRes, batchesRes, finishedRes] =
-      await Promise.all([
-        supabase
-          .from("orders")
-          .select("id, created_at, total, customer_id, customer_name")
-          .neq("status", "cancelado")
-          .gte("created_at", previousStart.toISOString())
-          .order("created_at", { ascending: true }),
-        supabase.from("products").select("id, name, price, cost"),
-        supabase.from("recipes").select("id, name, cost_per_unit, sale_price"),
-        supabase.from("ingredients").select("id, name, unit, quantity, purchase_price").eq("is_active", true),
-        supabase.from("packaging_stock").select("id, name, unit, quantity, unit_cost").eq("is_active", true),
-        supabase
-          .from("stock_movements")
-          .select("ingredient_id, type, quantity, unit_cost, created_at")
-          .eq("type", "saida")
-          .gte("created_at", start.toISOString()),
-        supabase
-          .from("production_items")
-          .select("packaging_id, quantity, production_batches!inner(produced_at)")
-          .not("packaging_id", "is", null)
-          .gte("production_batches.produced_at", start.toISOString()),
-        supabase
-          .from("production_batches")
-          .select("id, batch_code, expires_at, produced_quantity, discarded_quantity, status, recipes(name)")
-          .not("expires_at", "is", null)
-          .order("expires_at", { ascending: true })
-          .limit(50),
-        supabase.from("finished_products").select("recipe_id, name, quantity_available"),
-      ]);
+    const [
+      ordersRes,
+      productsRes,
+      recipesRes,
+      ingredientsRes,
+      packagingRes,
+      movementsRes,
+      packItemsRes,
+      batchesRes,
+      finishedRes,
+    ] = await Promise.all([
+      supabase
+        .from("orders")
+        .select("id, created_at, total, customer_id, customer_name")
+        .neq("status", "cancelado")
+        .gte("created_at", previousStart.toISOString())
+        .order("created_at", { ascending: true }),
+      supabase.from("products").select("id, name, price, cost"),
+      supabase.from("recipes").select("id, name, cost_per_unit, sale_price"),
+      supabase
+        .from("ingredients")
+        .select("id, name, unit, quantity, purchase_price")
+        .eq("is_active", true),
+      supabase
+        .from("packaging_stock")
+        .select("id, name, unit, quantity, unit_cost")
+        .eq("is_active", true),
+      supabase
+        .from("stock_movements")
+        .select("ingredient_id, type, quantity, unit_cost, created_at")
+        .eq("type", "saida")
+        .gte("created_at", start.toISOString()),
+      supabase
+        .from("production_items")
+        .select("packaging_id, quantity, production_batches!inner(produced_at)")
+        .not("packaging_id", "is", null)
+        .gte("production_batches.produced_at", start.toISOString()),
+      supabase
+        .from("production_batches")
+        .select(
+          "id, batch_code, expires_at, produced_quantity, discarded_quantity, status, recipes(name)",
+        )
+        .not("expires_at", "is", null)
+        .order("expires_at", { ascending: true })
+        .limit(50),
+      supabase.from("finished_products").select("recipe_id, name, quantity_available"),
+    ]);
 
-    for (const res of [ordersRes, productsRes, recipesRes, ingredientsRes, packagingRes, movementsRes, packItemsRes, batchesRes, finishedRes]) {
+    for (const res of [
+      ordersRes,
+      productsRes,
+      recipesRes,
+      ingredientsRes,
+      packagingRes,
+      movementsRes,
+      packItemsRes,
+      batchesRes,
+      finishedRes,
+    ]) {
       if (res.error) throw res.error;
     }
 
@@ -131,7 +162,8 @@ export const intelligenceService = {
     const costByName = new Map<string, number>();
     for (const p of products) costByName.set(p.name.toLowerCase(), Number(p.cost ?? 0));
     for (const r of recipes) {
-      if (!costByName.has(r.name.toLowerCase())) costByName.set(r.name.toLowerCase(), Number(r.cost_per_unit ?? 0));
+      if (!costByName.has(r.name.toLowerCase()))
+        costByName.set(r.name.toLowerCase(), Number(r.cost_per_unit ?? 0));
     }
 
     const sabores = buildFlavors(currentItems, costByProduct, costByName);
@@ -175,7 +207,12 @@ export const intelligenceService = {
       clienteMap.set(key, customer);
 
       const day = dayKey(order.created_at);
-      const point = trendMap.get(day) ?? { label: day.slice(8, 10) + "/" + day.slice(5, 7), receita: 0, custo: 0, lucro: 0 };
+      const point = trendMap.get(day) ?? {
+        label: day.slice(8, 10) + "/" + day.slice(5, 7),
+        receita: 0,
+        custo: 0,
+        lucro: 0,
+      };
       point.receita += total;
       trendMap.set(day, point);
     }
@@ -200,7 +237,12 @@ export const intelligenceService = {
       .map((product) => {
         const price = Number(product.price ?? 0);
         const cost = Number(product.cost ?? 0);
-        return { name: product.name, preco: price, custo: cost, margem: ((price - cost) / price) * 100 };
+        return {
+          name: product.name,
+          preco: price,
+          custo: cost,
+          margem: ((price - cost) / price) * 100,
+        };
       })
       .sort((a, b) => b.margem - a.margem);
 
@@ -212,10 +254,14 @@ export const intelligenceService = {
     for (const movement of movementsRes.data ?? []) {
       if (!movement.ingredient_id) continue;
       const quantity = Number(movement.quantity ?? 0);
-      consumoIngrediente.set(movement.ingredient_id, (consumoIngrediente.get(movement.ingredient_id) ?? 0) + quantity);
+      consumoIngrediente.set(
+        movement.ingredient_id,
+        (consumoIngrediente.get(movement.ingredient_id) ?? 0) + quantity,
+      );
       custoIngrediente.set(
         movement.ingredient_id,
-        (custoIngrediente.get(movement.ingredient_id) ?? 0) + quantity * Number(movement.unit_cost ?? 0),
+        (custoIngrediente.get(movement.ingredient_id) ?? 0) +
+          quantity * Number(movement.unit_cost ?? 0),
       );
     }
 
@@ -239,9 +285,15 @@ export const intelligenceService = {
     }
 
     const consumoEmbalagem = new Map<string, number>();
-    for (const row of (packItemsRes.data ?? []) as { packaging_id: string | null; quantity: number }[]) {
+    for (const row of (packItemsRes.data ?? []) as {
+      packaging_id: string | null;
+      quantity: number;
+    }[]) {
       if (!row.packaging_id) continue;
-      consumoEmbalagem.set(row.packaging_id, (consumoEmbalagem.get(row.packaging_id) ?? 0) + Number(row.quantity ?? 0));
+      consumoEmbalagem.set(
+        row.packaging_id,
+        (consumoEmbalagem.get(row.packaging_id) ?? 0) + Number(row.quantity ?? 0),
+      );
     }
     for (const pack of packagingRes.data ?? []) {
       const consumo = (consumoEmbalagem.get(pack.id) ?? 0) / days;
@@ -257,20 +309,24 @@ export const intelligenceService = {
     projecoes.sort((a, b) => (a.diasRestantes ?? Infinity) - (b.diasRestantes ?? Infinity));
 
     const today = new Date();
-    const lotesVencendo = ((batchesRes.data ?? []) as {
-      batch_code: string | null;
-      expires_at: string | null;
-      produced_quantity: number;
-      discarded_quantity: number;
-      status: string;
-      recipes: { name: string } | null;
-    }[])
+    const lotesVencendo = (
+      (batchesRes.data ?? []) as {
+        batch_code: string | null;
+        expires_at: string | null;
+        produced_quantity: number;
+        discarded_quantity: number;
+        status: string;
+        recipes: { name: string } | null;
+      }[]
+    )
       .filter((batch) => batch.expires_at && batch.status !== "descartado")
       .map((batch) => ({
         name: batch.recipes?.name ?? "Lote",
         batch_code: batch.batch_code,
         expires_at: batch.expires_at as string,
-        dias: Math.ceil((new Date(batch.expires_at as string).getTime() - today.getTime()) / 86400000),
+        dias: Math.ceil(
+          (new Date(batch.expires_at as string).getTime() - today.getTime()) / 86400000,
+        ),
       }))
       .filter((batch) => batch.dias <= 5)
       .slice(0, 5);
@@ -289,7 +345,9 @@ export const intelligenceService = {
       margens,
       ingredientes: ingredientesCusto,
       projecoes,
-      tendencia: [...trendMap.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([, point]) => point),
+      tendencia: [...trendMap.entries()]
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([, point]) => point),
       lotesVencendo,
       prontos: (finishedRes.data ?? []).map((item) => ({
         recipe_id: item.recipe_id,

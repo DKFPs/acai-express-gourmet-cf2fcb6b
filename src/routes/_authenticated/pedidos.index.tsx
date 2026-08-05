@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Plus, Search } from "lucide-react";
 
+import { PageHeader } from "@/components/common/page-header";
 import { ConfirmDeleteDialog } from "@/components/products/confirm-delete-dialog";
 import { OrderCards } from "@/components/orders/order-cards";
 import { OrderCardsSkeleton } from "@/components/orders/order-skeletons";
@@ -77,19 +78,17 @@ function PedidosPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Pedidos</h1>
-          <p className="text-sm text-muted-foreground">
-            {total} pedido{total === 1 ? "" : "s"} registrado{total === 1 ? "" : "s"}
-          </p>
-        </div>
-        <Button asChild>
-          <Link to="/pedidos/novo">
-            <Plus className="mr-2 h-4 w-4" /> Novo pedido
-          </Link>
-        </Button>
-      </div>
+      <PageHeader
+        title="Pedidos"
+        description={`${total} pedido${total === 1 ? "" : "s"} registrado${total === 1 ? "" : "s"}`}
+        actions={
+          <Button asChild>
+            <Link to="/pedidos/novo">
+              <Plus className="mr-2 h-4 w-4" /> Novo pedido
+            </Link>
+          </Button>
+        }
+      />
 
       <div className="grid gap-3 rounded-2xl border border-border/60 bg-card/60 p-4 shadow-soft md:grid-cols-2 xl:grid-cols-5">
         <div className="relative md:col-span-2 xl:col-span-1">

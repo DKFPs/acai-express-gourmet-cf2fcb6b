@@ -123,7 +123,13 @@ export function ProductionDashboard({ data }: { data: ProductionOverview | undef
                   contentStyle={tooltipStyle}
                   formatter={(value: number) => formatCurrency(value)}
                 />
-                <Line type="monotone" dataKey="cost" name="Custo" stroke="#D4AF37" strokeWidth={2} />
+                <Line
+                  type="monotone"
+                  dataKey="cost"
+                  name="Custo"
+                  stroke="#D4AF37"
+                  strokeWidth={2}
+                />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
@@ -137,7 +143,13 @@ export function ProductionDashboard({ data }: { data: ProductionOverview | undef
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.topRecipes}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="name" tick={{ fontSize: 10 }} interval={0} angle={-15} height={50} />
+                <XAxis
+                  dataKey="name"
+                  tick={{ fontSize: 10 }}
+                  interval={0}
+                  angle={-15}
+                  height={50}
+                />
                 <YAxis tick={{ fontSize: 11 }} />
                 <Tooltip contentStyle={tooltipStyle} />
                 <Bar dataKey="quantity" name="Unidades" radius={[8, 8, 0, 0]}>
@@ -186,7 +198,9 @@ export function ProductionDashboard({ data }: { data: ProductionOverview | undef
               </p>
               <p
                 className={
-                  recipe.profit < 0 ? "text-sm font-semibold text-destructive" : "text-sm font-semibold"
+                  recipe.profit < 0
+                    ? "text-sm font-semibold text-destructive"
+                    : "text-sm font-semibold"
                 }
               >
                 {formatCurrency(recipe.profit)}

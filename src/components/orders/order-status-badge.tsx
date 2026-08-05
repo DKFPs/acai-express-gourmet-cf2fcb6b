@@ -29,7 +29,10 @@ export function OrderStatusBadge({
   className?: string;
 }) {
   return (
-    <Badge variant="outline" className={cn("rounded-full font-medium", STATUS_STYLES[status], className)}>
+    <Badge
+      variant="outline"
+      className={cn("rounded-full font-medium", STATUS_STYLES[status], className)}
+    >
       {ORDER_STATUS_LABELS[status]}
     </Badge>
   );

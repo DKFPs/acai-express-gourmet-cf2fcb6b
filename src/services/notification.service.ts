@@ -30,7 +30,10 @@ export const notificationService = {
     );
   },
 
-  async create(companyId: string, input: { title: string; message?: string; type?: string; link?: string }) {
+  async create(
+    companyId: string,
+    input: { title: string; message?: string; type?: string; link?: string },
+  ) {
     const { error } = await supabase.from("notifications").insert({
       company_id: companyId,
       title: input.title,

@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import { ImagePlus, Loader2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { friendlyError } from "@/lib/errors";
+
 import { Button } from "@/components/ui/button";
 import { productService } from "@/services/product.service";
 import { cn } from "@/lib/utils";
@@ -37,7 +39,7 @@ export function ImageUpload({ value, previewUrl, onChange, disabled }: ImageUplo
       onChange(path, signed);
       toast.success("Foto enviada");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Falha no upload da imagem");
+      toast.error(friendlyError(error, "Falha no upload da imagem."));
     } finally {
       setUploading(false);
     }
@@ -80,7 +82,11 @@ export function ImageUpload({ value, previewUrl, onChange, disabled }: ImageUplo
             disabled={disabled || uploading}
             onClick={() => inputRef.current?.click()}
           >
-            {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
+            {uploading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <ImagePlus className="h-4 w-4" />
+            )}
             {value ? "Trocar foto" : "Enviar foto"}
           </Button>
           {value ? (

@@ -229,7 +229,9 @@ export function CustomerDialog({ open, onOpenChange, customer }: Props) {
                 <FormItem className="flex items-center justify-between rounded-xl border border-border/60 p-3">
                   <div>
                     <FormLabel>Cliente ativo</FormLabel>
-                    <FormDescription>Clientes inativos não aparecem em novos pedidos.</FormDescription>
+                    <FormDescription>
+                      Clientes inativos não aparecem em novos pedidos.
+                    </FormDescription>
                   </div>
                   <FormControl>
                     <Switch checked={field.value} onCheckedChange={field.onChange} />

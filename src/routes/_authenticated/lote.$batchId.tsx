@@ -129,7 +129,9 @@ function BatchDetailPage() {
             {VALIDITY_LABELS[status]}
           </Badge>
         </div>
-        {qr ? <img src={qr} alt="QR Code do lote" className="size-28 rounded-xl bg-white p-1" /> : null}
+        {qr ? (
+          <img src={qr} alt="QR Code do lote" className="size-28 rounded-xl bg-white p-1" />
+        ) : null}
       </header>
 
       <Card className="rounded-2xl">

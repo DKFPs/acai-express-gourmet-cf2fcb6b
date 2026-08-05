@@ -128,9 +128,7 @@ export function PriceSimulator({ recipes }: { recipes: Recipe[] }) {
                     setState((current) => ({ ...current, [field.key]: event.target.value }))
                   }
                 />
-                {field.hint ? (
-                  <p className="text-xs text-muted-foreground">{field.hint}</p>
-                ) : null}
+                {field.hint ? <p className="text-xs text-muted-foreground">{field.hint}</p> : null}
               </div>
             ))}
           </div>

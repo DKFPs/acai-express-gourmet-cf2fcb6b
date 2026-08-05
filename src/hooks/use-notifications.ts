@@ -25,7 +25,12 @@ export function useNotifications() {
       .channel(`notifications-${companyId}`)
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "notifications", filter: `company_id=eq.${companyId}` },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "notifications",
+          filter: `company_id=eq.${companyId}`,
+        },
         (payload) => {
           const row = payload.new as NotificationRow;
           toast(row.title, { description: row.message ?? undefined });

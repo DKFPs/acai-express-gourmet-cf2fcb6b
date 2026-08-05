@@ -175,9 +175,7 @@ function DashboardPage() {
                 week={data.semana.vendas}
                 month={data.mes.vendas}
                 canManage={can("dashboard.goals")}
-                onSave={(values) =>
-                  saveGoals.mutate({ goals: values, id: goals.data?.id ?? null })
-                }
+                onSave={(values) => saveGoals.mutate({ goals: values, id: goals.data?.id ?? null })}
               />
             ) : (
               <Skeleton className="h-64 w-full rounded-2xl" />
@@ -204,7 +202,8 @@ function DashboardPage() {
                     >
                       <span className="font-medium">{item.name}</span>
                       <span className="text-muted-foreground">
-                        {formatNumber(item.quantity)} {item.unit} · mín {formatNumber(item.min_stock)}
+                        {formatNumber(item.quantity)} {item.unit} · mín{" "}
+                        {formatNumber(item.min_stock)}
                       </span>
                     </div>
                   ))
@@ -231,7 +230,9 @@ function DashboardPage() {
             </CardHeader>
             <CardContent className="grid gap-2 sm:grid-cols-2">
               {data.topProdutos.length === 0 ? (
-                <p className="py-6 text-sm text-muted-foreground">Nenhuma venda registrada no mês.</p>
+                <p className="py-6 text-sm text-muted-foreground">
+                  Nenhuma venda registrada no mês.
+                </p>
               ) : (
                 data.topProdutos.map((product, index) => (
                   <div

@@ -2,11 +2,7 @@ export type FinancialType = "receita" | "despesa" | "compra" | "investimento";
 export type FinancialStatus = "pago" | "pendente" | "cancelado";
 export type CashRegisterStatus = "aberto" | "fechado";
 export type FinancePaymentMethod =
-  | "dinheiro"
-  | "pix"
-  | "cartao_credito"
-  | "cartao_debito"
-  | "outro";
+  "dinheiro" | "pix" | "cartao_credito" | "cartao_debito" | "outro";
 
 export const FINANCIAL_TYPES: { value: FinancialType; label: string }[] = [
   { value: "receita", label: "Receita" },

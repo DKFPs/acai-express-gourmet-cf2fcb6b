@@ -21,7 +21,8 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const { profile, roles, loading } = useAuth();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
 
-  const pendingApproval = !loading && profile !== null && (!profile.is_active || roles.length === 0);
+  const pendingApproval =
+    !loading && profile !== null && (!profile.is_active || roles.length === 0);
 
   if (pendingApproval) {
     return (
@@ -46,7 +47,6 @@ export function AppLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen w-full bg-background">
       <AppSidebar collapsed={collapsed} onToggle={() => setCollapsed((value) => !value)} />
-
 
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
         <SheetContent side="left" className="w-72 border-sidebar-border bg-sidebar p-0">

@@ -1,5 +1,6 @@
-import { CheckCircle2, Pencil, Trash2 } from "lucide-react";
+import { CheckCircle2, Pencil, Receipt, Trash2 } from "lucide-react";
 
+import { EmptyState } from "@/components/common/empty-state";
 import { StatusBadge, formatDay } from "@/components/finance/entry-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,11 +19,11 @@ interface EntryCardsProps {
 export function EntryCards({ items, canManage, onEdit, onDelete, onSettle }: EntryCardsProps) {
   if (items.length === 0) {
     return (
-      <Card className="rounded-2xl">
-        <CardContent className="py-10 text-center text-sm text-muted-foreground">
-          Nenhum lançamento encontrado.
-        </CardContent>
-      </Card>
+      <EmptyState
+        icon={Receipt}
+        title="Nenhum lançamento encontrado"
+        description="Altere o período ou registre um novo lançamento."
+      />
     );
   }
 

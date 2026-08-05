@@ -25,6 +25,7 @@ import {
 import { useAuditLogs } from "@/hooks/use-audit";
 import { usePermissions } from "@/hooks/use-permissions";
 import { AUDIT_ACTION_LABELS, AUDIT_TABLE_LABELS } from "@/types/saas";
+import { PageHeader } from "@/components/common/page-header";
 
 export const Route = createFileRoute("/_authenticated/auditoria")({
   component: AuditoriaPage,
@@ -71,14 +72,11 @@ function AuditoriaPage() {
 
   return (
     <div className="space-y-6 p-4 md:p-6">
-      <header>
-        <h1 className="flex items-center gap-2 text-2xl font-bold tracking-tight">
-          <ScrollText className="h-6 w-6 text-primary" /> Auditoria
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Registro imutável de todas as ações realizadas na empresa.
-        </p>
-      </header>
+      <PageHeader
+        icon={ScrollText}
+        title="Auditoria"
+        description="Registro imutável de todas as ações realizadas na empresa."
+      />
 
       <Card>
         <CardHeader className="gap-4 md:flex-row md:items-end md:justify-between">
@@ -118,7 +116,11 @@ function AuditoriaPage() {
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs">Usuário</Label>
-              <Input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Nome" />
+              <Input
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Nome"
+              />
             </div>
           </div>
         </CardHeader>
@@ -130,7 +132,9 @@ function AuditoriaPage() {
               ))}
             </div>
           ) : logs.length === 0 ? (
-            <p className="py-10 text-center text-sm text-muted-foreground">Nenhum registro encontrado.</p>
+            <p className="py-10 text-center text-sm text-muted-foreground">
+              Nenhum registro encontrado.
+            </p>
           ) : (
             <div className="overflow-x-auto">
               <Table>

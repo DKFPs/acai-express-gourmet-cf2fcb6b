@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import { friendlyError } from "@/lib/errors";
+
 import { useAuth } from "@/hooks/use-auth";
 import {
   finishedProductService,
@@ -14,14 +16,6 @@ import type {
   ProduceInput,
   RecipeInput,
 } from "@/types/production";
-
-function translate(message: string) {
-  const lower = message.toLowerCase();
-  if (lower.includes("row-level security")) return "Você não tem permissão para esta ação.";
-  if (lower.includes("estoque insuficiente")) return message;
-  if (lower.includes("violates foreign key")) return "Registro em uso por outro cadastro.";
-  return message || "Não foi possível concluir a operação.";
-}
 
 export function useRecipes(search = "") {
   return useQuery({
@@ -88,7 +82,7 @@ export function useRecipeMutations() {
       toast.success("Receita cadastrada");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const update = useMutation({
@@ -98,7 +92,7 @@ export function useRecipeMutations() {
       toast.success("Receita atualizada");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const remove = useMutation({
@@ -107,7 +101,7 @@ export function useRecipeMutations() {
       toast.success("Receita excluída");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   return { create, update, remove };
@@ -123,7 +117,7 @@ export function usePackagingMutations() {
       toast.success("Embalagem cadastrada");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const update = useMutation({
@@ -133,7 +127,7 @@ export function usePackagingMutations() {
       toast.success("Embalagem atualizada");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const remove = useMutation({
@@ -142,7 +136,7 @@ export function usePackagingMutations() {
       toast.success("Embalagem excluída");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   return { create, update, remove };
@@ -156,7 +150,7 @@ export function useProduceBatch() {
       toast.success("Lote produzido com sucesso");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 }
 
@@ -171,7 +165,7 @@ export function useFinishedMovementMutations() {
       toast.success("Movimentação registrada");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   return { create };

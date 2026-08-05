@@ -36,7 +36,10 @@ export function GlobalSearch() {
   const companyId = profile?.company_id ?? null;
 
   const pages = useMemo(
-    () => NAVIGATION.flatMap((section) => section.items).filter((item) => !item.soon && can(item.permission)),
+    () =>
+      NAVIGATION.flatMap((section) => section.items).filter(
+        (item) => !item.soon && can(item.permission),
+      ),
     [can],
   );
 
@@ -136,7 +139,11 @@ export function GlobalSearch() {
           {favorites.length > 0 && (
             <CommandGroup heading="Favoritos">
               {favorites.map((item) => (
-                <CommandItem key={item.id} value={`fav ${item.label}`} onSelect={() => go(item.path)}>
+                <CommandItem
+                  key={item.id}
+                  value={`fav ${item.label}`}
+                  onSelect={() => go(item.path)}
+                >
                   {item.label}
                 </CommandItem>
               ))}

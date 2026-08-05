@@ -41,7 +41,9 @@ export const settingsService = {
       .from("product-images")
       .upload(path, file, { upsert: true });
     if (error) throw error;
-    const { data } = await supabase.storage.from("product-images").createSignedUrl(path, 60 * 60 * 24 * 365);
+    const { data } = await supabase.storage
+      .from("product-images")
+      .createSignedUrl(path, 60 * 60 * 24 * 365);
     return data?.signedUrl ?? path;
   },
 
@@ -64,7 +66,8 @@ export const settingsService = {
 
     return (profiles ?? []).map((profile) => ({
       ...profile,
-      role: (roles?.find((r) => r.user_id === profile.id)?.role ?? "funcionario") as CompanyMember["role"],
+      role: (roles?.find((r) => r.user_id === profile.id)?.role ??
+        "funcionario") as CompanyMember["role"],
     }));
   },
 
@@ -76,7 +79,10 @@ export const settingsService = {
   },
 
   async setMemberActive(userId: string, isActive: boolean) {
-    const { error } = await supabase.from("profiles").update({ is_active: isActive }).eq("id", userId);
+    const { error } = await supabase
+      .from("profiles")
+      .update({ is_active: isActive })
+      .eq("id", userId);
     if (error) throw error;
   },
 };

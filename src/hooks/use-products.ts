@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import { friendlyError } from "@/lib/errors";
+
 import { useAuth } from "@/hooks/use-auth";
 import { categoryService, productService } from "@/services/product.service";
 import type { CategoryInput, ProductFilters, ProductInput, ProductRow } from "@/types/product";
@@ -36,7 +38,7 @@ export function useProductMutations() {
       toast.success("Produto criado com sucesso");
       void invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const update = useMutation({
@@ -46,7 +48,7 @@ export function useProductMutations() {
       toast.success("Produto atualizado");
       void invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const remove = useMutation({
@@ -55,7 +57,7 @@ export function useProductMutations() {
       toast.success("Produto excluído");
       void invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   return { create, update, remove };
@@ -77,7 +79,7 @@ export function useCategoryMutations() {
       toast.success("Categoria criada");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const update = useMutation({
@@ -87,7 +89,7 @@ export function useCategoryMutations() {
       toast.success("Categoria atualizada");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const remove = useMutation({
@@ -96,16 +98,8 @@ export function useCategoryMutations() {
       toast.success("Categoria excluída");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   return { create, update, remove };
-}
-
-function translate(message: string) {
-  if (message.includes("duplicate key")) return "Já existe um registro com este código interno.";
-  if (message.toLowerCase().includes("row-level security")) {
-    return "Você não tem permissão para esta ação.";
-  }
-  return message || "Não foi possível concluir a operação.";
 }

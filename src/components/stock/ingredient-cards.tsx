@@ -1,5 +1,6 @@
-import { AlertTriangle, ArrowLeftRight, Pencil, Trash2 } from "lucide-react";
+import { AlertTriangle, ArrowLeftRight, Boxes, Pencil, Trash2 } from "lucide-react";
 
+import { EmptyState } from "@/components/common/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -24,9 +25,11 @@ export function IngredientCards({
 }: IngredientCardsProps) {
   if (items.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-border/60 p-8 text-center text-sm text-muted-foreground">
-        Nenhum ingrediente encontrado.
-      </div>
+      <EmptyState
+        icon={Boxes}
+        title="Nenhum ingrediente encontrado"
+        description="Ajuste os filtros ou cadastre um novo ingrediente."
+      />
     );
   }
 
@@ -39,7 +42,8 @@ export function IngredientCards({
               <div>
                 <p className="font-medium">{item.name}</p>
                 <p className="text-xs text-muted-foreground">
-                  {item.category?.name ?? "Sem categoria"} · {item.supplier?.name ?? "sem fornecedor"}
+                  {item.category?.name ?? "Sem categoria"} ·{" "}
+                  {item.supplier?.name ?? "sem fornecedor"}
                 </p>
               </div>
               {isCritical(item) ? (

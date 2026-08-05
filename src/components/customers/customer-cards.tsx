@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { MapPin, Pencil, Phone, Trash2 } from "lucide-react";
+import { MapPin, Pencil, Phone, Trash2, Users } from "lucide-react";
 
+import { EmptyState } from "@/components/common/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/format";
@@ -17,9 +18,11 @@ interface Props {
 export function CustomerCards({ customers, canManage, onEdit, onDelete }: Props) {
   if (!customers.length) {
     return (
-      <div className="rounded-2xl border border-border/60 bg-card/60 p-8 text-center text-sm text-muted-foreground">
-        Nenhum cliente encontrado.
-      </div>
+      <EmptyState
+        icon={Users}
+        title="Nenhum cliente encontrado"
+        description="Ajuste os filtros ou cadastre um novo cliente para começar."
+      />
     );
   }
 
@@ -70,7 +73,12 @@ export function CustomerCards({ customers, canManage, onEdit, onDelete }: Props)
 
           {canManage && (
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" className="flex-1" onClick={() => onEdit(customer)}>
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex-1"
+                onClick={() => onEdit(customer)}
+              >
                 <Pencil className="mr-2 h-4 w-4" /> Editar
               </Button>
               <Button

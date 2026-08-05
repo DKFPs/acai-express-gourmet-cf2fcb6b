@@ -71,7 +71,11 @@ export function IntelligenceCharts({ data }: { data: IntelligenceData }) {
           <YAxis {...axis} />
           <Tooltip
             formatter={(value: number) => formatCurrency(value)}
-            contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 12 }}
+            contentStyle={{
+              background: "var(--popover)",
+              border: "1px solid var(--border)",
+              borderRadius: 12,
+            }}
           />
           <Bar dataKey="faturamento" name="Faturamento" radius={[6, 6, 0, 0]}>
             {data.horas.map((hour) => (
@@ -90,16 +94,29 @@ export function IntelligenceCharts({ data }: { data: IntelligenceData }) {
         </BarChart>
       </ChartCard>
 
-      <ChartCard title="Faturamento por dia da semana" description="Soma do período analisado" delay={60}>
+      <ChartCard
+        title="Faturamento por dia da semana"
+        description="Soma do período analisado"
+        delay={60}
+      >
         <BarChart data={data.semana}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
           <XAxis dataKey="dia" {...axis} tickFormatter={(value: string) => value.slice(0, 3)} />
           <YAxis {...axis} />
           <Tooltip
             formatter={(value: number) => formatCurrency(value)}
-            contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 12 }}
+            contentStyle={{
+              background: "var(--popover)",
+              border: "1px solid var(--border)",
+              borderRadius: 12,
+            }}
           />
-          <Bar dataKey="faturamento" name="Faturamento" fill="var(--primary)" radius={[6, 6, 0, 0]} />
+          <Bar
+            dataKey="faturamento"
+            name="Faturamento"
+            fill="var(--primary)"
+            radius={[6, 6, 0, 0]}
+          />
         </BarChart>
       </ChartCard>
 
@@ -110,13 +127,26 @@ export function IntelligenceCharts({ data }: { data: IntelligenceData }) {
           <YAxis type="category" dataKey="name" width={110} {...axis} />
           <Tooltip
             formatter={(value: number) => formatCurrency(value)}
-            contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 12 }}
+            contentStyle={{
+              background: "var(--popover)",
+              border: "1px solid var(--border)",
+              borderRadius: 12,
+            }}
           />
-          <Bar dataKey="lucro" name="Lucro" fill="var(--color-gold, var(--accent))" radius={[0, 6, 6, 0]} />
+          <Bar
+            dataKey="lucro"
+            name="Lucro"
+            fill="var(--color-gold, var(--accent))"
+            radius={[0, 6, 6, 0]}
+          />
         </BarChart>
       </ChartCard>
 
-      <ChartCard title="Receita x Custo x Lucro" description="Evolução diária no período" delay={180}>
+      <ChartCard
+        title="Receita x Custo x Lucro"
+        description="Evolução diária no período"
+        delay={180}
+      >
         <AreaChart data={data.tendencia}>
           <defs>
             <linearGradient id="intelRevenue" x1="0" y1="0" x2="0" y2="1">
@@ -129,11 +159,27 @@ export function IntelligenceCharts({ data }: { data: IntelligenceData }) {
           <YAxis {...axis} />
           <Tooltip
             formatter={(value: number) => formatCurrency(value)}
-            contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 12 }}
+            contentStyle={{
+              background: "var(--popover)",
+              border: "1px solid var(--border)",
+              borderRadius: 12,
+            }}
           />
           <Legend />
-          <Area type="monotone" dataKey="receita" name="Receita" stroke="var(--primary)" fill="url(#intelRevenue)" />
-          <Area type="monotone" dataKey="custo" name="Custo" stroke="var(--destructive)" fill="transparent" />
+          <Area
+            type="monotone"
+            dataKey="receita"
+            name="Receita"
+            stroke="var(--primary)"
+            fill="url(#intelRevenue)"
+          />
+          <Area
+            type="monotone"
+            dataKey="custo"
+            name="Custo"
+            stroke="var(--destructive)"
+            fill="transparent"
+          />
           <Area
             type="monotone"
             dataKey="lucro"
@@ -144,14 +190,28 @@ export function IntelligenceCharts({ data }: { data: IntelligenceData }) {
         </AreaChart>
       </ChartCard>
 
-      <ChartCard title="Custo por ingrediente" description="Participação no custo do período" delay={240}>
+      <ChartCard
+        title="Custo por ingrediente"
+        description="Participação no custo do período"
+        delay={240}
+      >
         <PieChart>
           <Tooltip
             formatter={(value: number) => formatCurrency(value)}
-            contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 12 }}
+            contentStyle={{
+              background: "var(--popover)",
+              border: "1px solid var(--border)",
+              borderRadius: 12,
+            }}
           />
           <Legend />
-          <Pie data={data.ingredientes} dataKey="custo" nameKey="name" innerRadius={45} outerRadius={85}>
+          <Pie
+            data={data.ingredientes}
+            dataKey="custo"
+            nameKey="name"
+            innerRadius={45}
+            outerRadius={85}
+          >
             {data.ingredientes.map((entry, index) => (
               <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
             ))}
@@ -166,13 +226,23 @@ export function IntelligenceCharts({ data }: { data: IntelligenceData }) {
           <YAxis {...axis} />
           <Tooltip
             formatter={(value: number) => `${value.toFixed(1)}%`}
-            contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 12 }}
+            contentStyle={{
+              background: "var(--popover)",
+              border: "1px solid var(--border)",
+              borderRadius: 12,
+            }}
           />
           <Bar dataKey="margem" name="Margem" radius={[6, 6, 0, 0]}>
             {[...data.margens.slice(0, 3), ...data.margens.slice(-3)].map((entry) => (
               <Cell
                 key={entry.name}
-                fill={entry.margem >= 30 ? "var(--primary)" : entry.margem >= 15 ? "var(--color-gold, var(--accent))" : "var(--destructive)"}
+                fill={
+                  entry.margem >= 30
+                    ? "var(--primary)"
+                    : entry.margem >= 15
+                      ? "var(--color-gold, var(--accent))"
+                      : "var(--destructive)"
+                }
               />
             ))}
           </Bar>

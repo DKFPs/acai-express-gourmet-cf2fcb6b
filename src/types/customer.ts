@@ -14,12 +14,7 @@ export interface CustomerWithStats extends Customer {
   stats: CustomerStats;
 }
 
-export type CustomerSort =
-  | "nome"
-  | "recentes"
-  | "maior_gasto"
-  | "mais_pedidos"
-  | "ultima_compra";
+export type CustomerSort = "nome" | "recentes" | "maior_gasto" | "mais_pedidos" | "ultima_compra";
 
 export interface CustomerFilters {
   search: string;

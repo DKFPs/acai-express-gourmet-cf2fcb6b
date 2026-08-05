@@ -38,7 +38,8 @@ export const Route = createFileRoute("/_authenticated/usuarios")({
       { property: "og:title", content: "Usuários e permissões | Gestão SaaS" },
       {
         property: "og:description",
-        content: "Controle de acesso por papel com ativação de usuários e atalhos de produtividade.",
+        content:
+          "Controle de acesso por papel com ativação de usuários e atalhos de produtividade.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -72,14 +73,17 @@ function UsuariosPage() {
         <h1 className="flex items-center gap-2 text-2xl font-bold tracking-tight">
           <Users className="h-6 w-6 text-primary" /> Usuários
         </h1>
-        <p className="text-sm text-muted-foreground">Equipe com acesso ao sistema da sua empresa.</p>
+        <p className="text-sm text-muted-foreground">
+          Equipe com acesso ao sistema da sua empresa.
+        </p>
       </header>
 
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Equipe</CardTitle>
           <CardDescription>
-            Administradores têm acesso total. Funcionários não acessam auditoria, configurações e exclusões.
+            Administradores têm acesso total. Funcionários não acessam auditoria, configurações e
+            exclusões.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -111,7 +115,9 @@ function UsuariosPage() {
                           </Badge>
                         )}
                       </TableCell>
-                      <TableCell className="text-sm text-muted-foreground">{member.phone ?? "—"}</TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {member.phone ?? "—"}
+                      </TableCell>
                       <TableCell>
                         <Select
                           value={member.role}

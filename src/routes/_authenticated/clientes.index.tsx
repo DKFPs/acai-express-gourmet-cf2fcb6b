@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Plus, Search, Users } from "lucide-react";
 
+import { PageHeader } from "@/components/common/page-header";
 import { CustomerCards } from "@/components/customers/customer-cards";
 import { CustomerDialog } from "@/components/customers/customer-dialog";
 import { CustomerRanking } from "@/components/customers/customer-ranking";
@@ -104,19 +105,17 @@ function ClientesPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Clientes</h1>
-          <p className="text-sm text-muted-foreground">
-            {total} cliente{total === 1 ? "" : "s"} · top 5 somam {formatCurrency(totalRevenue)}
-          </p>
-        </div>
-        {canManage && (
-          <Button onClick={openNew}>
-            <Plus className="mr-2 h-4 w-4" /> Novo cliente
-          </Button>
-        )}
-      </div>
+      <PageHeader
+        title="Clientes"
+        description={`${total} cliente${total === 1 ? "" : "s"} · top 5 somam ${formatCurrency(totalRevenue)}`}
+        actions={
+          canManage ? (
+            <Button onClick={openNew}>
+              <Plus className="mr-2 h-4 w-4" /> Novo cliente
+            </Button>
+          ) : null
+        }
+      />
 
       <div className="grid gap-3 rounded-2xl border border-border/60 bg-card/60 p-4 shadow-soft md:grid-cols-2 xl:grid-cols-5">
         <div className="relative md:col-span-2 xl:col-span-2">

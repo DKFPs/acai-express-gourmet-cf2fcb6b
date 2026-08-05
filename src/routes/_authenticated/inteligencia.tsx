@@ -22,6 +22,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useIntelligence, useIntelligenceRealtime } from "@/hooks/use-intelligence";
 import { buildSuggestions } from "@/lib/intelligence-rules";
 import { formatCurrency, formatNumber } from "@/lib/format";
+import { PageHeader } from "@/components/common/page-header";
 
 export const Route = createFileRoute("/_authenticated/inteligencia")({
   component: IntelligencePage,
@@ -80,33 +81,31 @@ function IntelligencePage() {
   const topIngrediente = data?.ingredientes[0];
 
   const variacaoLucro =
-    data && data.lucroAnterior > 0 ? ((data.lucro - data.lucroAnterior) / data.lucroAnterior) * 100 : null;
+    data && data.lucroAnterior > 0
+      ? ((data.lucro - data.lucroAnterior) / data.lucroAnterior) * 100
+      : null;
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold tracking-tight">
-            <Brain className="h-6 w-6 text-primary" />
-            Inteligência
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Análise automática das suas vendas, custos e estoque — atualizada em tempo real.
-          </p>
-        </div>
-        <div className="flex gap-2">
-          {PERIODS.map((period) => (
-            <Button
-              key={period.value}
-              size="sm"
-              variant={days === period.value ? "default" : "outline"}
-              onClick={() => setDays(period.value)}
-            >
-              {period.label}
-            </Button>
-          ))}
-        </div>
-      </header>
+      <PageHeader
+        icon={Brain}
+        title="Inteligência"
+        description="Análise automática das suas vendas, custos e estoque — atualizada em tempo real."
+        actions={
+          <>
+            {PERIODS.map((period) => (
+              <Button
+                key={period.value}
+                size="sm"
+                variant={days === period.value ? "default" : "outline"}
+                onClick={() => setDays(period.value)}
+              >
+                {period.label}
+              </Button>
+            ))}
+          </>
+        }
+      />
 
       {isLoading || !data ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -120,10 +119,12 @@ function IntelligencePage() {
             <CardContent className="flex flex-wrap items-center gap-4 p-4 text-sm">
               <Badge variant="secondary">Últimos {data.dias} dias</Badge>
               <span className="text-muted-foreground">
-                Faturamento <strong className="text-foreground">{formatCurrency(data.faturamento)}</strong>
+                Faturamento{" "}
+                <strong className="text-foreground">{formatCurrency(data.faturamento)}</strong>
               </span>
               <span className="text-muted-foreground">
-                Lucro estimado <strong className="text-foreground">{formatCurrency(data.lucro)}</strong>
+                Lucro estimado{" "}
+                <strong className="text-foreground">{formatCurrency(data.lucro)}</strong>
               </span>
               <span className="text-muted-foreground">
                 Pedidos <strong className="text-foreground">{formatNumber(data.pedidos)}</strong>
@@ -141,7 +142,11 @@ function IntelligencePage() {
             <InsightCard
               label="Sabor mais vendido"
               value={maisVendido?.name ?? "—"}
-              hint={maisVendido ? `${formatNumber(maisVendido.quantidade)} unidades` : "Sem vendas no período"}
+              hint={
+                maisVendido
+                  ? `${formatNumber(maisVendido.quantidade)} unidades`
+                  : "Sem vendas no período"
+              }
               icon={Flame}
               delay={0}
             />
@@ -179,7 +184,11 @@ function IntelligencePage() {
             <InsightCard
               label="Cliente que mais comprou"
               value={topCliente?.name ?? "—"}
-              hint={topCliente ? `${formatCurrency(topCliente.total)} · ${topCliente.pedidos} pedidos` : undefined}
+              hint={
+                topCliente
+                  ? `${formatCurrency(topCliente.total)} · ${topCliente.pedidos} pedidos`
+                  : undefined
+              }
               icon={Crown}
               delay={200}
             />
@@ -202,7 +211,9 @@ function IntelligencePage() {
             <InsightCard
               label="Ingrediente que mais custa"
               value={topIngrediente?.name ?? "—"}
-              hint={topIngrediente ? `${formatCurrency(topIngrediente.custo)} no período` : undefined}
+              hint={
+                topIngrediente ? `${formatCurrency(topIngrediente.custo)} no período` : undefined
+              }
               icon={Droplets}
               tone="negative"
               delay={320}

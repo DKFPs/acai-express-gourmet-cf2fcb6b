@@ -2,7 +2,6 @@ import {
   Banknote,
   Brain,
   BarChart3,
-
   Warehouse,
   ShoppingCart,
   Zap,
@@ -14,6 +13,7 @@ import {
   Settings,
   ShoppingBag,
   Users,
+  Wrench,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -63,6 +63,7 @@ export const NAVIGATION: NavSection[] = [
       { title: "Caixa", to: "/caixa", icon: Banknote, permission: "cash.view" },
       { title: "Relatórios", to: "/relatorios", icon: BarChart3, permission: "reports.view" },
       { title: "Inteligência", to: "/inteligencia", icon: Brain, permission: "intelligence.view" },
+      { title: "Ferramentas", to: "/ferramentas", icon: Wrench, permission: "tools.view" },
     ],
   },
   {
@@ -70,7 +71,12 @@ export const NAVIGATION: NavSection[] = [
     items: [
       { title: "Usuários", to: "/usuarios", icon: Users, permission: "users.manage" },
       { title: "Auditoria", to: "/auditoria", icon: ScrollText, permission: "audit.view" },
-      { title: "Configurações", to: "/configuracoes", icon: Settings, permission: "settings.manage" },
+      {
+        title: "Configurações",
+        to: "/configuracoes",
+        icon: Settings,
+        permission: "settings.manage",
+      },
     ],
   },
 ];
@@ -88,6 +94,7 @@ export const ROUTE_LABELS: Record<string, string> = {
   caixa: "Caixa",
   relatorios: "Relatórios",
   inteligencia: "Inteligência",
+  ferramentas: "Ferramentas",
   usuarios: "Usuários",
   auditoria: "Auditoria",
   configuracoes: "Configurações",

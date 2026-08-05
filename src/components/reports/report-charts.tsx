@@ -48,7 +48,14 @@ function ChartBody({ chart }: { chart: ReportChart }) {
     return (
       <ResponsiveContainer width="100%" height={260}>
         <PieChart>
-          <Pie data={chart.data} dataKey="valor" nameKey={chart.xKey} innerRadius={55} outerRadius={95} paddingAngle={2}>
+          <Pie
+            data={chart.data}
+            dataKey="valor"
+            nameKey={chart.xKey}
+            innerRadius={55}
+            outerRadius={95}
+            paddingAngle={2}
+          >
             {chart.data.map((slice, index) => (
               <Cell key={index} fill={String(slice["fill"] ?? chart.series[0]?.color)} />
             ))}
@@ -66,7 +73,14 @@ function ChartBody({ chart }: { chart: ReportChart }) {
         <AreaChart data={chart.data}>
           <defs>
             {chart.series.map((serie) => (
-              <linearGradient key={serie.key} id={`grad-${chart.id}-${serie.key}`} x1="0" y1="0" x2="0" y2="1">
+              <linearGradient
+                key={serie.key}
+                id={`grad-${chart.id}-${serie.key}`}
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
                 <stop offset="5%" stopColor={serie.color} stopOpacity={0.5} />
                 <stop offset="95%" stopColor={serie.color} stopOpacity={0} />
               </linearGradient>
@@ -120,12 +134,25 @@ function ChartBody({ chart }: { chart: ReportChart }) {
     <ResponsiveContainer width="100%" height={260}>
       <BarChart data={chart.data}>
         <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
-        <XAxis dataKey={chart.xKey} {...axisProps} interval={0} angle={-20} textAnchor="end" height={60} />
+        <XAxis
+          dataKey={chart.xKey}
+          {...axisProps}
+          interval={0}
+          angle={-20}
+          textAnchor="end"
+          height={60}
+        />
         <YAxis {...axisProps} width={70} />
         <Tooltip {...tooltipStyle()} />
         <Legend wrapperStyle={{ fontSize: 11 }} />
         {chart.series.map((serie) => (
-          <Bar key={serie.key} dataKey={serie.key} name={serie.label} fill={serie.color} radius={[6, 6, 0, 0]} />
+          <Bar
+            key={serie.key}
+            dataKey={serie.key}
+            name={serie.label}
+            fill={serie.color}
+            radius={[6, 6, 0, 0]}
+          />
         ))}
       </BarChart>
     </ResponsiveContainer>

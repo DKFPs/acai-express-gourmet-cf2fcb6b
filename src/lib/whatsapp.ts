@@ -29,6 +29,7 @@ export function orderWhatsappLink(
   phone: string | null | undefined,
   context: OrderMessageContext,
 ): string {
-  const template = settings?.whatsapp_template ?? "Olá {cliente}! Seu pedido #{numero} está {status}.";
+  const template =
+    settings?.whatsapp_template ?? "Olá {cliente}! Seu pedido #{numero} está {status}.";
   return buildWhatsappLink(phone, renderTemplate(template, context));
 }

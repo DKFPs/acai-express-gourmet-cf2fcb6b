@@ -4,7 +4,12 @@ import { ChevronRight } from "lucide-react";
 import { OrderStatusBadge, PaymentStatusBadge } from "@/components/orders/order-status-badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/format";
-import { PAYMENT_METHOD_LABELS, type Order, type OrderStatus, type PaymentMethod } from "@/types/order";
+import {
+  PAYMENT_METHOD_LABELS,
+  type Order,
+  type OrderStatus,
+  type PaymentMethod,
+} from "@/types/order";
 
 const dateTime = new Intl.DateTimeFormat("pt-BR", {
   day: "2-digit",

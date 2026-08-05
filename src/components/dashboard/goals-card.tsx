@@ -89,15 +89,30 @@ export function GoalsCard({ goals, today, week, month, canManage, onSave }: Goal
           <div className="space-y-3">
             <div className="space-y-2">
               <Label htmlFor="goal-daily">Meta diária (R$)</Label>
-              <Input id="goal-daily" inputMode="decimal" value={daily} onChange={(event) => setDaily(event.target.value)} />
+              <Input
+                id="goal-daily"
+                inputMode="decimal"
+                value={daily}
+                onChange={(event) => setDaily(event.target.value)}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="goal-weekly">Meta semanal (R$)</Label>
-              <Input id="goal-weekly" inputMode="decimal" value={weekly} onChange={(event) => setWeekly(event.target.value)} />
+              <Input
+                id="goal-weekly"
+                inputMode="decimal"
+                value={weekly}
+                onChange={(event) => setWeekly(event.target.value)}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="goal-monthly">Meta mensal (R$)</Label>
-              <Input id="goal-monthly" inputMode="decimal" value={monthly} onChange={(event) => setMonthly(event.target.value)} />
+              <Input
+                id="goal-monthly"
+                inputMode="decimal"
+                value={monthly}
+                onChange={(event) => setMonthly(event.target.value)}
+              />
             </div>
           </div>
           <DialogFooter>

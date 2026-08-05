@@ -52,8 +52,17 @@ export function FinanceCharts({ entries }: { entries: FinancialEntry[] }) {
               <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
               <XAxis dataKey="dia" fontSize={12} />
               <YAxis fontSize={12} width={70} />
-              <Tooltip contentStyle={tooltipStyle} formatter={(value: number) => formatCurrency(value)} />
-              <Area dataKey="saldo" name="Saldo" stroke="#D4AF37" fill="#D4AF37" fillOpacity={0.25} />
+              <Tooltip
+                contentStyle={tooltipStyle}
+                formatter={(value: number) => formatCurrency(value)}
+              />
+              <Area
+                dataKey="saldo"
+                name="Saldo"
+                stroke="#D4AF37"
+                fill="#D4AF37"
+                fillOpacity={0.25}
+              />
             </AreaChart>
           </ResponsiveContainer>
         </CardContent>
@@ -70,7 +79,10 @@ export function FinanceCharts({ entries }: { entries: FinancialEntry[] }) {
               <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
               <XAxis dataKey="dia" fontSize={12} />
               <YAxis fontSize={12} width={70} />
-              <Tooltip contentStyle={tooltipStyle} formatter={(value: number) => formatCurrency(value)} />
+              <Tooltip
+                contentStyle={tooltipStyle}
+                formatter={(value: number) => formatCurrency(value)}
+              />
               <Legend />
               <Bar dataKey="receitas" name="Receitas" fill="#22C55E" radius={[6, 6, 0, 0]} />
               <Bar dataKey="saidas" name="Saídas" fill="#EF4444" radius={[6, 6, 0, 0]} />
@@ -107,8 +119,17 @@ export function FinanceCharts({ entries }: { entries: FinancialEntry[] }) {
         <CardContent className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <Tooltip contentStyle={tooltipStyle} formatter={(value: number) => formatCurrency(value)} />
-              <Pie data={categories} dataKey="valor" nameKey="nome" innerRadius={50} outerRadius={90}>
+              <Tooltip
+                contentStyle={tooltipStyle}
+                formatter={(value: number) => formatCurrency(value)}
+              />
+              <Pie
+                data={categories}
+                dataKey="valor"
+                nameKey="nome"
+                innerRadius={50}
+                outerRadius={90}
+              >
                 {categories.map((slice) => (
                   <Cell key={slice.nome} fill={slice.cor} />
                 ))}

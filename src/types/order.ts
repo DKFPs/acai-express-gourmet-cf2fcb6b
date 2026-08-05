@@ -6,19 +6,9 @@ export type OrderItemRow = Tables<"order_items">;
 export type PaymentRow = Tables<"payments">;
 export type OrderHistoryRow = Tables<"order_status_history">;
 
-export type OrderStatus =
-  | "recebido"
-  | "preparando"
-  | "saiu_entrega"
-  | "entregue"
-  | "cancelado";
+export type OrderStatus = "recebido" | "preparando" | "saiu_entrega" | "entregue" | "cancelado";
 
-export type PaymentMethod =
-  | "dinheiro"
-  | "pix"
-  | "cartao_credito"
-  | "cartao_debito"
-  | "outro";
+export type PaymentMethod = "dinheiro" | "pix" | "cartao_credito" | "cartao_debito" | "outro";
 
 export type PaymentStatus = "pendente" | "pago" | "estornado";
 
@@ -61,12 +51,7 @@ export interface OrderDetail extends Order {
   history: OrderHistoryRow[];
 }
 
-export type OrderSort =
-  | "recentes"
-  | "antigos"
-  | "maior_valor"
-  | "menor_valor"
-  | "numero";
+export type OrderSort = "recentes" | "antigos" | "maior_valor" | "menor_valor" | "numero";
 
 export interface OrderFilters {
   search: string;
