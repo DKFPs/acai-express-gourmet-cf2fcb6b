@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import { friendlyError } from "@/lib/errors";
+
 import { useAuth } from "@/hooks/use-auth";
 import { customerService } from "@/services/customer.service";
 import type { CustomerFilters, CustomerInputFull } from "@/types/customer";
@@ -43,7 +45,7 @@ export function useCustomerCrud() {
       toast.success("Cliente cadastrado com sucesso");
       invalidate();
     },
-    onError: (error: Error) => toast.error(error.message),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const update = useMutation({
@@ -53,7 +55,7 @@ export function useCustomerCrud() {
       toast.success("Cliente atualizado");
       invalidate();
     },
-    onError: (error: Error) => toast.error(error.message),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const remove = useMutation({
@@ -62,7 +64,7 @@ export function useCustomerCrud() {
       toast.success("Cliente excluído");
       invalidate();
     },
-    onError: (error: Error) => toast.error(error.message),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   return { create, update, remove };

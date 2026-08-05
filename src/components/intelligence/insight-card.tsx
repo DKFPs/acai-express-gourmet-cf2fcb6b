@@ -11,7 +11,14 @@ interface InsightCardProps {
   delay?: number;
 }
 
-export function InsightCard({ label, value, hint, icon: Icon, tone = "default", delay = 0 }: InsightCardProps) {
+export function InsightCard({
+  label,
+  value,
+  hint,
+  icon: Icon,
+  tone = "default",
+  delay = 0,
+}: InsightCardProps) {
   const accent =
     tone === "positive"
       ? "bg-emerald-500/10 text-emerald-500"
@@ -26,7 +33,9 @@ export function InsightCard({ label, value, hint, icon: Icon, tone = "default", 
     >
       <CardContent className="space-y-2 p-4">
         <div className="flex items-center justify-between gap-2">
-          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            {label}
+          </p>
           <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-xl ${accent}`}>
             <Icon className="h-4 w-4" />
           </span>

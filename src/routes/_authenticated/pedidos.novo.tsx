@@ -30,7 +30,12 @@ import { useCustomers, useOrderMutations } from "@/hooks/use-orders";
 import { useProducts } from "@/hooks/use-products";
 import { formatCurrency } from "@/lib/format";
 import { orderSchema, type OrderFormValues } from "@/lib/validations/order";
-import { PAYMENT_METHOD_LABELS, PAYMENT_STATUS_LABELS, type PaymentMethod, type PaymentStatus } from "@/types/order";
+import {
+  PAYMENT_METHOD_LABELS,
+  PAYMENT_STATUS_LABELS,
+  type PaymentMethod,
+  type PaymentStatus,
+} from "@/types/order";
 
 export const Route = createFileRoute("/_authenticated/pedidos/novo")({
   head: () => ({
@@ -122,10 +127,9 @@ function NovoPedidoPage() {
   const handleAddProduct = (productId: string) => {
     const product = products.find((item) => item.id === productId);
     if (!product) return;
-    const price = Number(product.promo_price ?? 0) > 0 ? Number(product.promo_price) : Number(product.price);
-    const existingIndex = (watchedItems ?? []).findIndex(
-      (item) => item?.product_id === product.id,
-    );
+    const price =
+      Number(product.promo_price ?? 0) > 0 ? Number(product.promo_price) : Number(product.price);
+    const existingIndex = (watchedItems ?? []).findIndex((item) => item?.product_id === product.id);
     if (existingIndex >= 0) {
       const current = Number(watchedItems?.[existingIndex]?.quantity) || 0;
       form.setValue(`items.${existingIndex}.quantity`, current + 1, { shouldDirty: true });
@@ -192,7 +196,10 @@ function NovoPedidoPage() {
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="grid gap-6 lg:grid-cols-[1.6fr_1fr]"
+        >
           <div className="space-y-6">
             <Card className="rounded-2xl border-border/60 bg-card/70 shadow-soft">
               <CardHeader className="flex flex-row items-center justify-between">
@@ -247,7 +254,11 @@ function NovoPedidoPage() {
                       <FormItem>
                         <FormLabel>Telefone</FormLabel>
                         <FormControl>
-                          <Input placeholder="(00) 00000-0000" {...field} value={field.value ?? ""} />
+                          <Input
+                            placeholder="(00) 00000-0000"
+                            {...field}
+                            value={field.value ?? ""}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -261,7 +272,11 @@ function NovoPedidoPage() {
                     <FormItem>
                       <FormLabel>Endereço de entrega</FormLabel>
                       <FormControl>
-                        <Input placeholder="Rua, número, bairro" {...field} value={field.value ?? ""} />
+                        <Input
+                          placeholder="Rua, número, bairro"
+                          {...field}
+                          value={field.value ?? ""}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -280,7 +295,9 @@ function NovoPedidoPage() {
                   <Select value={productToAdd} onValueChange={handleAddProduct}>
                     <SelectTrigger>
                       <SelectValue
-                        placeholder={loadingProducts ? "Carregando produtos..." : "Selecionar produto"}
+                        placeholder={
+                          loadingProducts ? "Carregando produtos..." : "Selecionar produto"
+                        }
                       />
                     </SelectTrigger>
                     <SelectContent>
@@ -288,7 +305,9 @@ function NovoPedidoPage() {
                         <SelectItem key={product.id} value={product.id}>
                           {product.name} —{" "}
                           {formatCurrency(
-                            Number(product.promo_price ?? 0) > 0 ? product.promo_price : product.price,
+                            Number(product.promo_price ?? 0) > 0
+                              ? product.promo_price
+                              : product.price,
                           )}
                         </SelectItem>
                       ))}

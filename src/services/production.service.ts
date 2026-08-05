@@ -117,7 +117,6 @@ export const productionService = {
     if (error) throw error;
     return data as string;
   },
-
 };
 
 export const finishedProductService = {

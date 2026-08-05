@@ -8,7 +8,8 @@ import type {
   FinancialFilters,
 } from "@/types/finance";
 
-const ENTRY_SELECT = "*, category:expense_categories(id, name, color), supplier:suppliers(id, name)";
+const ENTRY_SELECT =
+  "*, category:expense_categories(id, name, color), supplier:suppliers(id, name)";
 
 export interface EntryListResult {
   items: FinancialEntry[];

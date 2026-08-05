@@ -235,7 +235,12 @@ export function ProductFormDialog({
           </div>
 
           <DialogFooter>
-            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)} disabled={saving}>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => onOpenChange(false)}
+              disabled={saving}
+            >
               Cancelar
             </Button>
             <Button type="submit" disabled={saving}>

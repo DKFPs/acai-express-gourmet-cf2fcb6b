@@ -26,11 +26,11 @@ export const PERMISSIONS = {
   "cash.manage": ["administrador", "funcionario"],
   "reports.view": ["administrador", "funcionario"],
   "intelligence.view": ["administrador", "funcionario"],
+  "tools.view": ["administrador", "funcionario"],
   "users.manage": ["administrador"],
   "audit.view": ["administrador"],
   "backup.run": ["administrador"],
   "settings.manage": ["administrador"],
-
 } as const satisfies Record<string, readonly AppRole[]>;
 
 export type Permission = keyof typeof PERMISSIONS;

@@ -68,9 +68,7 @@ export function exportProductionPdf(report: SimpleReport) {
       ? (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 20
       : 76,
     head: [report.columns.map((column) => column.label)],
-    body: report.rows.map((row) =>
-      report.columns.map((column) => String(row[column.key] ?? "—")),
-    ),
+    body: report.rows.map((row) => report.columns.map((column) => String(row[column.key] ?? "—"))),
     theme: "striped",
     headStyles: { fillColor: [42, 11, 61] },
     styles: { fontSize: 8 },

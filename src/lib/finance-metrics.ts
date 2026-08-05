@@ -93,11 +93,19 @@ export function monthlySeries(entries: FinancialEntry[]): MonthlyPoint[] {
     const [year = "", month = ""] = key.split("-");
     const point =
       map.get(key) ??
-      ({ mes: `${month}/${year.slice(2)}`, data: key, receitas: 0, saidas: 0, lucro: 0, margem: 0 } as MonthlyPoint);
+      ({
+        mes: `${month}/${year.slice(2)}`,
+        data: key,
+        receitas: 0,
+        saidas: 0,
+        lucro: 0,
+        margem: 0,
+      } as MonthlyPoint);
     if (entry.type === "receita") point.receitas += Number(entry.amount);
     else point.saidas += Number(entry.amount);
     point.lucro = point.receitas - point.saidas;
-    point.margem = point.receitas > 0 ? Math.round((point.lucro / point.receitas) * 10000) / 100 : 0;
+    point.margem =
+      point.receitas > 0 ? Math.round((point.lucro / point.receitas) * 10000) / 100 : 0;
     map.set(key, point);
   }
   return Array.from(map.values()).sort((a, b) => a.data.localeCompare(b.data));
@@ -109,7 +117,15 @@ export interface CategorySlice {
   cor: string;
 }
 
-const FALLBACK_COLORS = ["#6D28D9", "#D4AF37", "#22C55E", "#EF4444", "#3B82F6", "#EC4899", "#F97316"];
+const FALLBACK_COLORS = [
+  "#6D28D9",
+  "#D4AF37",
+  "#22C55E",
+  "#EF4444",
+  "#3B82F6",
+  "#EC4899",
+  "#F97316",
+];
 
 /** Distribuição de saídas por categoria. */
 export function categoryBreakdown(entries: FinancialEntry[]): CategorySlice[] {

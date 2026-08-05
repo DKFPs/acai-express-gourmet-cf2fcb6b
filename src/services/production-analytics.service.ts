@@ -203,7 +203,14 @@ export const productionAnalyticsService = {
       const key = row.product_name;
       const entry =
         map.get(key) ??
-        ({ name: key, quantity: 0, revenue: 0, cost: 0, profit: 0, margin: 0 } satisfies FlavorPerformance);
+        ({
+          name: key,
+          quantity: 0,
+          revenue: 0,
+          cost: 0,
+          profit: 0,
+          margin: 0,
+        } satisfies FlavorPerformance);
       const quantity = Number(row.quantity);
       entry.quantity += quantity;
       entry.revenue += quantity * Number(row.unit_price);

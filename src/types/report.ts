@@ -1,20 +1,22 @@
 export type ReportKind =
-  | "vendas"
-  | "financeiro"
-  | "lucro"
-  | "clientes"
-  | "produtos"
-  | "estoque"
-  | "fluxo-caixa";
+  "vendas" | "financeiro" | "lucro" | "clientes" | "produtos" | "estoque" | "fluxo-caixa";
 
 export const REPORT_KINDS: { value: ReportKind; label: string; description: string }[] = [
   { value: "vendas", label: "Vendas", description: "Pedidos, ticket médio e formas de pagamento" },
-  { value: "financeiro", label: "Financeiro", description: "Receitas, despesas, compras e pendências" },
+  {
+    value: "financeiro",
+    label: "Financeiro",
+    description: "Receitas, despesas, compras e pendências",
+  },
   { value: "lucro", label: "Lucro", description: "Resultado e margem por mês" },
   { value: "clientes", label: "Clientes", description: "Compras, gasto total e recorrência" },
   { value: "produtos", label: "Produtos", description: "Mais vendidos, faturamento e lucro" },
   { value: "estoque", label: "Estoque", description: "Saldo, mínimo e valor imobilizado" },
-  { value: "fluxo-caixa", label: "Fluxo de Caixa", description: "Sessões de caixa, entradas e sangrias" },
+  {
+    value: "fluxo-caixa",
+    label: "Fluxo de Caixa",
+    description: "Sessões de caixa, entradas e sangrias",
+  },
 ];
 
 export type ValueFormat = "currency" | "number" | "percent" | "text" | "date" | "datetime";

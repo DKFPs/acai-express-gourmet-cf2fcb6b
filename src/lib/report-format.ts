@@ -11,9 +11,14 @@ export function formatValue(value: ReportRow[string], format: ValueFormat) {
     case "percent":
       return formatPercent(Number(value));
     case "date":
-      return new Date(String(value).length === 10 ? `${value}T12:00:00` : String(value)).toLocaleDateString("pt-BR");
+      return new Date(
+        String(value).length === 10 ? `${value}T12:00:00` : String(value),
+      ).toLocaleDateString("pt-BR");
     case "datetime":
-      return new Date(String(value)).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" });
+      return new Date(String(value)).toLocaleString("pt-BR", {
+        dateStyle: "short",
+        timeStyle: "short",
+      });
     default:
       return String(value);
   }

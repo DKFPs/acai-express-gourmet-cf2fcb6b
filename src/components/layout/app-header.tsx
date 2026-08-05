@@ -56,7 +56,11 @@ export function AppHeader({ onOpenMobileMenu }: { onOpenMobileMenu: () => void }
           onClick={toggleTheme}
           aria-label="Alternar tema"
         >
-          {theme === "dark" ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />}
+          {theme === "dark" ? (
+            <Sun className="h-[18px] w-[18px]" />
+          ) : (
+            <Moon className="h-[18px] w-[18px]" />
+          )}
         </Button>
         <NotificationsMenu />
         <UserMenu />

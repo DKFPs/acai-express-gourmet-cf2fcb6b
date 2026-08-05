@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertTriangle, ArrowLeftRight, FlaskConical, Package, Plus, Search } from "lucide-react";
 
+import { PageHeader } from "@/components/common/page-header";
 import { ConfirmDeleteDialog } from "@/components/products/confirm-delete-dialog";
 import { FinishedMovementDialog } from "@/components/production/finished-movement-dialog";
 import { PackagingDialog } from "@/components/production/packaging-dialog";
@@ -141,35 +142,33 @@ function ProducaoPage() {
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Produção Inteligente</h1>
-          <p className="text-sm text-muted-foreground">
-            Receitas, lotes de produção, embalagens e estoque de produtos prontos.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setMovementTarget(null);
-              setMovementOpen(true);
-            }}
-          >
-            <ArrowLeftRight className="mr-2 size-4" /> Movimentar prontos
-          </Button>
-          {canManage ? (
+      <PageHeader
+        title="Produção Inteligente"
+        description="Receitas, lotes de produção, embalagens e estoque de produtos prontos."
+        actions={
+          <>
             <Button
+              variant="secondary"
               onClick={() => {
-                setProduceRecipe(null);
-                setProduceOpen(true);
+                setMovementTarget(null);
+                setMovementOpen(true);
               }}
             >
-              <FlaskConical className="mr-2 size-4" /> Produzir lote
+              <ArrowLeftRight className="mr-2 size-4" /> Movimentar prontos
             </Button>
-          ) : null}
-        </div>
-      </header>
+            {canManage ? (
+              <Button
+                onClick={() => {
+                  setProduceRecipe(null);
+                  setProduceOpen(true);
+                }}
+              >
+                <FlaskConical className="mr-2 size-4" /> Produzir lote
+              </Button>
+            ) : null}
+          </>
+        }
+      />
 
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="rounded-2xl">
@@ -296,8 +295,8 @@ function ProducaoPage() {
                     <div>
                       <p className="font-medium">{recipe.name}</p>
                       <p className="text-xs text-muted-foreground">
-                        {Number(recipe.bottle_volume_ml)} ml · rende{" "}
-                        {Number(recipe.yield_quantity)} un · {recipe.prep_time_minutes} min
+                        {Number(recipe.bottle_volume_ml)} ml · rende {Number(recipe.yield_quantity)}{" "}
+                        un · {recipe.prep_time_minutes} min
                       </p>
                     </div>
                     <Badge variant={recipe.status === "ativo" ? "secondary" : "outline"}>
@@ -612,9 +611,7 @@ function ProducaoPage() {
         packaging={packaging}
         defaultRecipeId={produceRecipe}
         loading={produce.isPending}
-        onSubmit={(input) =>
-          produce.mutate(input, { onSuccess: () => setProduceOpen(false) })
-        }
+        onSubmit={(input) => produce.mutate(input, { onSuccess: () => setProduceOpen(false) })}
       />
 
       <PackagingDialog

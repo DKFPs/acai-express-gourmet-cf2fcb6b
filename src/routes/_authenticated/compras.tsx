@@ -33,11 +33,8 @@ import { usePackaging } from "@/hooks/use-production";
 import { usePurchaseMutations, usePurchases } from "@/hooks/use-purchases";
 import { useAllIngredients, useSuppliers } from "@/hooks/use-stock";
 import { formatCurrency, formatNumber } from "@/lib/format";
-import {
-  PURCHASE_KIND_LABELS,
-  type Purchase,
-  type PurchaseFilters,
-} from "@/types/purchase";
+import { PURCHASE_KIND_LABELS, type Purchase, type PurchaseFilters } from "@/types/purchase";
+import { PageHeader } from "@/components/common/page-header";
 
 export const Route = createFileRoute("/_authenticated/compras")({
   head: () => ({
@@ -51,7 +48,8 @@ export const Route = createFileRoute("/_authenticated/compras")({
       { property: "og:title", content: "Compras — Açaí Express Manager" },
       {
         property: "og:description",
-        content: "Histórico de compras, indicadores de gastos, fornecedores e itens mais comprados.",
+        content:
+          "Histórico de compras, indicadores de gastos, fornecedores e itens mais comprados.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -132,7 +130,8 @@ function ComprasPage() {
     setDefaults({
       supplier_id: purchase.supplier_id ?? "",
       kind: purchase.kind,
-      item_id: (purchase.kind === "ingrediente" ? purchase.ingredient_id : purchase.packaging_id) ?? "",
+      item_id:
+        (purchase.kind === "ingrediente" ? purchase.ingredient_id : purchase.packaging_id) ?? "",
       category_id: purchase.category_id ?? "",
       quantity: String(purchase.quantity),
       unit: purchase.unit,
@@ -144,20 +143,17 @@ function ComprasPage() {
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Compras</h1>
-          <p className="text-sm text-muted-foreground">
-            Registre compras em segundos: o estoque, o custo médio e as receitas são atualizados
-            automaticamente.
-          </p>
-        </div>
-        {canManage ? (
-          <Button onClick={openNew}>
-            <Plus className="mr-2 h-4 w-4" /> Nova compra
-          </Button>
-        ) : null}
-      </header>
+      <PageHeader
+        title="Compras"
+        description="Registre compras em segundos: o estoque, o custo médio e as receitas são atualizados automaticamente."
+        actions={
+          canManage ? (
+            <Button onClick={openNew}>
+              <Plus className="mr-2 h-4 w-4" /> Nova compra
+            </Button>
+          ) : null
+        }
+      />
 
       <div className="grid gap-4 sm:grid-cols-3">
         <Card>
@@ -214,9 +210,7 @@ function ComprasPage() {
               className="pl-9"
               placeholder="Pesquisar produto"
               value={filters.search}
-              onChange={(event) =>
-                setFilters((prev) => ({ ...prev, search: event.target.value }))
-              }
+              onChange={(event) => setFilters((prev) => ({ ...prev, search: event.target.value }))}
             />
           </div>
           <Select

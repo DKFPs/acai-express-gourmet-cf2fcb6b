@@ -9,7 +9,10 @@ const numeric = z
   .refine((value) => !Number.isNaN(parseNumber(value)), "Informe um valor válido")
   .refine((value) => parseNumber(value) >= 0, "Não pode ser negativo");
 
-const positive = numeric.refine((value) => parseNumber(value) > 0, "Informe um valor maior que zero");
+const positive = numeric.refine(
+  (value) => parseNumber(value) > 0,
+  "Informe um valor maior que zero",
+);
 
 export const recipeSchema = z.object({
   name: z.string().trim().min(2, "Informe o nome").max(120, "Máximo de 120 caracteres"),

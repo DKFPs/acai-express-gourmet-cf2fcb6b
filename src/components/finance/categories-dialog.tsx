@@ -107,7 +107,10 @@ export function CategoriesDialog({
 
         {canManage ? (
           <Form {...form}>
-            <form onSubmit={submit} className="grid gap-3 rounded-2xl border border-border/60 p-4 sm:grid-cols-4">
+            <form
+              onSubmit={submit}
+              className="grid gap-3 rounded-2xl border border-border/60 p-4 sm:grid-cols-4"
+            >
               <FormField
                 control={form.control}
                 name="name"

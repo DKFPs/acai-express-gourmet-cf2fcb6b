@@ -1,19 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import { friendlyError } from "@/lib/errors";
+
 import { useAuth } from "@/hooks/use-auth";
 import { cashService } from "@/services/cash.service";
 import type { CashSession, CashTransactionInput } from "@/types/cash";
-
-function translate(message: string) {
-  if (message.toLowerCase().includes("row-level security")) {
-    return "Você não tem permissão para esta ação.";
-  }
-  if (message.includes("cash_sessions_single_open")) {
-    return "Já existe um caixa aberto.";
-  }
-  return message || "Não foi possível concluir a operação.";
-}
 
 export function useCashSessions() {
   return useQuery({ queryKey: ["cash-sessions"], queryFn: () => cashService.listSessions() });
@@ -47,7 +39,7 @@ export function useCashMutations() {
       toast.success("Caixa aberto");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const close = useMutation({
@@ -64,7 +56,7 @@ export function useCashMutations() {
       toast.success("Caixa fechado");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const addTransaction = useMutation({
@@ -74,7 +66,7 @@ export function useCashMutations() {
       toast.success("Movimento registrado");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const removeTransaction = useMutation({
@@ -83,7 +75,7 @@ export function useCashMutations() {
       toast.success("Movimento excluído");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const autoClose = useMutation({

@@ -3,7 +3,12 @@ import autoTable from "jspdf-autotable";
 import * as XLSX from "xlsx";
 
 import { formatCurrency } from "@/lib/format";
-import { CASH_TYPE_LABEL, expectedBalance, type CashSession, type CashTransaction } from "@/types/cash";
+import {
+  CASH_TYPE_LABEL,
+  expectedBalance,
+  type CashSession,
+  type CashTransaction,
+} from "@/types/cash";
 
 function moment(value: string | null) {
   if (!value) return "—";

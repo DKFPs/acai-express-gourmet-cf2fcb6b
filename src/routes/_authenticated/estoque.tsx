@@ -49,12 +49,8 @@ import {
   useSuppliers,
 } from "@/hooks/use-stock";
 import { formatCurrency } from "@/lib/format";
-import type {
-  Ingredient,
-  IngredientFilters,
-  StockLevelFilter,
-  SupplierRow,
-} from "@/types/stock";
+import type { Ingredient, IngredientFilters, StockLevelFilter, SupplierRow } from "@/types/stock";
+import { PageHeader } from "@/components/common/page-header";
 
 export const Route = createFileRoute("/_authenticated/estoque")({
   head: () => ({
@@ -141,29 +137,27 @@ function EstoquePage() {
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Estoque</h1>
-          <p className="text-sm text-muted-foreground">
-            Ingredientes, fornecedores e movimentações com baixa automática nas vendas.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="secondary" onClick={() => openMovement()}>
-            <ArrowLeftRight className="mr-2 size-4" /> Movimentação
-          </Button>
-          {canManage ? (
-            <Button
-              onClick={() => {
-                setEditing(null);
-                setIngredientOpen(true);
-              }}
-            >
-              <Plus className="mr-2 size-4" /> Novo ingrediente
+      <PageHeader
+        title="Estoque"
+        description="Ingredientes, fornecedores e movimentações com baixa automática nas vendas."
+        actions={
+          <>
+            <Button variant="secondary" onClick={() => openMovement()}>
+              <ArrowLeftRight className="mr-2 size-4" /> Movimentação
             </Button>
-          ) : null}
-        </div>
-      </header>
+            {canManage ? (
+              <Button
+                onClick={() => {
+                  setEditing(null);
+                  setIngredientOpen(true);
+                }}
+              >
+                <Plus className="mr-2 size-4" /> Novo ingrediente
+              </Button>
+            ) : null}
+          </>
+        }
+      />
 
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="rounded-2xl">

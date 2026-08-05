@@ -4,7 +4,9 @@ const money = z
   .string()
   .trim()
   .transform((value) => Number(value.replace(/\./g, "").replace(",", ".")))
-  .pipe(z.number({ invalid_type_error: "Informe um valor válido" }).min(0, "Não pode ser negativo"));
+  .pipe(
+    z.number({ invalid_type_error: "Informe um valor válido" }).min(0, "Não pode ser negativo"),
+  );
 
 const optionalMoney = z
   .string()
@@ -16,8 +18,18 @@ export const productSchema = z
   .object({
     name: z.string().trim().min(2, "Informe o nome").max(120, "Máximo de 120 caracteres"),
     category_id: z.string().trim().min(1, "Selecione uma categoria"),
-    internal_code: z.string().trim().max(40, "Máximo de 40 caracteres").optional().or(z.literal("")),
-    description: z.string().trim().max(500, "Máximo de 500 caracteres").optional().or(z.literal("")),
+    internal_code: z
+      .string()
+      .trim()
+      .max(40, "Máximo de 40 caracteres")
+      .optional()
+      .or(z.literal("")),
+    description: z
+      .string()
+      .trim()
+      .max(500, "Máximo de 500 caracteres")
+      .optional()
+      .or(z.literal("")),
     image_url: z.string().nullable().optional(),
     price: money,
     promo_price: optionalMoney,

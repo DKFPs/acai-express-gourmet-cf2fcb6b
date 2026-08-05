@@ -20,6 +20,7 @@ import { useCategories, useProductMutations, useProducts } from "@/hooks/use-pro
 import { usePermissions } from "@/hooks/use-permissions";
 import { useIsMobile } from "@/hooks/use-mobile";
 import type { Product, ProductFilters } from "@/types/product";
+import { PageHeader } from "@/components/common/page-header";
 
 export const Route = createFileRoute("/_authenticated/produtos")({
   head: () => ({
@@ -82,30 +83,27 @@ function ProdutosPage() {
 
   return (
     <div className="mx-auto w-full max-w-7xl space-y-6 animate-[var(--animate-fade-up)]">
-      <header className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight md:text-3xl">Produtos</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {total} produto(s) cadastrado(s)
-            {summary.low > 0 ? ` · ${summary.low} com estoque baixo nesta página` : ""}
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="secondary" onClick={() => setCategoriesOpen(true)}>
-            <Tags className="h-4 w-4" /> Categorias
-          </Button>
-          {canManage ? (
-            <Button
-              onClick={() => {
-                setEditing(null);
-                setFormOpen(true);
-              }}
-            >
-              <Plus className="h-4 w-4" /> Novo produto
+      <PageHeader
+        title="Produtos"
+        description={`${total} produto(s) cadastrado(s)${summary.low > 0 ? ` · ${summary.low} com estoque baixo nesta página` : ""}`}
+        actions={
+          <>
+            <Button variant="secondary" onClick={() => setCategoriesOpen(true)}>
+              <Tags className="h-4 w-4" /> Categorias
             </Button>
-          ) : null}
-        </div>
-      </header>
+            {canManage ? (
+              <Button
+                onClick={() => {
+                  setEditing(null);
+                  setFormOpen(true);
+                }}
+              >
+                <Plus className="h-4 w-4" /> Novo produto
+              </Button>
+            ) : null}
+          </>
+        }
+      />
 
       <div className="grid gap-3 rounded-2xl border border-border/60 bg-card/60 p-4 shadow-soft backdrop-blur md:grid-cols-[1fr_auto_auto_auto]">
         <div className="relative">

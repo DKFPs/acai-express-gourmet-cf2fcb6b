@@ -59,12 +59,16 @@ export async function downloadBackupExcel(data: BackupData, companyName: string)
   const XLSX = await import("xlsx");
   const workbook = XLSX.utils.book_new();
   for (const [table, rows] of Object.entries(data)) {
-    const sheet = XLSX.utils.json_to_sheet(rows.length > 0 ? (rows as object[]) : [{ vazio: true }]);
+    const sheet = XLSX.utils.json_to_sheet(
+      rows.length > 0 ? (rows as object[]) : [{ vazio: true }],
+    );
     XLSX.utils.book_append_sheet(workbook, sheet, table.slice(0, 31));
   }
   const output = XLSX.write(workbook, { bookType: "xlsx", type: "array" }) as ArrayBuffer;
   triggerDownload(
-    new Blob([output], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }),
+    new Blob([output], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    }),
     `backup-${slug(companyName)}-${stamp()}.xlsx`,
   );
 }

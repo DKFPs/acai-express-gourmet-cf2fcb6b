@@ -67,7 +67,15 @@ export const Route = createFileRoute("/_authenticated/clientes/$customerId")({
   ),
 });
 
-function StatCard({ label, value, hint }: { label: string; value: string; hint?: string | undefined }) {
+function StatCard({
+  label,
+  value,
+  hint,
+}: {
+  label: string;
+  value: string;
+  hint?: string | undefined;
+}) {
   return (
     <Card className="rounded-2xl border-border/60 bg-card/60 shadow-soft">
       <CardContent className="p-4">
@@ -131,7 +139,11 @@ function ClienteDetalhePage() {
             </Button>
           )}
           {canDelete && (
-            <Button variant="outline" className="text-destructive" onClick={() => setConfirmDelete(true)}>
+            <Button
+              variant="outline"
+              className="text-destructive"
+              onClick={() => setConfirmDelete(true)}
+            >
               <Trash2 className="mr-2 h-4 w-4" /> Excluir
             </Button>
           )}
@@ -150,7 +162,9 @@ function ClienteDetalhePage() {
         <StatCard
           label="Última compra"
           value={formatDate(customer.stats.last_purchase)}
-          hint={customer.firstPurchase ? `Primeira: ${formatDate(customer.firstPurchase)}` : undefined}
+          hint={
+            customer.firstPurchase ? `Primeira: ${formatDate(customer.firstPurchase)}` : undefined
+          }
         />
       </div>
 

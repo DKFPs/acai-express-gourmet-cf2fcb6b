@@ -29,11 +29,7 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  ingredientSchema,
-  parseNumber,
-  type IngredientFormValues,
-} from "@/lib/validations/stock";
+import { ingredientSchema, parseNumber, type IngredientFormValues } from "@/lib/validations/stock";
 import type { Category } from "@/types/product";
 import { UNITS, type Ingredient, type IngredientInput, type SupplierRow } from "@/types/stock";
 

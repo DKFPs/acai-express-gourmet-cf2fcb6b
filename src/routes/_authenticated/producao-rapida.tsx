@@ -54,7 +54,10 @@ function QuickProductionPage() {
     const map = new Map<string, number>();
     for (const item of finished) {
       if (!item.recipe_id) continue;
-      map.set(item.recipe_id, (map.get(item.recipe_id) ?? 0) + Number(item.quantity_available ?? 0));
+      map.set(
+        item.recipe_id,
+        (map.get(item.recipe_id) ?? 0) + Number(item.quantity_available ?? 0),
+      );
     }
     return map;
   }, [finished]);
@@ -171,8 +174,7 @@ function QuickProductionPage() {
               >
                 <span className="font-medium">{batch.recipe?.name ?? "Receita"}</span>
                 <span className="text-muted-foreground">
-                  {formatNumber(batch.produced_quantity)} un ·{" "}
-                  {formatCurrency(batch.total_cost)} ·{" "}
+                  {formatNumber(batch.produced_quantity)} un · {formatCurrency(batch.total_cost)} ·{" "}
                   {new Date(batch.produced_at).toLocaleString("pt-BR")}
                 </span>
               </div>

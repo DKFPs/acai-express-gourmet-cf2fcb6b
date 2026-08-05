@@ -91,7 +91,11 @@ export function ProductTable({
                     {product.category?.name ?? "—"}
                   </TableCell>
                   <TableCell className="text-right">
-                    <span className={cn(product.promo_price && "text-xs text-muted-foreground line-through")}>
+                    <span
+                      className={cn(
+                        product.promo_price && "text-xs text-muted-foreground line-through",
+                      )}
+                    >
                       {formatCurrency(product.price)}
                     </span>
                     {product.promo_price ? (
@@ -128,7 +132,11 @@ export function ProductTable({
                     {canManage ? (
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" aria-label={`Ações de ${product.name}`}>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            aria-label={`Ações de ${product.name}`}
+                          >
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>

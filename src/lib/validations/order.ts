@@ -1,12 +1,7 @@
 import { z } from "zod";
 
 const optionalText = (max: number) =>
-  z
-    .string()
-    .trim()
-    .max(max, `Máximo de ${max} caracteres`)
-    .optional()
-    .or(z.literal(""));
+  z.string().trim().max(max, `Máximo de ${max} caracteres`).optional().or(z.literal(""));
 
 export const orderItemSchema = z.object({
   product_id: z.string().uuid().nullable(),

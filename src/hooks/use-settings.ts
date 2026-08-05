@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import { friendlyError } from "@/lib/errors";
+
 import { useAuth } from "@/hooks/use-auth";
 import { settingsService } from "@/services/settings.service";
 import type { CompanyMember, CompanySettings } from "@/types/saas";
@@ -43,7 +45,7 @@ export function useSaveSettings() {
       toast.success("Configurações salvas");
       void queryClient.invalidateQueries({ queryKey: ["company-settings", companyId] });
     },
-    onError: (error: Error) => toast.error(error.message),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 }
 
@@ -53,13 +55,14 @@ export function useSaveCompany() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (values: Partial<Company>) => settingsService.updateCompany(companyId as string, values),
+    mutationFn: (values: Partial<Company>) =>
+      settingsService.updateCompany(companyId as string, values),
     onSuccess: async () => {
       toast.success("Dados da empresa atualizados");
       await refreshProfile();
       void queryClient.invalidateQueries({ queryKey: ["company", companyId] });
     },
-    onError: (error: Error) => toast.error(error.message),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 }
 
@@ -78,7 +81,8 @@ export function useMemberMutations() {
   const { profile } = useAuth();
   const companyId = profile?.company_id ?? null;
   const queryClient = useQueryClient();
-  const invalidate = () => queryClient.invalidateQueries({ queryKey: ["company-members", companyId] });
+  const invalidate = () =>
+    queryClient.invalidateQueries({ queryKey: ["company-members", companyId] });
 
   const setRole = useMutation({
     mutationFn: ({ userId, role }: { userId: string; role: CompanyMember["role"] }) =>
@@ -87,7 +91,7 @@ export function useMemberMutations() {
       toast.success("Permissão atualizada");
       void invalidate();
     },
-    onError: (error: Error) => toast.error(error.message),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const setActive = useMutation({
@@ -97,7 +101,7 @@ export function useMemberMutations() {
       toast.success("Usuário atualizado");
       void invalidate();
     },
-    onError: (error: Error) => toast.error(error.message),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   return { setRole, setActive };

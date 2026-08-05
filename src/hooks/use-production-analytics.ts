@@ -99,8 +99,16 @@ export function useProductionRealtime() {
 
     const channel = supabase
       .channel("production-realtime")
-      .on("postgres_changes", { event: "*", schema: "public", table: "production_batches" }, invalidate)
-      .on("postgres_changes", { event: "*", schema: "public", table: "finished_products" }, invalidate)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "production_batches" },
+        invalidate,
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "finished_products" },
+        invalidate,
+      )
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "finished_product_movements" },

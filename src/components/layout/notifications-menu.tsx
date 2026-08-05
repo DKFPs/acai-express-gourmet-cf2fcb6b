@@ -21,7 +21,12 @@ export function NotificationsMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative rounded-xl" aria-label="Notificações">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="relative rounded-xl"
+          aria-label="Notificações"
+        >
           <Bell className="h-[18px] w-[18px]" />
           {unread.length > 0 && (
             <span className="absolute right-1.5 top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-gold px-1 text-[10px] font-bold text-gold-foreground">

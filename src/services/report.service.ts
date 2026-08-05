@@ -70,7 +70,11 @@ function pieChart(id: string, title: string, map: Map<string, number>): ReportCh
     type: "pie",
     xKey: "nome",
     data: Array.from(map.entries())
-      .map(([nome, valor], index) => ({ nome, valor: round(valor), fill: CHART_COLORS[index % CHART_COLORS.length]! }))
+      .map(([nome, valor], index) => ({
+        nome,
+        valor: round(valor),
+        fill: CHART_COLORS[index % CHART_COLORS.length]!,
+      }))
       .sort((a, b) => b.valor - a.valor),
     series: [{ key: "valor", label: "Valor", color: CHART_COLORS[0]! }],
   };
@@ -79,9 +83,21 @@ function pieChart(id: string, title: string, map: Map<string, number>): ReportCh
 async function vendas(period: ReportPeriod): Promise<ReportResult> {
   const orders = (await fetchOrders(period)).filter((order) => order.status !== "cancelado");
   const total = orders.reduce((sum, order) => sum + Number(order.total ?? 0), 0);
-  const daily = groupSum(orders, (order) => order.created_at.slice(0, 10), (order) => Number(order.total ?? 0));
-  const counts = groupSum(orders, (order) => order.created_at.slice(0, 10), () => 1);
-  const byMethod = groupSum(orders, (order) => order.payment_method, (order) => Number(order.total ?? 0));
+  const daily = groupSum(
+    orders,
+    (order) => order.created_at.slice(0, 10),
+    (order) => Number(order.total ?? 0),
+  );
+  const counts = groupSum(
+    orders,
+    (order) => order.created_at.slice(0, 10),
+    () => 1,
+  );
+  const byMethod = groupSum(
+    orders,
+    (order) => order.payment_method,
+    (order) => Number(order.total ?? 0),
+  );
 
   return {
     kind: "vendas",
@@ -89,7 +105,11 @@ async function vendas(period: ReportPeriod): Promise<ReportResult> {
     kpis: [
       { label: "Faturamento", value: round(total), format: "currency" },
       { label: "Pedidos", value: orders.length, format: "number" },
-      { label: "Ticket médio", value: orders.length ? round(total / orders.length) : 0, format: "currency" },
+      {
+        label: "Ticket médio",
+        value: orders.length ? round(total / orders.length) : 0,
+        format: "currency",
+      },
       {
         label: "Entregas",
         value: round(orders.reduce((sum, order) => sum + Number(order.delivery_fee ?? 0), 0)),
@@ -122,7 +142,10 @@ async function vendas(period: ReportPeriod): Promise<ReportResult> {
         title: "Faturamento por dia",
         type: "area",
         xKey: "dia",
-        data: Array.from(daily.entries()).map(([iso, valor]) => ({ dia: dayLabel(iso), valor: round(valor) })),
+        data: Array.from(daily.entries()).map(([iso, valor]) => ({
+          dia: dayLabel(iso),
+          valor: round(valor),
+        })),
         series: [{ key: "valor", label: "Faturamento", color: CHART_COLORS[0]! }],
       },
       {
@@ -152,7 +175,11 @@ interface EntryReportRow {
 async function fetchEntries(period: ReportPeriod): Promise<EntryReportRow[]> {
   const { data, error } = await supabase
     .from("financial_entries")
-    .select(sel("due_date, paid_at, type, status, description, amount, payment_method, category:expense_categories(name, color)"))
+    .select(
+      sel(
+        "due_date, paid_at, type, status, description, amount, payment_method, category:expense_categories(name, color)",
+      ),
+    )
     .gte("due_date", period.from)
     .lte("due_date", period.to)
     .order("due_date", { ascending: true })
@@ -164,7 +191,9 @@ async function fetchEntries(period: ReportPeriod): Promise<EntryReportRow[]> {
 function entryTotals(entries: EntryReportRow[]) {
   const active = entries.filter((entry) => entry.status !== "cancelado");
   const sumType = (type: string) =>
-    active.filter((entry) => entry.type === type).reduce((sum, entry) => sum + Number(entry.amount), 0);
+    active
+      .filter((entry) => entry.type === type)
+      .reduce((sum, entry) => sum + Number(entry.amount), 0);
   const receitas = sumType("receita");
   const saidas = sumType("despesa") + sumType("compra") + sumType("investimento");
   return { active, receitas, saidas, lucro: receitas - saidas };
@@ -179,7 +208,11 @@ async function financeiro(period: ReportPeriod): Promise<ReportResult> {
 
   const daily = new Map<string, { dia: string; receitas: number; saidas: number }>();
   for (const entry of active) {
-    const point = daily.get(entry.due_date) ?? { dia: dayLabel(entry.due_date), receitas: 0, saidas: 0 };
+    const point = daily.get(entry.due_date) ?? {
+      dia: dayLabel(entry.due_date),
+      receitas: 0,
+      saidas: 0,
+    };
     if (entry.type === "receita") point.receitas += Number(entry.amount);
     else point.saidas += Number(entry.amount);
     daily.set(entry.due_date, point);
@@ -260,7 +293,11 @@ async function lucroReport(period: ReportPeriod): Promise<ReportResult> {
       { label: "Receitas", value: round(receitas), format: "currency" },
       { label: "Custos e despesas", value: round(saidas), format: "currency" },
       { label: "Lucro", value: round(lucro), format: "currency" },
-      { label: "Margem", value: receitas > 0 ? round((lucro / receitas) * 100) : 0, format: "percent" },
+      {
+        label: "Margem",
+        value: receitas > 0 ? round((lucro / receitas) * 100) : 0,
+        format: "percent",
+      },
     ],
     columns: [
       { key: "mes", label: "Mês", format: "text" },
@@ -274,7 +311,8 @@ async function lucroReport(period: ReportPeriod): Promise<ReportResult> {
       receitas: round(point.receitas),
       saidas: round(point.saidas),
       lucro: round(point.receitas - point.saidas),
-      margem: point.receitas > 0 ? round(((point.receitas - point.saidas) / point.receitas) * 100) : 0,
+      margem:
+        point.receitas > 0 ? round(((point.receitas - point.saidas) / point.receitas) * 100) : 0,
     })),
     charts: [
       {
@@ -295,7 +333,10 @@ async function lucroReport(period: ReportPeriod): Promise<ReportResult> {
         xKey: "mes",
         data: ordered.map(([, point]) => ({
           mes: point.mes,
-          margem: point.receitas > 0 ? round(((point.receitas - point.saidas) / point.receitas) * 100) : 0,
+          margem:
+            point.receitas > 0
+              ? round(((point.receitas - point.saidas) / point.receitas) * 100)
+              : 0,
         })),
         series: [{ key: "margem", label: "Margem", color: CHART_COLORS[1]! }],
       },
@@ -391,7 +432,11 @@ async function produtos(period: ReportPeriod): Promise<ReportResult> {
   const items = (data ?? []).filter((item) => item.orders?.status !== "cancelado");
   const map = new Map<string, { nome: string; quantidade: number; total: number }>();
   for (const item of items) {
-    const current = map.get(item.product_name) ?? { nome: item.product_name, quantidade: 0, total: 0 };
+    const current = map.get(item.product_name) ?? {
+      nome: item.product_name,
+      quantidade: 0,
+      total: 0,
+    };
     current.quantidade += Number(item.quantity);
     current.total += Number(item.line_total ?? Number(item.unit_price) * Number(item.quantity));
     map.set(item.product_name, current);
@@ -461,7 +506,10 @@ async function estoque(): Promise<ReportResult> {
   if (error) throw error;
 
   const items = data ?? [];
-  const valor = items.reduce((sum, item) => sum + Number(item.quantity) * Number(item.purchase_price), 0);
+  const valor = items.reduce(
+    (sum, item) => sum + Number(item.quantity) * Number(item.purchase_price),
+    0,
+  );
   const criticos = items.filter((item) => Number(item.quantity) <= Number(item.min_stock));
   const zerados = items.filter((item) => Number(item.quantity) <= 0);
 
@@ -513,7 +561,11 @@ async function estoque(): Promise<ReportResult> {
         "Valor imobilizado (top 8)",
         new Map(
           [...items]
-            .sort((a, b) => Number(b.quantity) * Number(b.purchase_price) - Number(a.quantity) * Number(a.purchase_price))
+            .sort(
+              (a, b) =>
+                Number(b.quantity) * Number(b.purchase_price) -
+                Number(a.quantity) * Number(a.purchase_price),
+            )
             .slice(0, 8)
             .map((item) => [item.name, round(Number(item.quantity) * Number(item.purchase_price))]),
         ),

@@ -118,9 +118,7 @@ export function RecipeCostsPanel({
                 const previous = history
                   .slice(index + 1)
                   .find((item) => item.recipe_id === entry.recipe_id);
-                const delta = previous
-                  ? Number(entry.total_cost) - Number(previous.total_cost)
-                  : 0;
+                const delta = previous ? Number(entry.total_cost) - Number(previous.total_cost) : 0;
                 return (
                   <TableRow key={entry.id}>
                     <TableCell>

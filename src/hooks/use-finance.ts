@@ -1,27 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import { friendlyError } from "@/lib/errors";
+
 import { useAuth } from "@/hooks/use-auth";
 import {
   cashRegisterService,
   expenseCategoryService,
   financeService,
 } from "@/services/finance.service";
-import type {
-  ExpenseCategoryInput,
-  FinancialEntryInput,
-  FinancialFilters,
-} from "@/types/finance";
-
-function translate(message: string) {
-  if (message.toLowerCase().includes("row-level security")) {
-    return "Você não tem permissão para esta ação.";
-  }
-  if (message.includes("violates foreign key")) {
-    return "Registro em uso por outro cadastro.";
-  }
-  return message || "Não foi possível concluir a operação.";
-}
+import type { ExpenseCategoryInput, FinancialEntryInput, FinancialFilters } from "@/types/finance";
 
 export function useFinancialEntries(filters: FinancialFilters) {
   return useQuery({
@@ -39,7 +27,10 @@ export function useFinancialRange(from: string, to: string) {
 }
 
 export function useExpenseCategories() {
-  return useQuery({ queryKey: ["expense-categories"], queryFn: () => expenseCategoryService.list() });
+  return useQuery({
+    queryKey: ["expense-categories"],
+    queryFn: () => expenseCategoryService.list(),
+  });
 }
 
 export function useCashRegisters() {
@@ -66,7 +57,7 @@ export function useFinancialEntryMutations() {
       toast.success("Lançamento criado");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const update = useMutation({
@@ -76,7 +67,7 @@ export function useFinancialEntryMutations() {
       toast.success("Lançamento atualizado");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const settle = useMutation({
@@ -85,7 +76,7 @@ export function useFinancialEntryMutations() {
       toast.success("Conta marcada como paga");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const remove = useMutation({
@@ -94,7 +85,7 @@ export function useFinancialEntryMutations() {
       toast.success("Lançamento excluído");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   return { create, update, settle, remove };
@@ -111,7 +102,7 @@ export function useExpenseCategoryMutations() {
       toast.success("Categoria criada");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const update = useMutation({
@@ -121,7 +112,7 @@ export function useExpenseCategoryMutations() {
       toast.success("Categoria atualizada");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const remove = useMutation({
@@ -130,7 +121,7 @@ export function useExpenseCategoryMutations() {
       toast.success("Categoria excluída");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   return { create, update, remove };
@@ -148,7 +139,7 @@ export function useCashRegisterMutations() {
       toast.success("Caixa aberto");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   const close = useMutation({
@@ -167,7 +158,7 @@ export function useCashRegisterMutations() {
       toast.success("Caixa fechado");
       invalidate();
     },
-    onError: (error: Error) => toast.error(translate(error.message)),
+    onError: (error: Error) => toast.error(friendlyError(error)),
   });
 
   return { open, close };

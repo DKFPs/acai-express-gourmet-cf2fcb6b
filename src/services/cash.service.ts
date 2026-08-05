@@ -1,5 +1,10 @@
 import { supabase } from "@/integrations/supabase/client";
-import { expectedBalance, type CashSession, type CashTransaction, type CashTransactionInput } from "@/types/cash";
+import {
+  expectedBalance,
+  type CashSession,
+  type CashTransaction,
+  type CashTransactionInput,
+} from "@/types/cash";
 
 export const cashService = {
   async listSessions(limit = 60): Promise<CashSession[]> {

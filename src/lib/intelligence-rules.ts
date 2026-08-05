@@ -7,7 +7,9 @@ export function buildSuggestions(data: IntelligenceData): Suggestion[] {
 
   const topFlavor = data.sabores[0];
   if (topFlavor) {
-    const ready = data.prontos.find((item) => item.name.toLowerCase() === topFlavor.name.toLowerCase());
+    const ready = data.prontos.find(
+      (item) => item.name.toLowerCase() === topFlavor.name.toLowerCase(),
+    );
     const diario = topFlavor.quantidade / data.dias;
     if (!ready || ready.disponivel < diario * 2) {
       suggestions.push({

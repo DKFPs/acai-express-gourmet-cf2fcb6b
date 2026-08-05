@@ -187,6 +187,12 @@
     border-color: var(--color-border);
   }
 
+  /* Foco visível e consistente em todos os elementos interativos. */
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -195,5 +201,17 @@
       "cv03",
       "cv04";
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* Respeita quem prefere menos movimento. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }

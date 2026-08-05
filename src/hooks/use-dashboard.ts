@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import { friendlyError } from "@/lib/errors";
+
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { dashboardService, type DashboardGoals } from "@/services/dashboard.service";

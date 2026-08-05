@@ -63,9 +63,7 @@ export function StockCharts({ ingredients, movements }: StockChartsProps) {
       <Card className="rounded-2xl">
         <CardHeader>
           <CardTitle>Estoque atual x mínimo</CardTitle>
-          <CardDescription>
-            Valor total em estoque: {formatCurrency(totalValue)}
-          </CardDescription>
+          <CardDescription>Valor total em estoque: {formatCurrency(totalValue)}</CardDescription>
         </CardHeader>
         <CardContent className="h-72">
           <ResponsiveContainer width="100%" height="100%">
@@ -112,7 +110,12 @@ export function StockCharts({ ingredients, movements }: StockChartsProps) {
                   borderRadius: 12,
                 }}
               />
-              <Line type="monotone" dataKey="entradas" stroke="hsl(var(--primary))" strokeWidth={2} />
+              <Line
+                type="monotone"
+                dataKey="entradas"
+                stroke="hsl(var(--primary))"
+                strokeWidth={2}
+              />
               <Line
                 type="monotone"
                 dataKey="saidas"

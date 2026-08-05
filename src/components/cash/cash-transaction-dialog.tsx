@@ -20,7 +20,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { parseNumber } from "@/lib/validations/stock";
-import { CASH_TRANSACTION_TYPES, type CashTransactionInput, type CashTransactionType } from "@/types/cash";
+import {
+  CASH_TRANSACTION_TYPES,
+  type CashTransactionInput,
+  type CashTransactionType,
+} from "@/types/cash";
 import { FINANCE_PAYMENT_METHODS } from "@/types/finance";
 
 interface CashTransactionDialogProps {

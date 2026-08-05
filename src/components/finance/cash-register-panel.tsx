@@ -138,11 +138,19 @@ export function CashRegisterPanel({
             <TableBody>
               {registers.map((register) => (
                 <TableRow key={register.id}>
-                  <TableCell className="whitespace-nowrap">{formatMoment(register.opened_at)}</TableCell>
-                  <TableCell className="whitespace-nowrap">{formatMoment(register.closed_at)}</TableCell>
-                  <TableCell className="text-right">{formatCurrency(register.opening_amount)}</TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    {formatMoment(register.opened_at)}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    {formatMoment(register.closed_at)}
+                  </TableCell>
                   <TableCell className="text-right">
-                    {register.closing_amount === null ? "—" : formatCurrency(register.closing_amount)}
+                    {formatCurrency(register.opening_amount)}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {register.closing_amount === null
+                      ? "—"
+                      : formatCurrency(register.closing_amount)}
                   </TableCell>
                   <TableCell
                     className={`text-right ${
