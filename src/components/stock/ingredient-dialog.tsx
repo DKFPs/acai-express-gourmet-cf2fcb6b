@@ -268,7 +268,7 @@ export function IngredientDialog({
               name="purchase_price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Preço de compra (R$)</FormLabel>
+                  <FormLabel>Preço por {watchedUnit} (R$)</FormLabel>
                   <FormControl>
                     <Input inputMode="decimal" {...field} />
                   </FormControl>
@@ -276,6 +276,56 @@ export function IngredientDialog({
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="purchase_quantity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Quantidade comprada ({watchedUnit})</FormLabel>
+                  <FormControl>
+                    <Input inputMode="decimal" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="purchase_value"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Valor pago (R$)</FormLabel>
+                  <FormControl>
+                    <Input inputMode="decimal" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="purchase_date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Data da compra</FormLabel>
+                  <FormControl>
+                    <Input type="date" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="rounded-xl border border-border/60 p-3 text-sm sm:col-span-2">
+              <p className="font-medium">Custo unitário calculado</p>
+              <p className="text-muted-foreground">
+                {costTable.map((entry) => formatUnitCost(entry.value, entry.unit)).join(" · ")}
+              </p>
+            </div>
+
 
             <FormField
               control={form.control}
