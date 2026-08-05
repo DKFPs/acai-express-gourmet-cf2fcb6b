@@ -21,6 +21,9 @@ export const ingredientSchema = z.object({
   quantity: numeric,
   min_stock: numeric,
   purchase_price: numeric,
+  purchase_quantity: numeric,
+  purchase_value: numeric,
+  purchase_date: z.string().trim().optional().or(z.literal("")),
   notes: z.string().trim().max(300, "Máximo de 300 caracteres").optional().or(z.literal("")),
   is_active: z.boolean(),
 });

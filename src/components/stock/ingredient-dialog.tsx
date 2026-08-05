@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { formatUnitCost, baseUnitOf, toBaseQty, unitCostTable } from "@/lib/units";
 import { ingredientSchema, parseNumber, type IngredientFormValues } from "@/lib/validations/stock";
 import type { Category } from "@/types/product";
 import { UNITS, type Ingredient, type IngredientInput, type SupplierRow } from "@/types/stock";
@@ -51,6 +52,9 @@ const EMPTY: IngredientFormValues = {
   quantity: "0",
   min_stock: "0",
   purchase_price: "0",
+  purchase_quantity: "0",
+  purchase_value: "0",
+  purchase_date: new Date().toISOString().slice(0, 10),
   notes: "",
   is_active: true,
 };
@@ -81,6 +85,9 @@ export function IngredientDialog({
             quantity: String(ingredient.quantity ?? 0),
             min_stock: String(ingredient.min_stock ?? 0),
             purchase_price: String(ingredient.purchase_price ?? 0),
+            purchase_quantity: String(ingredient.last_purchase_quantity ?? 0),
+            purchase_value: String(ingredient.last_purchase_value ?? 0),
+            purchase_date: ingredient.last_purchase_at ?? "",
             notes: ingredient.notes ?? "",
             is_active: ingredient.is_active,
           }
@@ -88,7 +95,21 @@ export function IngredientDialog({
     );
   }, [open, ingredient, form]);
 
+  const watchedUnit = form.watch("unit");
+  const purchaseQuantity = parseNumber(form.watch("purchase_quantity") || "0");
+  const purchaseValue = parseNumber(form.watch("purchase_value") || "0");
+  const manualPrice = parseNumber(form.watch("purchase_price") || "0");
+
+  const unitPrice =
+    purchaseQuantity > 0 && purchaseValue > 0 ? purchaseValue / purchaseQuantity : manualPrice;
+  const baseUnit = baseUnitOf(watchedUnit);
+  const costPerBase = unitPrice / (toBaseQty(1, watchedUnit, baseUnit) || 1);
+  const costTable = unitCostTable(costPerBase, baseUnit);
+
   const submit = form.handleSubmit((parsed) => {
+    const qty = parseNumber(parsed.purchase_quantity);
+    const value = parseNumber(parsed.purchase_value);
+    const price = qty > 0 && value > 0 ? value / qty : parseNumber(parsed.purchase_price);
     onSubmit({
       name: parsed.name,
       category_id: parsed.category_id ? parsed.category_id : null,
@@ -96,7 +117,10 @@ export function IngredientDialog({
       unit: parsed.unit,
       quantity: parseNumber(parsed.quantity),
       min_stock: parseNumber(parsed.min_stock),
-      purchase_price: parseNumber(parsed.purchase_price),
+      purchase_price: price,
+      last_purchase_quantity: qty > 0 ? qty : null,
+      last_purchase_value: value > 0 ? value : null,
+      last_purchase_at: parsed.purchase_date ? parsed.purchase_date : null,
       notes: parsed.notes ? parsed.notes : null,
       is_active: parsed.is_active,
     });
@@ -244,7 +268,7 @@ export function IngredientDialog({
               name="purchase_price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Preço de compra (R$)</FormLabel>
+                  <FormLabel>Preço por {watchedUnit} (R$)</FormLabel>
                   <FormControl>
                     <Input inputMode="decimal" {...field} />
                   </FormControl>
@@ -252,6 +276,56 @@ export function IngredientDialog({
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="purchase_quantity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Quantidade comprada ({watchedUnit})</FormLabel>
+                  <FormControl>
+                    <Input inputMode="decimal" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="purchase_value"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Valor pago (R$)</FormLabel>
+                  <FormControl>
+                    <Input inputMode="decimal" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="purchase_date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Data da compra</FormLabel>
+                  <FormControl>
+                    <Input type="date" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="rounded-xl border border-border/60 p-3 text-sm sm:col-span-2">
+              <p className="font-medium">Custo unitário calculado</p>
+              <p className="text-muted-foreground">
+                {costTable.map((entry) => formatUnitCost(entry.value, entry.unit)).join(" · ")}
+              </p>
+            </div>
+
 
             <FormField
               control={form.control}

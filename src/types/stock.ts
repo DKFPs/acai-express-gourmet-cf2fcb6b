@@ -34,6 +34,9 @@ export interface IngredientInput {
   quantity: number;
   min_stock: number;
   purchase_price: number;
+  last_purchase_quantity: number | null;
+  last_purchase_value: number | null;
+  last_purchase_at: string | null;
   notes: string | null;
   is_active: boolean;
 }
