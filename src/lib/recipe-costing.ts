@@ -75,6 +75,7 @@ export interface CostingResult {
   markup: number;
   minSalePrice: number;
   missing: CostingLine[];
+  validation: CostingValidation;
 }
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
@@ -85,7 +86,7 @@ export function calculateRecipeCosts(params: CostingParams): CostingResult {
   const yieldQty = safe(params.yieldQuantity);
   const produced = yieldQty * batches;
 
-  const ingredientLines: CostingLine[] = params.items
+  const rawIngredients = params.items
     .filter((item) => item.ingredientId)
     .map((item, index) => {
       const ingredient = params.ingredients.find((entry) => entry.id === item.ingredientId);
@@ -106,10 +107,11 @@ export function calculateRecipeCosts(params: CostingParams): CostingResult {
           ? safe(convertQty(ingredient.stockQuantity, ingredient.stockUnit, item.unit))
           : 0,
         missing: ingredient ? ingredient.stockQuantity < neededInStockUnit : false,
+        costPercent: 0,
       };
     });
 
-  const packagingLines: CostingLine[] = params.packaging
+  const rawPackaging = params.packaging
     .filter((entry) => entry.qtyPerUnit > 0)
     .map((entry) => {
       const quantity = entry.qtyPerUnit * produced;
@@ -122,14 +124,23 @@ export function calculateRecipeCosts(params: CostingParams): CostingResult {
         totalCost: safe(quantity * entry.unitCost),
         stockQuantity: safe(entry.stockQuantity),
         missing: entry.stockQuantity < quantity,
+        costPercent: 0,
       };
     });
 
-  const ingredientsCost = ingredientLines.reduce((sum, line) => sum + line.totalCost, 0);
-  const packagingCost = packagingLines.reduce((sum, line) => sum + line.totalCost, 0);
+  const ingredientsCost = rawIngredients.reduce((sum, line) => sum + line.totalCost, 0);
+  const packagingCost = rawPackaging.reduce((sum, line) => sum + line.totalCost, 0);
   const packagingCostPerBottle = produced > 0 ? packagingCost / produced : 0;
   const totalCost = ingredientsCost + packagingCost;
   const costPerBottle = produced > 0 ? totalCost / produced : 0;
+
+  const withPercent = (line: (typeof rawIngredients)[number]): CostingLine => ({
+    ...line,
+    costPercent: totalCost > 0 ? (line.totalCost / totalCost) * 100 : 0,
+  });
+
+  const ingredientLines: CostingLine[] = rawIngredients.map(withPercent);
+  const packagingLines: CostingLine[] = rawPackaging.map(withPercent);
 
   const salePrice = safe(params.salePrice);
   const tax = clamp(safe(params.salesTaxPercent), 0, 95);
@@ -142,6 +153,25 @@ export function calculateRecipeCosts(params: CostingParams): CostingResult {
   const markup = costPerBottle > 0 && salePrice > 0 ? salePrice / costPerBottle : 0;
   const minSalePrice =
     target + tax < 100 ? costPerBottle / (1 - (target + tax) / 100) : costPerBottle;
+
+  const missing = [...ingredientLines, ...packagingLines].filter((line) => line.missing);
+
+  const errors: string[] = [];
+  if (ingredientLines.length === 0) errors.push("A receita não possui ingredientes cadastrados.");
+  if (yieldQty <= 0) errors.push("Informe o rendimento real da receita (maior que zero).");
+  for (const line of missing) {
+    errors.push(
+      `Estoque insuficiente de ${line.name}: disponível ${line.stockQuantity.toLocaleString(
+        "pt-BR",
+        { maximumFractionDigits: 3 },
+      )} ${line.unit}, necessário ${line.quantity.toLocaleString("pt-BR", {
+        maximumFractionDigits: 3,
+      })} ${line.unit}.`,
+    );
+  }
+  if (salePrice <= costPerBottle) {
+    errors.push("O preço de venda precisa ser maior que o custo por garrafinha.");
+  }
 
   return {
     ingredientLines,
@@ -161,7 +191,8 @@ export function calculateRecipeCosts(params: CostingParams): CostingResult {
     marginPercent,
     markup,
     minSalePrice,
-    missing: [...ingredientLines, ...packagingLines].filter((line) => line.missing),
+    missing,
+    validation: { ok: errors.length === 0, errors },
   };
 }
 
