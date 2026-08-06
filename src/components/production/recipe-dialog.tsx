@@ -395,15 +395,33 @@ export function RecipeDialog({
                   <FormField
                     control={form.control}
                     name={`items.${index}.unit`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input placeholder="Unidade" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    render={({ field }) => {
+                      const selected = ingredients.find(
+                        (entry) => entry.id === watchedItems?.[index]?.ingredient_id,
+                      );
+                      const options = compatibleUnits(selected?.unit ?? field.value);
+                      return (
+                        <FormItem>
+                          <Select value={field.value} onValueChange={field.onChange}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Un." />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {options.map((option) => (
+                                <SelectItem key={option} value={option}>
+                                  {option}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
                   />
+
                   <Button
                     type="button"
                     variant="ghost"
