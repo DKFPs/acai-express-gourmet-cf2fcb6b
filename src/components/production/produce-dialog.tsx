@@ -174,24 +174,9 @@ export function ProduceDialog({
             />
 
             {preview ? (
-              <div className="space-y-2 rounded-2xl border border-border/60 p-4 text-sm">
-                <p className="font-medium">
-                  Produzirá {preview.produced} garrafinhas · custo estimado{" "}
-                  {formatCurrency(preview.total)}
-                </p>
-                <ul className="space-y-1 text-muted-foreground">
-                  {preview.ingredients.map((item) => (
-                    <li key={item.id}>
-                      {item.name}: {item.needed} {item.unit}
-                    </li>
-                  ))}
-                  {preview.packs.map((item) => (
-                    <li key={item.id} className={item.missing ? "text-destructive" : undefined}>
-                      {item.name}: {item.needed} {item.unit}
-                      {item.missing ? " (estoque insuficiente)" : ""}
-                    </li>
-                  ))}
-                </ul>
+              <div className="space-y-3">
+                <RecipeCostSummary costing={preview} />
+                <RecipeCostTable costing={preview} />
               </div>
             ) : null}
 
@@ -199,10 +184,11 @@ export function ProduceDialog({
               <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
                 Cancelar
               </Button>
-              <Button type="submit" disabled={loading}>
+              <Button type="submit" disabled={loading || blocked}>
                 {loading ? "Produzindo..." : "Confirmar produção"}
               </Button>
             </DialogFooter>
+
           </form>
         </Form>
       </DialogContent>
