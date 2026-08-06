@@ -77,35 +77,10 @@ export function ProduceDialog({
   const batches = parseNumber(form.watch("batches") || "0");
   const recipe = recipes.find((item) => item.id === recipeId) ?? null;
 
-  const preview = useMemo(() => {
-    if (!recipe || !Number.isFinite(batches) || batches <= 0) return null;
-    const produced = Number(recipe.yield_quantity) * batches;
-    const ingredients = recipe.items.map((item) => {
-      const needed = Number(item.quantity) * batches;
-      const available = Number(item.ingredient?.purchase_price ?? 0);
-      return {
-        id: item.id,
-        name: item.ingredient?.name ?? "Ingrediente",
-        needed,
-        unit: item.unit,
-        cost: needed * available,
-      };
-    });
-    const packs = packaging
-      .filter((item) => item.is_active && item.type !== "outro")
-      .map((item) => ({
-        id: item.id,
-        name: item.name,
-        needed: produced,
-        unit: item.unit,
-        cost: produced * Number(item.unit_cost),
-        missing: Number(item.quantity) < produced,
-      }));
-    const total =
-      ingredients.reduce((sum, item) => sum + item.cost, 0) +
-      packs.reduce((sum, item) => sum + item.cost, 0);
-    return { produced, ingredients, packs, total };
-  }, [recipe, batches, packaging]);
+  const costing = useSavedRecipeCosting(recipe, batches > 0 ? batches : 1);
+  const preview = recipe && batches > 0 ? costing : null;
+  const blocked = Boolean(preview && !preview.validation.ok);
+
 
   const submit = form.handleSubmit((values) => {
     onSubmit({
