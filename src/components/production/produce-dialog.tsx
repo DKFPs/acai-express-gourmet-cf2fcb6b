@@ -28,10 +28,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { formatCurrency } from "@/lib/format";
+import {
+  RecipeCostSummary,
+  RecipeCostTable,
+} from "@/components/production/recipe-cost-live";
+import { useSavedRecipeCosting } from "@/hooks/use-costing";
 import { produceSchema, type ProduceFormValues } from "@/lib/validations/production";
 import { parseNumber } from "@/lib/validations/stock";
 import type { PackagingRow, ProduceInput, Recipe } from "@/types/production";
+
 
 interface ProduceDialogProps {
   open: boolean;
