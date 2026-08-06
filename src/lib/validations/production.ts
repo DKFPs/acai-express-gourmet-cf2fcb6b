@@ -46,12 +46,6 @@ export const packagingSchema = z.object({
   quantity: numeric,
   min_stock: numeric,
   unit_cost: numeric,
-  qty_per_unit: numeric,
-  purchase_quantity: z.string().optional().or(z.literal("")),
-  purchase_value: z.string().optional().or(z.literal("")),
-  supplier_id: z.string().optional().or(z.literal("")),
-  last_purchase_at: z.string().optional().or(z.literal("")),
-  next_restock_at: z.string().optional().or(z.literal("")),
   is_active: z.boolean(),
 });
 

@@ -61,12 +61,6 @@ export interface PackagingInput {
   quantity: number;
   min_stock: number;
   unit_cost: number;
-  qty_per_unit: number;
-  purchase_quantity: number | null;
-  purchase_value: number | null;
-  supplier_id: string | null;
-  last_purchase_at: string | null;
-  next_restock_at: string | null;
   is_active: boolean;
 }
 

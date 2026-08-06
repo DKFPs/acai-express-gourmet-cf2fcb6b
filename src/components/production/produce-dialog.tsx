@@ -28,8 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { RecipeCostSummary, RecipeCostTable } from "@/components/production/recipe-cost-live";
-import { useSavedRecipeCosting } from "@/hooks/use-costing";
+import { formatCurrency } from "@/lib/format";
 import { produceSchema, type ProduceFormValues } from "@/lib/validations/production";
 import { parseNumber } from "@/lib/validations/stock";
 import type { PackagingRow, ProduceInput, Recipe } from "@/types/production";
@@ -78,9 +77,35 @@ export function ProduceDialog({
   const batches = parseNumber(form.watch("batches") || "0");
   const recipe = recipes.find((item) => item.id === recipeId) ?? null;
 
-  const costing = useSavedRecipeCosting(recipe, batches > 0 ? batches : 1);
-  const preview = recipe && batches > 0 ? costing : null;
-  const blocked = Boolean(preview && !preview.validation.ok);
+  const preview = useMemo(() => {
+    if (!recipe || !Number.isFinite(batches) || batches <= 0) return null;
+    const produced = Number(recipe.yield_quantity) * batches;
+    const ingredients = recipe.items.map((item) => {
+      const needed = Number(item.quantity) * batches;
+      const available = Number(item.ingredient?.purchase_price ?? 0);
+      return {
+        id: item.id,
+        name: item.ingredient?.name ?? "Ingrediente",
+        needed,
+        unit: item.unit,
+        cost: needed * available,
+      };
+    });
+    const packs = packaging
+      .filter((item) => item.is_active && item.type !== "outro")
+      .map((item) => ({
+        id: item.id,
+        name: item.name,
+        needed: produced,
+        unit: item.unit,
+        cost: produced * Number(item.unit_cost),
+        missing: Number(item.quantity) < produced,
+      }));
+    const total =
+      ingredients.reduce((sum, item) => sum + item.cost, 0) +
+      packs.reduce((sum, item) => sum + item.cost, 0);
+    return { produced, ingredients, packs, total };
+  }, [recipe, batches, packaging]);
 
   const submit = form.handleSubmit((values) => {
     onSubmit({
@@ -174,9 +199,24 @@ export function ProduceDialog({
             />
 
             {preview ? (
-              <div className="space-y-3">
-                <RecipeCostSummary costing={preview} />
-                <RecipeCostTable costing={preview} />
+              <div className="space-y-2 rounded-2xl border border-border/60 p-4 text-sm">
+                <p className="font-medium">
+                  Produzirá {preview.produced} garrafinhas · custo estimado{" "}
+                  {formatCurrency(preview.total)}
+                </p>
+                <ul className="space-y-1 text-muted-foreground">
+                  {preview.ingredients.map((item) => (
+                    <li key={item.id}>
+                      {item.name}: {item.needed} {item.unit}
+                    </li>
+                  ))}
+                  {preview.packs.map((item) => (
+                    <li key={item.id} className={item.missing ? "text-destructive" : undefined}>
+                      {item.name}: {item.needed} {item.unit}
+                      {item.missing ? " (estoque insuficiente)" : ""}
+                    </li>
+                  ))}
+                </ul>
               </div>
             ) : null}
 
@@ -184,7 +224,7 @@ export function ProduceDialog({
               <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
                 Cancelar
               </Button>
-              <Button type="submit" disabled={loading || blocked}>
+              <Button type="submit" disabled={loading}>
                 {loading ? "Produzindo..." : "Confirmar produção"}
               </Button>
             </DialogFooter>

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, Trash2 } from "lucide-react";
@@ -29,9 +29,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { RecipeCostSummary, RecipeCostTable } from "@/components/production/recipe-cost-live";
-import { useRecipeCosting } from "@/hooks/use-costing";
-import { compatibleUnits } from "@/lib/units";
 import { recipeSchema, type RecipeFormValues } from "@/lib/validations/production";
 import { parseNumber } from "@/lib/validations/stock";
 import type { Recipe, RecipeInput } from "@/types/production";
@@ -76,31 +73,6 @@ export function RecipeDialog({
   });
 
   const items = useFieldArray({ control: form.control, name: "items" });
-
-  const watchedItems = form.watch("items");
-  const watchedYield = form.watch("yield_quantity");
-  const watchedPrice = form.watch("sale_price");
-  const watchedMargin = form.watch("target_margin_percent");
-
-  const costingItems = useMemo(
-    () =>
-      (watchedItems ?? [])
-        .filter((item) => item.ingredient_id)
-        .map((item) => ({
-          ingredientId: item.ingredient_id,
-          quantity: parseNumber(item.quantity || "0"),
-          unit: item.unit,
-        })),
-    [watchedItems],
-  );
-
-  const costing = useRecipeCosting({
-    items: costingItems,
-    yieldQuantity: parseNumber(watchedYield || "0"),
-    salePrice: parseNumber(watchedPrice || "0"),
-    targetMarginPercent: parseNumber(watchedMargin || "0"),
-    salesTaxPercent: Number(recipe?.sales_tax_percent ?? 0),
-  });
 
   useEffect(() => {
     if (!open) return;
@@ -156,7 +128,7 @@ export function RecipeDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto rounded-2xl sm:max-w-4xl">
+      <DialogContent className="max-h-[90vh] overflow-y-auto rounded-2xl sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>{recipe ? "Editar receita" : "Nova receita"}</DialogTitle>
           <DialogDescription>
@@ -389,33 +361,15 @@ export function RecipeDialog({
                   <FormField
                     control={form.control}
                     name={`items.${index}.unit`}
-                    render={({ field }) => {
-                      const selected = ingredients.find(
-                        (entry) => entry.id === watchedItems?.[index]?.ingredient_id,
-                      );
-                      const options = compatibleUnits(selected?.unit ?? field.value);
-                      return (
-                        <FormItem>
-                          <Select value={field.value} onValueChange={field.onChange}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Un." />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {options.map((option) => (
-                                <SelectItem key={option} value={option}>
-                                  {option}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      );
-                    }}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="Unidade" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-
                   <Button
                     type="button"
                     variant="ghost"
@@ -431,11 +385,6 @@ export function RecipeDialog({
               {form.formState.errors.items?.message ? (
                 <p className="text-sm text-destructive">{form.formState.errors.items.message}</p>
               ) : null}
-            </div>
-
-            <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
-              <RecipeCostTable costing={costing} />
-              <RecipeCostSummary costing={costing} />
             </div>
 
             <DialogFooter>

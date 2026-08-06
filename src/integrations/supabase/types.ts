@@ -793,16 +793,11 @@ export type Database = {
       }
       ingredients: {
         Row: {
-          base_unit: string
           category_id: string | null
           company_id: string
-          cost_per_base_unit: number
           created_at: string
           id: string
           is_active: boolean
-          last_purchase_at: string | null
-          last_purchase_quantity: number | null
-          last_purchase_value: number | null
           min_stock: number
           name: string
           notes: string | null
@@ -813,16 +808,11 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          base_unit?: string
           category_id?: string | null
           company_id?: string
-          cost_per_base_unit?: number
           created_at?: string
           id?: string
           is_active?: boolean
-          last_purchase_at?: string | null
-          last_purchase_quantity?: number | null
-          last_purchase_value?: number | null
           min_stock?: number
           name: string
           notes?: string | null
@@ -833,16 +823,11 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          base_unit?: string
           category_id?: string | null
           company_id?: string
-          cost_per_base_unit?: number
           created_at?: string
           id?: string
           is_active?: boolean
-          last_purchase_at?: string | null
-          last_purchase_quantity?: number | null
-          last_purchase_value?: number | null
           min_stock?: number
           name?: string
           notes?: string | null
@@ -1082,15 +1067,9 @@ export type Database = {
           created_at: string
           id: string
           is_active: boolean
-          last_purchase_at: string | null
           min_stock: number
           name: string
-          next_restock_at: string | null
-          purchase_quantity: number | null
-          purchase_value: number | null
-          qty_per_unit: number
           quantity: number
-          supplier_id: string | null
           type: Database["public"]["Enums"]["packaging_type"]
           unit: string
           unit_cost: number
@@ -1101,15 +1080,9 @@ export type Database = {
           created_at?: string
           id?: string
           is_active?: boolean
-          last_purchase_at?: string | null
           min_stock?: number
           name: string
-          next_restock_at?: string | null
-          purchase_quantity?: number | null
-          purchase_value?: number | null
-          qty_per_unit?: number
           quantity?: number
-          supplier_id?: string | null
           type: Database["public"]["Enums"]["packaging_type"]
           unit?: string
           unit_cost?: number
@@ -1120,15 +1093,9 @@ export type Database = {
           created_at?: string
           id?: string
           is_active?: boolean
-          last_purchase_at?: string | null
           min_stock?: number
           name?: string
-          next_restock_at?: string | null
-          purchase_quantity?: number | null
-          purchase_value?: number | null
-          qty_per_unit?: number
           quantity?: number
-          supplier_id?: string | null
           type?: Database["public"]["Enums"]["packaging_type"]
           unit?: string
           unit_cost?: number
@@ -1140,13 +1107,6 @@ export type Database = {
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "packaging_stock_supplier_id_fkey"
-            columns: ["supplier_id"]
-            isOneToOne: false
-            referencedRelation: "suppliers"
             referencedColumns: ["id"]
           },
         ]
@@ -1244,9 +1204,7 @@ export type Database = {
           discarded_quantity: number
           expires_at: string | null
           id: string
-          ingredients_cost: number
           notes: string | null
-          packaging_cost: number
           produced_at: string
           produced_quantity: number
           recipe_id: string
@@ -1265,9 +1223,7 @@ export type Database = {
           discarded_quantity?: number
           expires_at?: string | null
           id?: string
-          ingredients_cost?: number
           notes?: string | null
-          packaging_cost?: number
           produced_at?: string
           produced_quantity?: number
           recipe_id: string
@@ -1286,9 +1242,7 @@ export type Database = {
           discarded_quantity?: number
           expires_at?: string | null
           id?: string
-          ingredients_cost?: number
           notes?: string | null
-          packaging_cost?: number
           produced_at?: string
           produced_quantity?: number
           recipe_id?: string
@@ -1705,14 +1659,12 @@ export type Database = {
           image_url: string | null
           ingredients_cost: number
           margin_percent: number
-          markup: number
           min_sale_price: number
           name: string
           packaging_cost: number
           prep_time_minutes: number
           profit_per_unit: number
           sale_price: number
-          sales_tax_percent: number
           shelf_life_days: number
           status: Database["public"]["Enums"]["product_status"]
           target_margin_percent: number
@@ -1731,14 +1683,12 @@ export type Database = {
           image_url?: string | null
           ingredients_cost?: number
           margin_percent?: number
-          markup?: number
           min_sale_price?: number
           name: string
           packaging_cost?: number
           prep_time_minutes?: number
           profit_per_unit?: number
           sale_price?: number
-          sales_tax_percent?: number
           shelf_life_days?: number
           status?: Database["public"]["Enums"]["product_status"]
           target_margin_percent?: number
@@ -1757,14 +1707,12 @@ export type Database = {
           image_url?: string | null
           ingredients_cost?: number
           margin_percent?: number
-          markup?: number
           min_sale_price?: number
           name?: string
           packaging_cost?: number
           prep_time_minutes?: number
           profit_per_unit?: number
           sale_price?: number
-          sales_tax_percent?: number
           shelf_life_days?: number
           status?: Database["public"]["Enums"]["product_status"]
           target_margin_percent?: number
@@ -2112,10 +2060,6 @@ export type Database = {
           schema_name: string
           status: string
         }[]
-      }
-      convert_qty: {
-        Args: { _from_unit: string; _qty: number; _to_unit: string }
-        Returns: number
       }
       current_company_id: { Args: never; Returns: string }
       customer_stats: {
