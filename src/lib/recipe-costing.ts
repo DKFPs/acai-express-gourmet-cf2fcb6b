@@ -47,6 +47,13 @@ export interface CostingLine {
   totalCost: number;
   stockQuantity: number;
   missing: boolean;
+  /** participação da linha no custo total da receita (%) */
+  costPercent: number;
+}
+
+export interface CostingValidation {
+  ok: boolean;
+  errors: string[];
 }
 
 export interface CostingResult {
