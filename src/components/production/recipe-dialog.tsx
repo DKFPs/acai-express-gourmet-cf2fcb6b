@@ -3,7 +3,6 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, Trash2 } from "lucide-react";
 
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -30,17 +29,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  RecipeCostSummary,
-  RecipeCostTable,
-} from "@/components/production/recipe-cost-live";
+import { RecipeCostSummary, RecipeCostTable } from "@/components/production/recipe-cost-live";
 import { useRecipeCosting } from "@/hooks/use-costing";
 import { compatibleUnits } from "@/lib/units";
 import { recipeSchema, type RecipeFormValues } from "@/lib/validations/production";
 import { parseNumber } from "@/lib/validations/stock";
 import type { Recipe, RecipeInput } from "@/types/production";
 import type { Ingredient } from "@/types/stock";
-
 
 interface RecipeDialogProps {
   open: boolean;
@@ -106,7 +101,6 @@ export function RecipeDialog({
     targetMarginPercent: parseNumber(watchedMargin || "0"),
     salesTaxPercent: Number(recipe?.sales_tax_percent ?? 0),
   });
-
 
   useEffect(() => {
     if (!open) return;
@@ -443,7 +437,6 @@ export function RecipeDialog({
               <RecipeCostTable costing={costing} />
               <RecipeCostSummary costing={costing} />
             </div>
-
 
             <DialogFooter>
               <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>

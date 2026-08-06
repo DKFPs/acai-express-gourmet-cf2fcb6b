@@ -61,10 +61,7 @@ export function RecipeCostTable({ costing }: { costing: CostingResult }) {
             {costing.packagingLines.map((line) => (
               <TableRow
                 key={line.id}
-                className={cn(
-                  "bg-muted/30",
-                  line.missing && "bg-destructive/10 text-destructive",
-                )}
+                className={cn("bg-muted/30", line.missing && "bg-destructive/10 text-destructive")}
               >
                 <TableCell className="font-medium">{line.name} (embalagem)</TableCell>
                 <TableCell className="text-right">{formatNumber(line.quantity)}</TableCell>
