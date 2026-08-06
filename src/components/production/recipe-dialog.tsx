@@ -30,10 +30,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  RecipeCostSummary,
+  RecipeCostTable,
+} from "@/components/production/recipe-cost-live";
+import { useRecipeCosting } from "@/hooks/use-costing";
+import { compatibleUnits } from "@/lib/units";
 import { recipeSchema, type RecipeFormValues } from "@/lib/validations/production";
 import { parseNumber } from "@/lib/validations/stock";
 import type { Recipe, RecipeInput } from "@/types/production";
 import type { Ingredient } from "@/types/stock";
+
 
 interface RecipeDialogProps {
   open: boolean;
