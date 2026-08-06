@@ -618,6 +618,8 @@ function ProducaoPage() {
         open={packagingOpen}
         onOpenChange={setPackagingOpen}
         packaging={editingPackaging}
+        suppliers={suppliersQuery.data ?? []}
+
         loading={packagingMutations.create.isPending || packagingMutations.update.isPending}
         onSubmit={(input) => {
           if (editingPackaging) {
