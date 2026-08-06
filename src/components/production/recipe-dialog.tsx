@@ -162,7 +162,7 @@ export function RecipeDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto rounded-2xl sm:max-w-2xl">
+      <DialogContent className="max-h-[90vh] overflow-y-auto rounded-2xl sm:max-w-4xl">
         <DialogHeader>
           <DialogTitle>{recipe ? "Editar receita" : "Nova receita"}</DialogTitle>
           <DialogDescription>
