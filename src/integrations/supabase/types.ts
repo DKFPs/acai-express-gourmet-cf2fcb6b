@@ -1082,12 +1082,15 @@ export type Database = {
           created_at: string
           id: string
           is_active: boolean
+          last_purchase_at: string | null
           min_stock: number
           name: string
+          next_restock_at: string | null
           purchase_quantity: number | null
           purchase_value: number | null
           qty_per_unit: number
           quantity: number
+          supplier_id: string | null
           type: Database["public"]["Enums"]["packaging_type"]
           unit: string
           unit_cost: number
@@ -1098,12 +1101,15 @@ export type Database = {
           created_at?: string
           id?: string
           is_active?: boolean
+          last_purchase_at?: string | null
           min_stock?: number
           name: string
+          next_restock_at?: string | null
           purchase_quantity?: number | null
           purchase_value?: number | null
           qty_per_unit?: number
           quantity?: number
+          supplier_id?: string | null
           type: Database["public"]["Enums"]["packaging_type"]
           unit?: string
           unit_cost?: number
@@ -1114,12 +1120,15 @@ export type Database = {
           created_at?: string
           id?: string
           is_active?: boolean
+          last_purchase_at?: string | null
           min_stock?: number
           name?: string
+          next_restock_at?: string | null
           purchase_quantity?: number | null
           purchase_value?: number | null
           qty_per_unit?: number
           quantity?: number
+          supplier_id?: string | null
           type?: Database["public"]["Enums"]["packaging_type"]
           unit?: string
           unit_cost?: number
@@ -1131,6 +1140,13 @@ export type Database = {
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "packaging_stock_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
             referencedColumns: ["id"]
           },
         ]
@@ -1228,7 +1244,9 @@ export type Database = {
           discarded_quantity: number
           expires_at: string | null
           id: string
+          ingredients_cost: number
           notes: string | null
+          packaging_cost: number
           produced_at: string
           produced_quantity: number
           recipe_id: string
@@ -1247,7 +1265,9 @@ export type Database = {
           discarded_quantity?: number
           expires_at?: string | null
           id?: string
+          ingredients_cost?: number
           notes?: string | null
+          packaging_cost?: number
           produced_at?: string
           produced_quantity?: number
           recipe_id: string
@@ -1266,7 +1286,9 @@ export type Database = {
           discarded_quantity?: number
           expires_at?: string | null
           id?: string
+          ingredients_cost?: number
           notes?: string | null
+          packaging_cost?: number
           produced_at?: string
           produced_quantity?: number
           recipe_id?: string

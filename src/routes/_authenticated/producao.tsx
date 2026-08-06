@@ -52,7 +52,7 @@ import {
   useRecipeCostHistory,
 } from "@/hooks/use-production-analytics";
 import { buildProductionAlerts } from "@/lib/production-alerts";
-import { useAllIngredients } from "@/hooks/use-stock";
+import { useAllIngredients, useSuppliers } from "@/hooks/use-stock";
 import { formatCurrency } from "@/lib/format";
 import {
   FINISHED_MOVEMENT_LABELS,
@@ -93,6 +93,7 @@ function ProducaoPage() {
   const [recipeToDelete, setRecipeToDelete] = useState<Recipe | null>(null);
   const [produceOpen, setProduceOpen] = useState(false);
   const [produceRecipe, setProduceRecipe] = useState<string | null>(null);
+  const suppliersQuery = useSuppliers();
   const [packagingOpen, setPackagingOpen] = useState(false);
   const [editingPackaging, setEditingPackaging] = useState<PackagingRow | null>(null);
   const [packagingToDelete, setPackagingToDelete] = useState<PackagingRow | null>(null);
@@ -618,6 +619,8 @@ function ProducaoPage() {
         open={packagingOpen}
         onOpenChange={setPackagingOpen}
         packaging={editingPackaging}
+        suppliers={suppliersQuery.data ?? []}
+
         loading={packagingMutations.create.isPending || packagingMutations.update.isPending}
         onSubmit={(input) => {
           if (editingPackaging) {
