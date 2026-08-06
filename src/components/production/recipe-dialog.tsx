@@ -421,6 +421,12 @@ export function RecipeDialog({
               ) : null}
             </div>
 
+            <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
+              <RecipeCostTable costing={costing} />
+              <RecipeCostSummary costing={costing} />
+            </div>
+
+
             <DialogFooter>
               <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
                 Cancelar
