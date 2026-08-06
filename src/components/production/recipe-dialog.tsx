@@ -82,6 +82,32 @@ export function RecipeDialog({
 
   const items = useFieldArray({ control: form.control, name: "items" });
 
+  const watchedItems = form.watch("items");
+  const watchedYield = form.watch("yield_quantity");
+  const watchedPrice = form.watch("sale_price");
+  const watchedMargin = form.watch("target_margin_percent");
+
+  const costingItems = useMemo(
+    () =>
+      (watchedItems ?? [])
+        .filter((item) => item.ingredient_id)
+        .map((item) => ({
+          ingredientId: item.ingredient_id,
+          quantity: parseNumber(item.quantity || "0"),
+          unit: item.unit,
+        })),
+    [watchedItems],
+  );
+
+  const costing = useRecipeCosting({
+    items: costingItems,
+    yieldQuantity: parseNumber(watchedYield || "0"),
+    salePrice: parseNumber(watchedPrice || "0"),
+    targetMarginPercent: parseNumber(watchedMargin || "0"),
+    salesTaxPercent: Number(recipe?.sales_tax_percent ?? 0),
+  });
+
+
   useEffect(() => {
     if (!open) return;
     if (recipe) {
