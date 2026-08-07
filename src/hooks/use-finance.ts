@@ -52,7 +52,7 @@ export function useFinancialEntryMutations() {
   const companyId = profile?.company_id ?? null;
 
   const create = useMutation({
-    mutationFn: (input: FinancialEntryInput) => financeService.create(input, companyId),
+    mutationFn: (input: FinancialEntryInput) => financeService.create(input),
     onSuccess: () => {
       toast.success("Lançamento criado");
       invalidate();

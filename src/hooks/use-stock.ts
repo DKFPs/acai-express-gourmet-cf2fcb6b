@@ -122,7 +122,7 @@ export function useMovementMutations() {
   const companyId = profile?.company_id ?? null;
 
   const create = useMutation({
-    mutationFn: (input: MovementInput) => movementService.create(input, companyId),
+    mutationFn: (input: MovementInput) => movementService.create(input),
     onSuccess: () => {
       toast.success("Movimentação registrada");
       invalidate();
