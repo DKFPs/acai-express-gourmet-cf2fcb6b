@@ -55,13 +55,16 @@ export const movementsService = {
     unit_cost: number;
     reason: string | null;
   }) {
-    const { error } = await supabase.rpc("record_stock_movement", args({
-      _ingredient_id: opt(input.ingredient_id),
-      _type: input.type,
-      _quantity: input.quantity,
-      _unit_cost: input.unit_cost,
-      _reason: opt(input.reason),
-    }));
+    const { error } = await supabase.rpc(
+      "record_stock_movement",
+      args({
+        _ingredient_id: opt(input.ingredient_id),
+        _type: input.type,
+        _quantity: input.quantity,
+        _unit_cost: input.unit_cost,
+        _reason: opt(input.reason),
+      }),
+    );
     if (error) throw error;
   },
 
@@ -80,20 +83,23 @@ export const movementsService = {
     category_id: string | null;
     notes: string | null;
   }) {
-    const { error } = await supabase.rpc("record_purchase", args({
-      _kind: input.kind,
-      _item_name: input.item_name,
-      _quantity: input.quantity,
-      _total_value: input.total_value,
-      _unit: input.unit,
-      _purchase_date: input.purchase_date,
-      _ingredient_id: opt(input.ingredient_id),
-      _packaging_id: opt(input.packaging_id),
-      _supplier_id: opt(input.supplier_id),
-      _supplier_name: opt(input.supplier_name),
-      _category_id: opt(input.category_id),
-      _notes: opt(input.notes),
-    }));
+    const { error } = await supabase.rpc(
+      "record_purchase",
+      args({
+        _kind: input.kind,
+        _item_name: input.item_name,
+        _quantity: input.quantity,
+        _total_value: input.total_value,
+        _unit: input.unit,
+        _purchase_date: input.purchase_date,
+        _ingredient_id: opt(input.ingredient_id),
+        _packaging_id: opt(input.packaging_id),
+        _supplier_id: opt(input.supplier_id),
+        _supplier_name: opt(input.supplier_name),
+        _category_id: opt(input.category_id),
+        _notes: opt(input.notes),
+      }),
+    );
     if (error) throw error;
   },
 
@@ -112,14 +118,17 @@ export const movementsService = {
     payment_method?: string | null;
     order_id?: string | null;
   }) {
-    const { error } = await supabase.rpc("record_cash_transaction", args({
-      _session_id: input.session_id,
-      _type: input.type,
-      _amount: input.amount,
-      _description: input.description,
-      _payment_method: opt(input.payment_method),
-      _order_id: opt(input.order_id),
-    }));
+    const { error } = await supabase.rpc(
+      "record_cash_transaction",
+      args({
+        _session_id: input.session_id,
+        _type: input.type,
+        _amount: input.amount,
+        _description: input.description,
+        _payment_method: opt(input.payment_method),
+        _order_id: opt(input.order_id),
+      }),
+    );
     if (error) throw error;
   },
 
@@ -135,17 +144,20 @@ export const movementsService = {
     payment_method: string | null;
     notes: string | null;
   }) {
-    const { error } = await supabase.rpc("record_financial_entry", args({
-      _type: input.type,
-      _description: input.description,
-      _amount: input.amount,
-      _due_date: input.due_date,
-      _status: input.status,
-      _category_id: opt(input.category_id),
-      _supplier_id: opt(input.supplier_id),
-      _payment_method: opt(input.payment_method),
-      _notes: opt(input.notes),
-    }));
+    const { error } = await supabase.rpc(
+      "record_financial_entry",
+      args({
+        _type: input.type,
+        _description: input.description,
+        _amount: input.amount,
+        _due_date: input.due_date,
+        _status: input.status,
+        _category_id: opt(input.category_id),
+        _supplier_id: opt(input.supplier_id),
+        _payment_method: opt(input.payment_method),
+        _notes: opt(input.notes),
+      }),
+    );
     if (error) throw error;
   },
 
@@ -157,22 +169,28 @@ export const movementsService = {
     batch_id?: string | null;
     reason: string | null;
   }) {
-    const { error } = await supabase.rpc("record_finished_movement", args({
-      _finished_product_id: input.finished_product_id,
-      _type: input.type,
-      _quantity: input.quantity,
-      _batch_id: opt(input.batch_id),
-      _reason: opt(input.reason),
-    }));
+    const { error } = await supabase.rpc(
+      "record_finished_movement",
+      args({
+        _finished_product_id: input.finished_product_id,
+        _type: input.type,
+        _quantity: input.quantity,
+        _batch_id: opt(input.batch_id),
+        _reason: opt(input.reason),
+      }),
+    );
     if (error) throw error;
   },
 
   /** Estorna uma movimentação já aplicada, revertendo exatamente o efeito. */
   async reverse(movementId: string, reason = "Estorno") {
-    const { error } = await supabase.rpc("reverse_movement", args({
-      _movement_id: movementId,
-      _reason: reason,
-    }));
+    const { error } = await supabase.rpc(
+      "reverse_movement",
+      args({
+        _movement_id: movementId,
+        _reason: reason,
+      }),
+    );
     if (error) throw error;
   },
 };
