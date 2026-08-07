@@ -2144,6 +2144,27 @@ export type Database = {
             referencedRelation: "system_movements"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "system_movements_reversed_movement_id_fkey"
+            columns: ["reversed_movement_id"]
+            isOneToOne: false
+            referencedRelation: "v_cash_flow"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_reversed_movement_id_fkey"
+            columns: ["reversed_movement_id"]
+            isOneToOne: false
+            referencedRelation: "v_sales"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_reversed_movement_id_fkey"
+            columns: ["reversed_movement_id"]
+            isOneToOne: false
+            referencedRelation: "v_stock_ledger"
+            referencedColumns: ["id"]
+          },
         ]
       }
       tasks: {
@@ -2267,7 +2288,175 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      v_cash_flow: {
+        Row: {
+          amount: number | null
+          cash_session_id: string | null
+          company_id: string | null
+          id: string | null
+          notes: string | null
+          occurred_at: string | null
+          payment_method: Database["public"]["Enums"]["payment_method"] | null
+          type: Database["public"]["Enums"]["movement_core_type"] | null
+        }
+        Insert: {
+          amount?: number | null
+          cash_session_id?: string | null
+          company_id?: string | null
+          id?: string | null
+          notes?: string | null
+          occurred_at?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          type?: Database["public"]["Enums"]["movement_core_type"] | null
+        }
+        Update: {
+          amount?: number | null
+          cash_session_id?: string | null
+          company_id?: string | null
+          id?: string | null
+          notes?: string | null
+          occurred_at?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          type?: Database["public"]["Enums"]["movement_core_type"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "system_movements_cash_session_id_fkey"
+            columns: ["cash_session_id"]
+            isOneToOne: false
+            referencedRelation: "cash_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_sales: {
+        Row: {
+          amount: number | null
+          company_id: string | null
+          customer_id: string | null
+          id: string | null
+          occurred_at: string | null
+          order_id: string | null
+          payment_method: Database["public"]["Enums"]["payment_method"] | null
+          product_id: string | null
+          product_name: string | null
+          quantity: number | null
+          status: Database["public"]["Enums"]["movement_status"] | null
+          unit_cost: number | null
+        }
+        Insert: {
+          amount?: number | null
+          company_id?: string | null
+          customer_id?: string | null
+          id?: string | null
+          occurred_at?: string | null
+          order_id?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          product_id?: string | null
+          product_name?: string | null
+          quantity?: number | null
+          status?: Database["public"]["Enums"]["movement_status"] | null
+          unit_cost?: number | null
+        }
+        Update: {
+          amount?: number | null
+          company_id?: string | null
+          customer_id?: string | null
+          id?: string | null
+          occurred_at?: string | null
+          order_id?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          product_id?: string | null
+          product_name?: string | null
+          quantity?: number | null
+          status?: Database["public"]["Enums"]["movement_status"] | null
+          unit_cost?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "system_movements_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_stock_ledger: {
+        Row: {
+          company_id: string | null
+          delta: number | null
+          id: string | null
+          ingredient_id: string | null
+          notes: string | null
+          occurred_at: string | null
+          origin: Database["public"]["Enums"]["movement_origin"] | null
+          quantity: number | null
+          type: Database["public"]["Enums"]["movement_core_type"] | null
+          unit_cost: number | null
+        }
+        Insert: {
+          company_id?: string | null
+          delta?: never
+          id?: string | null
+          ingredient_id?: string | null
+          notes?: string | null
+          occurred_at?: string | null
+          origin?: Database["public"]["Enums"]["movement_origin"] | null
+          quantity?: number | null
+          type?: Database["public"]["Enums"]["movement_core_type"] | null
+          unit_cost?: number | null
+        }
+        Update: {
+          company_id?: string | null
+          delta?: never
+          id?: string | null
+          ingredient_id?: string | null
+          notes?: string | null
+          occurred_at?: string | null
+          origin?: Database["public"]["Enums"]["movement_origin"] | null
+          quantity?: number | null
+          type?: Database["public"]["Enums"]["movement_core_type"] | null
+          unit_cost?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "system_movements_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_ingredient_id_fkey"
+            columns: ["ingredient_id"]
+            isOneToOne: false
+            referencedRelation: "ingredients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       check_system_functions: {
