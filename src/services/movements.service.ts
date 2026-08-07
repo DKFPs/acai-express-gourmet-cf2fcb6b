@@ -19,6 +19,13 @@ export interface MovementFilters {
  */
 const opt = (value: string | null | undefined) => value ?? undefined;
 
+/** Remove chaves vazias para respeitar os parâmetros opcionais das rotinas do núcleo. */
+function args(values: Record<string, unknown>) {
+  return Object.fromEntries(
+    Object.entries(values).filter(([, value]) => value !== undefined),
+  ) as never;
+}
+
 export const movementsService = {
   /** Histórico consolidado de movimentações. */
   async list(filters: MovementFilters = {}): Promise<SystemMovement[]> {
@@ -48,13 +55,13 @@ export const movementsService = {
     unit_cost: number;
     reason: string | null;
   }) {
-    const { error } = await supabase.rpc("record_stock_movement", {
+    const { error } = await supabase.rpc("record_stock_movement", args({
       _ingredient_id: opt(input.ingredient_id),
       _type: input.type,
       _quantity: input.quantity,
       _unit_cost: input.unit_cost,
       _reason: opt(input.reason),
-    });
+    }));
     if (error) throw error;
   },
 
@@ -73,7 +80,7 @@ export const movementsService = {
     category_id: string | null;
     notes: string | null;
   }) {
-    const { error } = await supabase.rpc("record_purchase", {
+    const { error } = await supabase.rpc("record_purchase", args({
       _kind: input.kind,
       _item_name: input.item_name,
       _quantity: input.quantity,
@@ -86,13 +93,13 @@ export const movementsService = {
       _supplier_name: opt(input.supplier_name),
       _category_id: opt(input.category_id),
       _notes: opt(input.notes),
-    });
+    }));
     if (error) throw error;
   },
 
   /** Baixa de venda de um pedido (produtos e ingredientes das receitas). */
   async sale(orderId: string) {
-    const { error } = await supabase.rpc("record_order_sale", { _order_id: orderId });
+    const { error } = await supabase.rpc("record_order_sale", args({ _order_id: orderId });
     if (error) throw error;
   },
 
@@ -105,14 +112,14 @@ export const movementsService = {
     payment_method?: string | null;
     order_id?: string | null;
   }) {
-    const { error } = await supabase.rpc("record_cash_transaction", {
+    const { error } = await supabase.rpc("record_cash_transaction", args({
       _session_id: input.session_id,
       _type: input.type,
       _amount: input.amount,
       _description: input.description,
       _payment_method: opt(input.payment_method),
       _order_id: opt(input.order_id),
-    });
+    }));
     if (error) throw error;
   },
 
@@ -128,7 +135,7 @@ export const movementsService = {
     payment_method: string | null;
     notes: string | null;
   }) {
-    const { error } = await supabase.rpc("record_financial_entry", {
+    const { error } = await supabase.rpc("record_financial_entry", args({
       _type: input.type,
       _description: input.description,
       _amount: input.amount,
@@ -138,7 +145,7 @@ export const movementsService = {
       _supplier_id: opt(input.supplier_id),
       _payment_method: opt(input.payment_method),
       _notes: opt(input.notes),
-    });
+    }));
     if (error) throw error;
   },
 
@@ -150,22 +157,22 @@ export const movementsService = {
     batch_id?: string | null;
     reason: string | null;
   }) {
-    const { error } = await supabase.rpc("record_finished_movement", {
+    const { error } = await supabase.rpc("record_finished_movement", args({
       _finished_product_id: input.finished_product_id,
       _type: input.type,
       _quantity: input.quantity,
       _batch_id: opt(input.batch_id),
       _reason: opt(input.reason),
-    });
+    }));
     if (error) throw error;
   },
 
   /** Estorna uma movimentação já aplicada, revertendo exatamente o efeito. */
   async reverse(movementId: string, reason = "Estorno") {
-    const { error } = await supabase.rpc("reverse_movement", {
+    const { error } = await supabase.rpc("reverse_movement", args({
       _movement_id: movementId,
       _reason: reason,
-    });
+    }));
     if (error) throw error;
   },
 };
