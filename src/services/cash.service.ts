@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { movementsService } from "@/services/movements.service";
 import {
   expectedBalance,
   type CashSession,
@@ -49,17 +50,15 @@ export const cashService = {
     if (error) throw error;
   },
 
+  /** Movimentação de caixa registrada pelo Núcleo de Movimentações. */
   async addTransaction(sessionId: string, input: CashTransactionInput) {
-    const { data: user } = await supabase.auth.getUser();
-    const { error } = await supabase.from("cash_transactions").insert({
+    await movementsService.cash({
       session_id: sessionId,
       type: input.type,
       amount: input.amount,
-      payment_method: (input.payment_method || null) as never,
       description: input.description,
-      created_by: user.user?.id ?? null,
+      payment_method: input.payment_method || null,
     });
-    if (error) throw error;
   },
 
   async removeTransaction(id: string) {

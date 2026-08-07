@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { movementsService } from "@/services/movements.service";
 import type {
   Customer,
   CustomerInput,
@@ -132,6 +133,9 @@ export const orderService = {
       paid_at: input.payment_status === "pago" ? new Date().toISOString() : null,
     });
     if (paymentError) throw paymentError;
+
+    // A baixa de estoque da venda é feita pelo Núcleo de Movimentações.
+    await movementsService.sale(order.id);
 
     return order.id;
   },

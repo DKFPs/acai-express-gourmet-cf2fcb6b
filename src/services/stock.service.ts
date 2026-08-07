@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { movementsService } from "@/services/movements.service";
 import type {
   Ingredient,
   IngredientFilters,
@@ -122,13 +123,14 @@ export const movementService = {
     return (data ?? []) as unknown as StockMovement[];
   },
 
-  async create(input: MovementInput, companyId: string | null) {
-    const { data: session } = await supabase.auth.getUser();
-    const { error } = await supabase.from("stock_movements").insert({
-      ...input,
-      ...(companyId ? { company_id: companyId } : {}),
-      created_by: session.user?.id ?? null,
+  /** Toda movimentação de estoque passa pelo Núcleo de Movimentações. */
+  async create(input: MovementInput) {
+    await movementsService.stock({
+      ingredient_id: input.ingredient_id,
+      type: input.type,
+      quantity: input.quantity,
+      unit_cost: input.unit_cost,
+      reason: input.reason,
     });
-    if (error) throw error;
   },
 };

@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { movementsService } from "@/services/movements.service";
 import type { Purchase, PurchaseFilters, PurchaseInput } from "@/types/purchase";
 
 const SELECT = "*, supplier:suppliers(id, name), category:categories(id, name, color)";
@@ -24,14 +25,22 @@ export const purchaseService = {
     return (data ?? []) as unknown as Purchase[];
   },
 
-  async create(input: PurchaseInput, companyId: string) {
-    const { data: session } = await supabase.auth.getUser();
-    const { error } = await supabase.from("purchases").insert({
-      ...input,
-      company_id: companyId,
-      created_by: session.user?.id ?? null,
+  /** A compra é registrada pelo Núcleo de Movimentações, que atualiza estoque e custo médio. */
+  async create(input: PurchaseInput) {
+    await movementsService.purchase({
+      kind: input.kind,
+      item_name: input.item_name,
+      quantity: input.quantity,
+      total_value: input.total_value,
+      unit: input.unit,
+      purchase_date: input.purchase_date,
+      ingredient_id: input.ingredient_id,
+      packaging_id: input.packaging_id,
+      supplier_id: input.supplier_id,
+      supplier_name: input.supplier_name,
+      category_id: input.category_id,
+      notes: input.notes,
     });
-    if (error) throw error;
   },
 
   async remove(id: string) {

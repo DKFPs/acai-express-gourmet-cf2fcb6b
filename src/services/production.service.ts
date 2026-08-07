@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { movementsService } from "@/services/movements.service";
 import type {
   FinishedMovement,
   FinishedMovementInput,
@@ -139,13 +140,13 @@ export const finishedProductService = {
     return (data ?? []) as unknown as FinishedMovement[];
   },
 
-  async createMovement(input: FinishedMovementInput, companyId: string) {
-    const { data: session } = await supabase.auth.getUser();
-    const { error } = await supabase.from("finished_product_movements").insert({
-      ...input,
-      company_id: companyId,
-      created_by: session.user?.id ?? null,
+  /** Movimentações de produto acabado passam pelo Núcleo de Movimentações. */
+  async createMovement(input: FinishedMovementInput) {
+    await movementsService.finished({
+      finished_product_id: input.finished_product_id,
+      type: input.type,
+      quantity: input.quantity,
+      reason: input.reason,
     });
-    if (error) throw error;
   },
 };
