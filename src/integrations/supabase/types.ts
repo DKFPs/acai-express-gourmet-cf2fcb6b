@@ -2320,6 +2320,73 @@ export type Database = {
         Args: { _reason?: string; _recipe_id: string }
         Returns: undefined
       }
+      record_cash_transaction: {
+        Args: {
+          _amount: number
+          _description: string
+          _order_id?: string
+          _payment_method?: string
+          _session_id: string
+          _type: string
+        }
+        Returns: string
+      }
+      record_financial_entry: {
+        Args: {
+          _amount: number
+          _category_id?: string
+          _description: string
+          _due_date: string
+          _notes?: string
+          _payment_method?: string
+          _status?: string
+          _supplier_id?: string
+          _type: string
+        }
+        Returns: string
+      }
+      record_finished_movement: {
+        Args: {
+          _batch_id?: string
+          _finished_product_id: string
+          _quantity: number
+          _reason?: string
+          _type: string
+        }
+        Returns: string
+      }
+      record_order_sale: { Args: { _order_id: string }; Returns: undefined }
+      record_purchase: {
+        Args: {
+          _category_id?: string
+          _ingredient_id?: string
+          _item_name: string
+          _kind: string
+          _notes?: string
+          _packaging_id?: string
+          _purchase_date: string
+          _quantity: number
+          _supplier_id?: string
+          _supplier_name?: string
+          _total_value: number
+          _unit: string
+        }
+        Returns: string
+      }
+      record_stock_movement: {
+        Args: {
+          _ingredient_id: string
+          _quantity: number
+          _reason?: string
+          _type: string
+          _unit_cost?: number
+        }
+        Returns: string
+      }
+      reverse_movement: {
+        Args: { _movement_id: string; _reason?: string }
+        Returns: string
+      }
     }
     Enums: {
       app_role: "administrador" | "funcionario"
