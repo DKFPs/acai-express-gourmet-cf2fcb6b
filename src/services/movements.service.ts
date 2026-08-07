@@ -17,6 +17,8 @@ export interface MovementFilters {
  * produção, produtos acabados ou vendas: tudo passa por aqui.
  * Cada função abaixo grava a movimentação e aplica o efeito na mesma transação.
  */
+const opt = (value: string | null | undefined) => value ?? undefined;
+
 export const movementsService = {
   /** Histórico consolidado de movimentações. */
   async list(filters: MovementFilters = {}): Promise<SystemMovement[]> {
@@ -47,11 +49,11 @@ export const movementsService = {
     reason: string | null;
   }) {
     const { error } = await supabase.rpc("record_stock_movement", {
-      _ingredient_id: input.ingredient_id,
+      _ingredient_id: opt(input.ingredient_id),
       _type: input.type,
       _quantity: input.quantity,
       _unit_cost: input.unit_cost,
-      _reason: input.reason,
+      _reason: opt(input.reason),
     });
     if (error) throw error;
   },
@@ -78,12 +80,12 @@ export const movementsService = {
       _total_value: input.total_value,
       _unit: input.unit,
       _purchase_date: input.purchase_date,
-      _ingredient_id: input.ingredient_id,
-      _packaging_id: input.packaging_id,
-      _supplier_id: input.supplier_id,
-      _supplier_name: input.supplier_name,
-      _category_id: input.category_id,
-      _notes: input.notes,
+      _ingredient_id: opt(input.ingredient_id),
+      _packaging_id: opt(input.packaging_id),
+      _supplier_id: opt(input.supplier_id),
+      _supplier_name: opt(input.supplier_name),
+      _category_id: opt(input.category_id),
+      _notes: opt(input.notes),
     });
     if (error) throw error;
   },
@@ -108,8 +110,8 @@ export const movementsService = {
       _type: input.type,
       _amount: input.amount,
       _description: input.description,
-      _payment_method: input.payment_method ?? null,
-      _order_id: input.order_id ?? null,
+      _payment_method: opt(input.payment_method),
+      _order_id: opt(input.order_id),
     });
     if (error) throw error;
   },
@@ -132,10 +134,10 @@ export const movementsService = {
       _amount: input.amount,
       _due_date: input.due_date,
       _status: input.status,
-      _category_id: input.category_id,
-      _supplier_id: input.supplier_id,
-      _payment_method: input.payment_method,
-      _notes: input.notes,
+      _category_id: opt(input.category_id),
+      _supplier_id: opt(input.supplier_id),
+      _payment_method: opt(input.payment_method),
+      _notes: opt(input.notes),
     });
     if (error) throw error;
   },
@@ -152,8 +154,8 @@ export const movementsService = {
       _finished_product_id: input.finished_product_id,
       _type: input.type,
       _quantity: input.quantity,
-      _batch_id: input.batch_id ?? null,
-      _reason: input.reason,
+      _batch_id: opt(input.batch_id),
+      _reason: opt(input.reason),
     });
     if (error) throw error;
   },
