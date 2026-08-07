@@ -99,7 +99,7 @@ export const movementsService = {
 
   /** Baixa de venda de um pedido (produtos e ingredientes das receitas). */
   async sale(orderId: string) {
-    const { error } = await supabase.rpc("record_order_sale", args({ _order_id: orderId });
+    const { error } = await supabase.rpc("record_order_sale", { _order_id: orderId });
     if (error) throw error;
   },
 
