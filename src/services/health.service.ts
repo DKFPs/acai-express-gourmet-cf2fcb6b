@@ -43,7 +43,9 @@ export const healthService = {
             column: string,
             options: { ascending: boolean },
           ) => {
-            limit: (n: number) => Promise<{ data: HealthCheckRecord[] | null; error: Error | null }>;
+            limit: (
+              n: number,
+            ) => Promise<{ data: HealthCheckRecord[] | null; error: Error | null }>;
           };
         };
       };

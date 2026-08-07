@@ -1979,6 +1979,194 @@ export type Database = {
           },
         ]
       }
+      system_movements: {
+        Row: {
+          amount: number
+          applied_at: string | null
+          batch_id: string | null
+          cash_session_id: string | null
+          company_id: string
+          created_at: string
+          customer_id: string | null
+          finished_product_id: string | null
+          id: string
+          ingredient_id: string | null
+          metadata: Json
+          notes: string | null
+          occurred_at: string
+          origin: Database["public"]["Enums"]["movement_origin"]
+          packaging_id: string | null
+          payment_method: Database["public"]["Enums"]["payment_method"] | null
+          product_id: string | null
+          quantity: number
+          recipe_id: string | null
+          reference_id: string | null
+          reference_label: string | null
+          reversed_movement_id: string | null
+          status: Database["public"]["Enums"]["movement_status"]
+          type: Database["public"]["Enums"]["movement_core_type"]
+          unit: string | null
+          unit_cost: number
+          updated_at: string
+          user_id: string | null
+          user_name: string | null
+        }
+        Insert: {
+          amount?: number
+          applied_at?: string | null
+          batch_id?: string | null
+          cash_session_id?: string | null
+          company_id: string
+          created_at?: string
+          customer_id?: string | null
+          finished_product_id?: string | null
+          id?: string
+          ingredient_id?: string | null
+          metadata?: Json
+          notes?: string | null
+          occurred_at?: string
+          origin?: Database["public"]["Enums"]["movement_origin"]
+          packaging_id?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          product_id?: string | null
+          quantity?: number
+          recipe_id?: string | null
+          reference_id?: string | null
+          reference_label?: string | null
+          reversed_movement_id?: string | null
+          status?: Database["public"]["Enums"]["movement_status"]
+          type: Database["public"]["Enums"]["movement_core_type"]
+          unit?: string | null
+          unit_cost?: number
+          updated_at?: string
+          user_id?: string | null
+          user_name?: string | null
+        }
+        Update: {
+          amount?: number
+          applied_at?: string | null
+          batch_id?: string | null
+          cash_session_id?: string | null
+          company_id?: string
+          created_at?: string
+          customer_id?: string | null
+          finished_product_id?: string | null
+          id?: string
+          ingredient_id?: string | null
+          metadata?: Json
+          notes?: string | null
+          occurred_at?: string
+          origin?: Database["public"]["Enums"]["movement_origin"]
+          packaging_id?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          product_id?: string | null
+          quantity?: number
+          recipe_id?: string | null
+          reference_id?: string | null
+          reference_label?: string | null
+          reversed_movement_id?: string | null
+          status?: Database["public"]["Enums"]["movement_status"]
+          type?: Database["public"]["Enums"]["movement_core_type"]
+          unit?: string | null
+          unit_cost?: number
+          updated_at?: string
+          user_id?: string | null
+          user_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "system_movements_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "production_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_cash_session_id_fkey"
+            columns: ["cash_session_id"]
+            isOneToOne: false
+            referencedRelation: "cash_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_finished_product_id_fkey"
+            columns: ["finished_product_id"]
+            isOneToOne: false
+            referencedRelation: "finished_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_ingredient_id_fkey"
+            columns: ["ingredient_id"]
+            isOneToOne: false
+            referencedRelation: "ingredients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_packaging_id_fkey"
+            columns: ["packaging_id"]
+            isOneToOne: false
+            referencedRelation: "packaging_stock"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_reversed_movement_id_fkey"
+            columns: ["reversed_movement_id"]
+            isOneToOne: false
+            referencedRelation: "system_movements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_reversed_movement_id_fkey"
+            columns: ["reversed_movement_id"]
+            isOneToOne: false
+            referencedRelation: "v_cash_flow"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_reversed_movement_id_fkey"
+            columns: ["reversed_movement_id"]
+            isOneToOne: false
+            referencedRelation: "v_sales"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_reversed_movement_id_fkey"
+            columns: ["reversed_movement_id"]
+            isOneToOne: false
+            referencedRelation: "v_stock_ledger"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tasks: {
         Row: {
           company_id: string
@@ -2100,7 +2288,175 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      v_cash_flow: {
+        Row: {
+          amount: number | null
+          cash_session_id: string | null
+          company_id: string | null
+          id: string | null
+          notes: string | null
+          occurred_at: string | null
+          payment_method: Database["public"]["Enums"]["payment_method"] | null
+          type: Database["public"]["Enums"]["movement_core_type"] | null
+        }
+        Insert: {
+          amount?: number | null
+          cash_session_id?: string | null
+          company_id?: string | null
+          id?: string | null
+          notes?: string | null
+          occurred_at?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          type?: Database["public"]["Enums"]["movement_core_type"] | null
+        }
+        Update: {
+          amount?: number | null
+          cash_session_id?: string | null
+          company_id?: string | null
+          id?: string | null
+          notes?: string | null
+          occurred_at?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          type?: Database["public"]["Enums"]["movement_core_type"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "system_movements_cash_session_id_fkey"
+            columns: ["cash_session_id"]
+            isOneToOne: false
+            referencedRelation: "cash_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_sales: {
+        Row: {
+          amount: number | null
+          company_id: string | null
+          customer_id: string | null
+          id: string | null
+          occurred_at: string | null
+          order_id: string | null
+          payment_method: Database["public"]["Enums"]["payment_method"] | null
+          product_id: string | null
+          product_name: string | null
+          quantity: number | null
+          status: Database["public"]["Enums"]["movement_status"] | null
+          unit_cost: number | null
+        }
+        Insert: {
+          amount?: number | null
+          company_id?: string | null
+          customer_id?: string | null
+          id?: string | null
+          occurred_at?: string | null
+          order_id?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          product_id?: string | null
+          product_name?: string | null
+          quantity?: number | null
+          status?: Database["public"]["Enums"]["movement_status"] | null
+          unit_cost?: number | null
+        }
+        Update: {
+          amount?: number | null
+          company_id?: string | null
+          customer_id?: string | null
+          id?: string | null
+          occurred_at?: string | null
+          order_id?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          product_id?: string | null
+          product_name?: string | null
+          quantity?: number | null
+          status?: Database["public"]["Enums"]["movement_status"] | null
+          unit_cost?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "system_movements_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_stock_ledger: {
+        Row: {
+          company_id: string | null
+          delta: number | null
+          id: string | null
+          ingredient_id: string | null
+          notes: string | null
+          occurred_at: string | null
+          origin: Database["public"]["Enums"]["movement_origin"] | null
+          quantity: number | null
+          type: Database["public"]["Enums"]["movement_core_type"] | null
+          unit_cost: number | null
+        }
+        Insert: {
+          company_id?: string | null
+          delta?: never
+          id?: string | null
+          ingredient_id?: string | null
+          notes?: string | null
+          occurred_at?: string | null
+          origin?: Database["public"]["Enums"]["movement_origin"] | null
+          quantity?: number | null
+          type?: Database["public"]["Enums"]["movement_core_type"] | null
+          unit_cost?: number | null
+        }
+        Update: {
+          company_id?: string | null
+          delta?: never
+          id?: string | null
+          ingredient_id?: string | null
+          notes?: string | null
+          occurred_at?: string | null
+          origin?: Database["public"]["Enums"]["movement_origin"] | null
+          quantity?: number | null
+          type?: Database["public"]["Enums"]["movement_core_type"] | null
+          unit_cost?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "system_movements_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_movements_ingredient_id_fkey"
+            columns: ["ingredient_id"]
+            isOneToOne: false
+            referencedRelation: "ingredients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       check_system_functions: {
@@ -2153,6 +2509,73 @@ export type Database = {
         Args: { _reason?: string; _recipe_id: string }
         Returns: undefined
       }
+      record_cash_transaction: {
+        Args: {
+          _amount: number
+          _description: string
+          _order_id?: string
+          _payment_method?: string
+          _session_id: string
+          _type: string
+        }
+        Returns: string
+      }
+      record_financial_entry: {
+        Args: {
+          _amount: number
+          _category_id?: string
+          _description: string
+          _due_date: string
+          _notes?: string
+          _payment_method?: string
+          _status?: string
+          _supplier_id?: string
+          _type: string
+        }
+        Returns: string
+      }
+      record_finished_movement: {
+        Args: {
+          _batch_id?: string
+          _finished_product_id: string
+          _quantity: number
+          _reason?: string
+          _type: string
+        }
+        Returns: string
+      }
+      record_order_sale: { Args: { _order_id: string }; Returns: undefined }
+      record_purchase: {
+        Args: {
+          _category_id?: string
+          _ingredient_id?: string
+          _item_name: string
+          _kind: string
+          _notes?: string
+          _packaging_id?: string
+          _purchase_date: string
+          _quantity: number
+          _supplier_id?: string
+          _supplier_name?: string
+          _total_value: number
+          _unit: string
+        }
+        Returns: string
+      }
+      record_stock_movement: {
+        Args: {
+          _ingredient_id: string
+          _quantity: number
+          _reason?: string
+          _type: string
+          _unit_cost?: number
+        }
+        Returns: string
+      }
+      reverse_movement: {
+        Args: { _movement_id: string; _reason?: string }
+        Returns: string
+      }
     }
     Enums: {
       app_role: "administrador" | "funcionario"
@@ -2167,6 +2590,30 @@ export type Database = {
         | "reserva"
         | "ajuste"
         | "estorno"
+      movement_core_type:
+        | "venda"
+        | "compra"
+        | "producao"
+        | "descarte"
+        | "entrada_estoque"
+        | "saida_estoque"
+        | "ajuste_estoque"
+        | "caixa_entrada"
+        | "caixa_saida"
+        | "caixa_sangria"
+        | "receita"
+        | "despesa"
+        | "estorno"
+      movement_origin:
+        | "pedido"
+        | "compra"
+        | "producao"
+        | "estoque"
+        | "caixa"
+        | "financeiro"
+        | "manual"
+        | "sistema"
+      movement_status: "pendente" | "aplicado" | "cancelado" | "estornado"
       movement_type: "entrada" | "saida" | "ajuste"
       order_status:
         | "recebido"
@@ -2330,6 +2777,32 @@ export const Constants = {
         "ajuste",
         "estorno",
       ],
+      movement_core_type: [
+        "venda",
+        "compra",
+        "producao",
+        "descarte",
+        "entrada_estoque",
+        "saida_estoque",
+        "ajuste_estoque",
+        "caixa_entrada",
+        "caixa_saida",
+        "caixa_sangria",
+        "receita",
+        "despesa",
+        "estorno",
+      ],
+      movement_origin: [
+        "pedido",
+        "compra",
+        "producao",
+        "estoque",
+        "caixa",
+        "financeiro",
+        "manual",
+        "sistema",
+      ],
+      movement_status: ["pendente", "aplicado", "cancelado", "estornado"],
       movement_type: ["entrada", "saida", "ajuste"],
       order_status: [
         "recebido",

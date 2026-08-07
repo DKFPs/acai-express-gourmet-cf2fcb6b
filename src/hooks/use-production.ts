@@ -159,8 +159,7 @@ export function useFinishedMovementMutations() {
   const invalidate = useInvalidateProduction();
 
   const create = useMutation({
-    mutationFn: (input: FinishedMovementInput) =>
-      finishedProductService.createMovement(input, companyId),
+    mutationFn: (input: FinishedMovementInput) => finishedProductService.createMovement(input),
     onSuccess: () => {
       toast.success("Movimentação registrada");
       invalidate();

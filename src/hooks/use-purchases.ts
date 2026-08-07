@@ -37,7 +37,7 @@ export function usePurchaseMutations() {
   const companyId = profile?.company_id ?? "";
 
   const create = useMutation({
-    mutationFn: (input: PurchaseInput) => purchaseService.create(input, companyId),
+    mutationFn: (input: PurchaseInput) => purchaseService.create(input),
     onSuccess: () => {
       toast.success("Compra registrada e estoque atualizado");
       invalidate();

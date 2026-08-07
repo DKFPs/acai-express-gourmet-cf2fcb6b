@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { movementsService } from "@/services/movements.service";
 import type {
   CashRegister,
   ExpenseCategory,
@@ -50,11 +51,19 @@ export const financeService = {
     return (data ?? []) as unknown as FinancialEntry[];
   },
 
-  async create(input: FinancialEntryInput, companyId: string | null) {
-    const { error } = await supabase
-      .from("financial_entries")
-      .insert({ ...input, ...(companyId ? { company_id: companyId } : {}) });
-    if (error) throw error;
+  /** Lançamentos nascem no Núcleo de Movimentações. */
+  async create(input: FinancialEntryInput) {
+    await movementsService.financial({
+      type: input.type,
+      description: input.description,
+      amount: input.amount,
+      due_date: input.due_date,
+      status: input.status,
+      category_id: input.category_id,
+      supplier_id: input.supplier_id,
+      payment_method: input.payment_method,
+      notes: input.notes,
+    });
   },
 
   async update(id: string, input: FinancialEntryInput) {
